@@ -19,13 +19,13 @@
 
 		<v-layout row>
 			<v-flex xs12 sm6 md6>
-				<v-textarea v-model="keywords" rows="10" box label="Скопируйте сюда ваши ключевые слова"></v-textarea>
+				<v-textarea v-model="keywords" rows="10" box label="Скопируйте сюда ключевые слова, каждое с новой строки"></v-textarea>
 			</v-flex>
 			<v-flex xs12 sm6 md6>
 				<v-textarea box v-model="result" rows="10" label="Здесь появится результат"></v-textarea>
 				<v-btn class="success ml-0" @click="copyResult">
 					<v-icon small>file_copy</v-icon>&nbsp;
-					Copy to clipboard
+					Скопировать
 				</v-btn>
 			</v-flex>
 

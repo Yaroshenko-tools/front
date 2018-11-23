@@ -7,6 +7,7 @@ import 'vuetify/dist/vuetify.css'
 
 Vue.use(Vuetify)
 Vue.use(VueClipboard)
+Object.assign('test');
 
 new Vue({
   el: '#app',

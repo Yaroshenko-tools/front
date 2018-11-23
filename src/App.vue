@@ -25,7 +25,7 @@
 				<!--<v-toolbar-title>-->
 				<!--<v-icon color="blue">	</v-icon>-->
 				<v-toolbar-side-icon>
-					<img src="./assets/logo-tools.png" class="logo"/>
+					<img :src="logo" class="logo"/>
 				</v-toolbar-side-icon>
 				Yaroshenko.Tools
 				<!--</v-toolbar-title>-->
@@ -46,7 +46,7 @@
 			<v-container fluid grid-list-xl class="white">
 				<router-view/>
 				<div class="mt-4 text--disabled">
-					<span>&copy; 2018 Алексей Ярошенко. Хотите что-то добавить, предложить или нашли баг? Напишите в группу в телеграмме <a href="https://t.me/yaroshenko_tools" target="_blank">@yaroshenko_tools</a></span>
+					<span>&copy; 2018 Алексей Ярошенко. Хотите что-то добавить, предложить новую утилиту или нашли баг? Напишите в группу в телеграмме <a href="https://t.me/yaroshenko_tools" target="_blank">@yaroshenko_tools</a></span>
 				</div>
 			</v-container>
 		</v-content>
@@ -64,6 +64,7 @@
 			return {
 				drawer: true,
 				mini: true,
+				logo: logo,
 				items: [
 					// {
 					// 	icon: 'list',
@@ -88,6 +89,9 @@
 			chevronIcon() {
 				return this.mini ? 'chevron_right' : 'chevron_left'
 			},
+		},
+		created() {
+			fetch('/').then(res => console.log('ajax test'));
 		},
 		name: 'App'
 	}

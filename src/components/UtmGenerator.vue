@@ -14,7 +14,7 @@
 
 		<v-text-field
 						v-model="url"
-						label="URL"
+						label="URL целевой страницы"
 						placeholder="Вставьте сюда ссылку на сайт или целевую страницу. Например: https://yaroshenko.tools"
 		></v-text-field>
 		<!--<v-flex xs12 sm6 md8 offset-md5 > asd</v-flex>-->
@@ -61,19 +61,38 @@
 				></v-textarea>
 				<v-btn class="success ml-0" @click="copyResult">
 					<v-icon small>file_copy</v-icon>&nbsp;
-					Copy to clipboard
+					Скопировать
 				</v-btn>
+				<v-btn class="info ml-0" @click="urlShortener" :disabled="!url" type="button" :loading="shortenerLoading">
+					<v-icon small>link</v-icon>&nbsp;
+					Короткий URL
+				</v-btn>
+				<v-flex v-if="shortUrl" mt-3>
+				<v-layout >
+
+					<v-text-field v-model="shortUrl" readonly></v-text-field>
+					<v-btn class="ml-0" @click="copyShortUrl">
+						<v-icon small>file_copy</v-icon>&nbsp;
+						Скопировать
+					</v-btn>
+
+				</v-layout>
+				</v-flex>
 			</v-flex>
 		</v-layout>
 	</div>
 </template>
 
 <script>
+	import axios from 'axios'
+
 	export default {
 		name: "UtmGenerator",
 		data: () => ({
 			trafficSource: '',
 			url: '',
+			shortUrl: '',
+			shortenerLoading: false,
 			params: {
 				utm_source: '',
 				utm_medium: '',
@@ -104,7 +123,23 @@
 		updated() {
 			localStorage.setItem('utm', JSON.stringify(this._data))
 		},
+		watch: {
+			result(value) {
+				this.shortUrl = '';
+			},
+		},
 		methods: {
+			urlShortener() {
+				this.shortenerLoading = true;
+				axios.post('https://api.yaroshenko.tools/shortener', {url: this.result})
+					.then(response => {
+						this.shortUrl = response.data.url;
+						this.shortenerLoading = false;
+					})
+			},
+			copyShortUrl() {
+				this.$copyText(this.shortUrl)
+			},
 			copyResult() {
 				this.$copyText(this.result)
 			},
