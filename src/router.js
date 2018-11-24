@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import UtmGenerator from './components/UtmGenerator'
 import Matchtypes from './components/Matchtypes'
+import GoogleAdsGenerator from './components/GoogleAdsGenerator'
 import Index from './components/Index'
 Vue.use(Router);
 
@@ -30,7 +31,15 @@ const router = new Router({
 		  name: 'Matchtypes',
 		  component: Matchtypes,
 		  meta: {
-			  title: 'Утилита для работы с типами соответствия Google AdWords'
+			  title: 'Утилита для работы с типами соответствия Google Ads'
+		  }
+	  },
+	  {
+		  path: '/google-ads-generator',
+		  name: 'GoogleAdsGenerator',
+		  component: GoogleAdsGenerator,
+		  meta: {
+			  title: 'Генератор объявлений Google Ads'
 		  }
 	  },
   ],

@@ -1,13 +1,13 @@
 <template>
 	<v-app>
-		<v-navigation-drawer absolute clipped v-model="drawer" app :mini-variant="mini" dark >
+		<v-navigation-drawer  fixed clipped app temporary v-model="drawer" right dark >
 			<v-list>
 				<v-list-tile>
-					<v-list-tile-action>
-						<v-btn icon @click.stop="mini = !mini">
-							<v-icon v-html="chevronIcon"></v-icon>
-						</v-btn>
-					</v-list-tile-action>
+					<!--<v-list-tile-action>-->
+						<!--<v-btn icon @click.stop="mini = !mini">-->
+							<!--<v-icon v-html="chevronIcon"></v-icon> -->
+						<!--</v-btn>-->
+					<!--</v-list-tile-action>-->
 					<v-list-tile-content></v-list-tile-content>
 				</v-list-tile>
 				<v-list-tile class="" active-class="green" v-for="(item, i) in items" :key="i" :to="item.to">
@@ -62,25 +62,29 @@
 	export default {
 		data() {
 			return {
-				drawer: true,
+				drawer: false,
 				mini: true,
 				logo: logo,
 				items: [
-					// {
-					// 	icon: 'list',
-					// 	title: 'Все утилиты',
-					// 	to: '/'
-					// },
+					{
+						icon: 'list',
+						title: 'Все утилиты',
+						to: '/'
+					},
 					{
 						icon: 'link',
 						title: 'Генератор UTM-меток',
 						to: '/utm'
 					},
-
 					{
 						icon: 'compare_arrows',
 						title: 'Конвертер типов соответствия Google Ads',
 						to: '/matchtypes'
+					},
+					{
+						icon: 'dvr',
+						title: 'Генератор объявлений Google Ads',
+						to: '/google-ads-generator'
 					},
 				],
 			}
