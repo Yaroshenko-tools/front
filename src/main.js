@@ -4,6 +4,7 @@ import Vuetify from 'vuetify'
 import VueClipboard from 'vue-clipboard2'
 import router from './router'
 import 'vuetify/dist/vuetify.css'
+import './campaignBuilder'
 
 Vue.use(Vuetify)
 Vue.use(VueClipboard)

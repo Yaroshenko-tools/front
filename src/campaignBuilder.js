@@ -1,14 +1,12 @@
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 
 const BROAD = 'Broad';
 const PHRASE = 'Phrase';
 const EXACT = 'Exact';
 
-
 const getRow = (campaignName, adGroup, keyword, ad) => {
 	if (keyword && ad) throw new Error('KeyWords and Ad should be in separate rows');
 	if (!adGroup) throw new Error('adGroup should be defined');
-
 	let row = `${campaignName}|${adGroup}|`;
 
 	if (keyword) {
@@ -56,17 +54,14 @@ class Ad {
 		}
 		keywordCapitalizerWords = keywordCapitalizerWords.trim();
 
-		function replaceMacros(text, slugify = false) {
+		function replaceMacros(text) {
 
-			text = _.replaceAll(text, '[keyword]', keyword);
-			text = _.replaceAll(text, '[Keyword]', _.capitalize(keyword));
-			text = _.replaceAll(text, '[KeyWord]', keywordCapitalizerWords);
+			text = replaceAll(text, '\\[keyword\\]', keyword);
+			text = replaceAll(text, '\\[Keyword\\]', _.capitalize(keyword));
+			text = replaceAll(text, '\\[KeyWord\\]', keywordCapitalizerWords);
 			for (let i = 0; i < words.length; i++) {
-				text = _.replaceAll(text, `[word${i + 1}]`, words[i]);
-				text = _.replaceAll(text, `[Word${i + 1}]`, _.capitalize(words[i]));
-			}
-			if (slugify) {
-				text = _.slugify(text);
+				text = replaceAll(text, `\\[word${i + 1}\\]`, words[i]);
+				text = replaceAll(text, `\\[Word${i + 1}\\]`, _.capitalize(words[i]));
 			}
 			return text;
 		}
@@ -79,7 +74,7 @@ class Ad {
 		this.d2 = replaceMacros(ad.d2);
 		this.p1 = replaceMacros(ad.p1);
 		this.p2 = replaceMacros(ad.p2);
-		this.url = replaceMacros(url, true);
+		this.url = replaceMacros(ad.url);
 
 
 		// } else {
@@ -125,6 +120,14 @@ class CampaignBuilder {
 		return this.csv.replace(/\|/g, "\t");
 	}
 
+}
+
+function replaceAll(target, search, replacement) {
+	if (!target) {
+		return ''
+	} else {
+		return target.replace(new RegExp(search, 'g'), replacement);
+	}
 }
 
 

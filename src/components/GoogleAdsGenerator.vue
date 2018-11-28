@@ -48,7 +48,8 @@
 									</v-flex>
 								</v-layout>
 								<v-text-field label="Адрес целевой страницы *" v-model="ad.url" placeholder="https://yaroshenko.tools" type="url"/>
-								<a href="#" @click.prevent="deleteAd(index)" class="text--red">Удалить объявление</a>
+								<a href="#" @click.prevent="deleteAd(index)" class="red--text">Удалить объявление</a>
+								<a href="#" @click.prevent="copyAd(index)" class="right">Скопировать объявление</a>
 							</v-card-text>
 						</v-card>
 					</v-expansion-panel-content>
@@ -58,17 +59,41 @@
 						<v-icon>add</v-icon>
 					</v-btn>
 				</div>
+				<div>
+					<p class="subheading">Макросы утилиты для объявлений:</p>
+					<p>
+						<strong>[KeyWord]</strong>, <strong>[Keyword]</strong>, <strong>[keyword]</strong> - подставляют ключевое слово из списка вместо макроса в соответствующем регистре.
+					</p>
+					<p>
+						<strong>[word1]</strong>, <strong>[Word1]</strong>, ..., <strong>[word5]</strong>, <strong>[Word5]</strong> - подставляют выбранное вами по счету слово из ключевого слова из списка вместо макроса в соответствующем регистре.
+					</p>
+				</div>
 			</v-flex>
 			<v-flex md4>
 				<v-text-field box class="mb-3" label="Название кампании" v-model="campaignName" hint="Если импортируете в уже созданную кампанию, просто скопируйте ее точное название сюда." persistent-hint=""/>
-				<v-btn color="success" class="ml-0" @click="getCampaign()"><v-icon></v-icon> Сгенерировать кампанию</v-btn>
+				<v-btn color="success" class="ml-0" @click="getCampaign()">
+					<v-icon></v-icon>
+					Сгенерировать кампанию
+				</v-btn>
+				<v-tooltip top v-if="campaignCsv">
+					<v-btn slot="activator" @click="downloadCsv" flat icon>
+						<v-icon>cloud_download</v-icon>
+					</v-btn>
+					<span>Скачать кампанию в формате .CSV</span>
+				</v-tooltip>
 
-				<h4>Как пользоваться:</h4>
+				<v-tooltip top v-if="campaignCsv">
+					<v-btn class="ml-0" slot="activator" @click="copyResult()" flat icon>
+						<v-icon>file_copy</v-icon>
+					</v-btn>
+					<span>Скоприровать кампанию в буфер обмена</span>
+				</v-tooltip>
+				<h4 class="subheading">Как пользоваться:</h4>
 				<ul>
 					<li>Заполните нужные поля</li>
 					<li>Нажмите «Сгенерировать»</li>
 					<li>Скопируйте в буфер</li>
-					<li>В меню AdWords Editor: «Аккаунт» -> «Импорт» -> «Вставить текст»</li>
+					<li>В меню AdWords Editor: «Аккаунт» -> «Импорт» -> «Вставить текст» (или «Из файла» для скачанной кампании).</li>
 					<li>Вставьте скопированный фрагмент туда.</li>
 				</ul>
 
@@ -77,7 +102,14 @@
 		<v-layout v-if="campaignCsv">
 			<v-card>
 				<v-card-text>
-					<v-btn class="ml-0" @click="copyResult()"><v-icon small>file_copy</v-icon> Скопировать кампанию в буфер обмена</v-btn>
+					<v-btn class="ml-0" @click="copyResult()">
+						<v-icon small class="mr-1">file_copy</v-icon>
+						Скопировать кампанию в буфер обмена
+					</v-btn>
+					<v-btn class="" @click="downloadCsv()">
+						<v-icon small class="mr-1">cloud_download</v-icon>
+						Скачать кампанию в формате .csv
+					</v-btn>
 					<v-divider class="my-3"/>
 					<pre style="overflow: scroll">{{campaignCsv}}</pre>
 				</v-card-text>
@@ -87,7 +119,7 @@
 </template>
 
 <script>
-	import {CampaignBuilder, Keyword, Ad, BROAD, EXACT, PHRASE} from '../modules/campaignBuilder'
+	import {CampaignBuilder, Keyword, Ad, BROAD, EXACT, PHRASE} from '../campaignBuilder'
 
 
 	export default {
@@ -114,8 +146,16 @@
 					this.ads.splice(adId, 1);
 				}
 			},
+			copyAd(adId) {
+				this.ads.push(JSON.parse(JSON.stringify(this.ads[adId])));
+			},
 			copyResult() {
 				this.$copyText(this.campaignCsv)
+			},
+			downloadCsv() {
+				let name = this.campaignName || 'google-ads-campaign';
+				name = name + '.csv';
+				downloadText(name, this.campaignCsv)
 			},
 			getCampaign() {
 
@@ -123,13 +163,14 @@
 				let keywords = this.keywords.split("\n");
 				console.log(keywords)
 				for (let i = 0; i < keywords.length; i++) {
-					let keyword = keywords[i].trim()
-						.replaceAll('\\+', '')
-						.replaceAll('\\-', '')
-						.replaceAll('\\[', '')
-						.replaceAll('\\]', '')
-						.replaceAll('\\"', '')
-						.replace(/ +(?= )/g, '');
+					let keyword = keywords[i].trim();
+					keyword = replaceAll(keyword, '\\+', '');
+					keyword = replaceAll(keyword, '\\-', '');
+					keyword = replaceAll(keyword, '\\[', '');
+					keyword = replaceAll(keyword, '\\]', '');
+					keyword = replaceAll(keyword, '\\"', '');
+					keyword = replaceAll(keyword, '\\"', '');
+					keyword = keyword.replace(/ +(?= )/g, '');
 
 					if (keyword) {
 						// Start building campaign here
@@ -149,13 +190,13 @@
 
 						if (this.matchtypes.broadMoifier) {
 							const POSTFIX = 'ZZZXXXAAASSSLLLKKKJJJQQQ'
-							let broadModifierKeyword = '+' + keyword.replaceAll(' ', ' +') + POSTFIX;
+							let broadModifierKeyword = '+' + replaceAll(keyword, ' ', ' +') + POSTFIX;
 							let noPluses = this.matchtypes.noPluses;
-							noPluses = noPluses.replaceAll(' ', '').split(',').filter(item => item !== '');
+							noPluses = replaceAll(noPluses, ' ', '').split(',').filter(item => item !== '');
 							console.log(noPluses)
 							for (let n in noPluses) {
-								broadModifierKeyword = broadModifierKeyword.replaceAll('\\+' + noPluses[n] + ' ', noPluses[n] + ' ');
-								broadModifierKeyword = broadModifierKeyword.replaceAll('\\+' + noPluses[n] + POSTFIX, noPluses[n] + POSTFIX);
+								broadModifierKeyword = replaceAll(broadModifierKeyword, '\\+' + noPluses[n] + ' ', noPluses[n] + ' ');
+								broadModifierKeyword = replaceAll(broadModifierKeyword, '\\+' + noPluses[n] + POSTFIX, noPluses[n] + POSTFIX);
 							}
 							broadModifierKeyword = broadModifierKeyword.replace(POSTFIX, '');
 							campaign.addKeyword(new Keyword(broadModifierKeyword, BROAD));
@@ -191,10 +232,24 @@
 		},
 	}
 
-	String.prototype.replaceAll = function (search, replacement) {
-		let target = this;
-		return target.replace(new RegExp(search, 'g'), replacement);
-	};
+	function replaceAll(target, search, replacement) {
+		if (!target) {
+			return ''
+		} else {
+			return target.replace(new RegExp(search, 'g'), replacement);
+		}
+	}
+
+	function downloadText(filename, text) {
+		let element = document.createElement('a');
+		element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+		element.setAttribute('download', filename);
+		element.style.display = 'none';
+		document.body.appendChild(element);
+		element.click();
+		document.body.removeChild(element);
+	}
+
 </script>
 
 <style scoped>
