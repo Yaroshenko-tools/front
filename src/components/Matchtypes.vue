@@ -19,10 +19,13 @@
 
 		<v-layout row>
 			<v-flex xs12 sm6 md6>
-				<v-textarea v-model="keywords" rows="10" box label="Скопируйте сюда ключевые слова, каждое с новой строки"></v-textarea>
+				<v-textarea class="" v-model="keywords" rows="12" box label="Скопируйте сюда ключевые слова, каждое с новой строки"></v-textarea>
 			</v-flex>
 			<v-flex xs12 sm6 md6>
-				<v-textarea box v-model="result" rows="10" label="Здесь появится результат"></v-textarea>
+				<!--<v-textarea box v-model="result" rows="10" label="Здесь появится результат" id="result"></v-textarea>-->
+				<v-card color="grey lighten-3 elevation-0 scroll caption" height="255">
+					<v-card-text v-html="result" id="result" contenteditable="true"></v-card-text>
+				</v-card>
 				<v-btn class="success ml-0" @click="copyResult">
 					<v-icon small>file_copy</v-icon>&nbsp;
 					Скопировать
@@ -34,6 +37,7 @@
 </template>
 
 <script>
+	import utils from '../utils'
 	export default {
 		name: "Matchtypes",
 		data: () => ({
@@ -60,7 +64,8 @@
 
 					if(keyword) {
 						if (this.broad) {
-							result = result + keyword + "\n";
+							// result = result + keyword + "\n";
+							result = result + `<div class="grey--text text--darken-4">${keyword}</div>`;
 						}
 						if (this.broadMoifier) {
 
@@ -72,13 +77,16 @@
 								broadModifierKeyword = broadModifierKeyword.replaceAll('\\+' + noPluses[n] + postfix, noPluses[n] + postfix);
 							}
 							broadModifierKeyword = broadModifierKeyword.replace(postfix, '');
-							result = result + broadModifierKeyword + "\n";
+							// result = result + broadModifierKeyword + "\n";
+							result = result + `<div class="red--text text--darken-4">${broadModifierKeyword}</div>`;
 						}
 						if (this.phrase) {
-							result = result + '"' + keyword + '"' + "\n";
+							// result = result + '"' + keyword + '"' + "\n";
+							result = result + `<div class="blue--text text--darken-4">"${keyword}"</div>`;
 						}
 						if (this.exact) {
-							result = result + '[' + keyword + ']' + "\n";
+							// result = result + '[' + keyword + ']' + "\n";
+							result = result + `<div class="green--text text--darken-4">[${keyword}]</div>`;
 						}
 					}
 				}
@@ -96,7 +104,8 @@
 		},
 		methods: {
 			copyResult() {
-				this.$copyText(this.result)
+				// this.$copyText(this.result)
+				utils.copyElementToClipboard('result');
 			},
 		},
 	}
@@ -107,5 +116,7 @@
 </script>
 
 <style scoped>
-
+	.scroll {
+		overflow-y: auto;
+	}
 </style>

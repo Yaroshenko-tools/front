@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<v-navigation-drawer  fixed clipped app temporary v-model="drawer" right dark >
+		<v-navigation-drawer  fixed clipped app temporary v-model="drawer" left dark >
 			<v-list>
 				<v-list-tile>
 					<!--<v-list-tile-action>-->
@@ -20,24 +20,27 @@
 				</v-list-tile>
 			</v-list>
 		</v-navigation-drawer>
-		<v-toolbar  fixed app clipped-left class="">
-			<router-link to="/" tag="v-toolbar-title" class="pointer">
+		<v-toolbar  fixed app clipped-left class="" dense>
+			<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+			<router-link to="/" tag="v-toolbar-title" class="pointer ml-0 mr-3">
 				<!--<v-toolbar-title>-->
 				<!--<v-icon color="blue">	</v-icon>-->
 				<v-toolbar-side-icon>
 					<img :src="logo" class="logo"/>
 				</v-toolbar-side-icon>
-				Yaroshenko.Tools
+				yaroshenko.tools
 				<!--</v-toolbar-title>-->
 
 			</router-link>
-			<v-toolbar-title>
-				<!--<span class="text&#45;&#45;disabled"> бесплатные утилиты для работы с контекстной рекламой</span>-->
-			</v-toolbar-title>
+
+			<!--<v-toolbar-title>-->
+				<span class="mr-3 hidden-sm-and-down"> Бесплатные утилиты для работы с контекстной рекламой</span>
+				<span class="mr-3"> Telegram: <a href="https://t.me/yaroshenko_tools" rel="noreferrer" target="_blank">@yaroshenko_tools</a></span>
+			<!--</v-toolbar-title>-->
 
 
 			<v-spacer></v-spacer>
-			<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+			<!--<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>-->
 			<!--<v-toolbar-side-icon @click.stop="mini = !mini"></v-toolbar-side-icon>-->
 			<!--<v-toolbar-side-icon @click.stop="mini = !mini"></v-toolbar-side-icon>-->
 
@@ -78,13 +81,18 @@
 					},
 					{
 						icon: 'compare_arrows',
-						title: 'Конвертер типов соответствия Google Ads',
+						title: 'Типы соответствия Google Ads',
 						to: '/matchtypes'
 					},
 					{
 						icon: 'dvr',
-						title: 'Генератор объявлений Google Ads',
+						title: 'Генератор Google Ads',
 						to: '/google-ads-generator'
+					},
+					{
+						icon: 'compare_arrows',
+						title: 'Операторы Яндекс.Директ',
+						to: '/matchtypes-direct'
 					},
 				],
 			}
@@ -101,8 +109,8 @@
 </script>
 <style>
 	.logo {
-		height: 32px;
-		width: 32px;
+		height: 30px;
+		width: 30px;
 		-webkit-transition: -webkit-transform 10s linear;
 		transition: transform 10s linear;
 		/*filter: invert(100%);*/

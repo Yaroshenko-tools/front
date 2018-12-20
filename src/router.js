@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import UtmGenerator from './components/UtmGenerator'
 import Matchtypes from './components/Matchtypes'
+import MatchtypesDirect from './components/MatchtypesDirect'
 import GoogleAdsGenerator from './components/GoogleAdsGenerator'
 import Index from './components/Index'
 
@@ -15,7 +16,7 @@ const router = new Router({
 			name: 'Index',
 			component: Index,
 			meta: {
-				title: 'Утилиты для работы с контекстной рекламой от Алексей Ярошенко',
+				title: 'Утилиты для работы с контекстной рекламой от Алексея Ярошенко',
 				description: 'Бесплатные утилиты и сервисы, которые в ускоряют запуск рекламной кампании в Яндекс.Директ и Google Adwords в 2-10 раз!'
 			},
 
@@ -45,6 +46,15 @@ const router = new Router({
 			meta: {
 				title: 'Генератор объявлений Google Ads',
 				description: 'Сгенерируйте кампани, группы объявлений, ключи в разных типах соответствия и объявления в Google Ads за 60 секунд!'
+			}
+		},
+		{
+			path: '/matchtypes-direct',
+			name: 'MatchtypesDirect',
+			component: MatchtypesDirect,
+			meta: {
+				title: 'Утилита для добавления операторов Яндекс.Директ к ключам',
+				description: 'Утилита добавляет операторы !восклицательный !знак, "кавычки" и [прямоугольные скобки], фиксирующие словоформу, число слов и их порядок к ключевым словам для Яндекс.Директ.'
 			}
 		},
 	],

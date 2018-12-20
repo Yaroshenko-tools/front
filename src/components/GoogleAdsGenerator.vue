@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h1 class="title mb-3">Генератор объявлений Google Ads</h1>
-		<p>Создайте кампанию в Google AdWords из ключевых слов и масок за 60 секнуд! Утилита генерирует группы объявлений, ключевые слова и до 2 объявлений в группе. Скопируйте результат, вставьте в AdWords Editor. Отлично подойдет, чтобы быстро собрать структуру кампании по маскам или для SKA (Single Keyword Adgroup).</p>
+		<p>Создайте кампанию в Google AdWords из ключевых слов и масок за 60 секнуд! Утилита генерирует группы объявлений (1 ключ = 1 группа), ключевые слова в выбранных вами типах соответствия и объявления в группе. В объявления можно подставлять ключ или N-ное по счету слово из ключа. Скопируйте результат, вставьте в AdWords Editor. Отлично подойдет, чтобы быстро собрать структуру кампании по маскам или для SKA (Single Keyword Adgroup).</p>
 		<v-layout row>
 			<v-flex md4>
 				<v-textarea
@@ -18,14 +18,14 @@
 				<v-checkbox v-model="matchtypes.exact" hide-details label="Точное соттвестствие"></v-checkbox>
 			</v-flex>
 			<v-flex md4>
-				<v-expansion-panel>
+				<v-expansion-panel expand>
 					<v-expansion-panel-content v-for="(ad, index) in ads" :key="index" v-model="ad.open">
 
 						<div slot="header">Объявление {{index + 1}}
 							<v-icon v-if="isValidAd(ad)" small color="success">check_circle</v-icon>
 							<v-tooltip v-else top>
 								<v-icon slot="activator" small color="warning">error</v-icon>
-								<span>Не заполнены все обязательные поля</span>
+								<span>Не заполнены все обязательные поля. Объявление не будет включено в сгенерированную кампанию</span>
 							</v-tooltip>
 
 						</div>
@@ -71,18 +71,20 @@
 			</v-flex>
 			<v-flex md4>
 				<v-text-field box class="mb-3" label="Название кампании" v-model="campaignName" hint="Если импортируете в уже созданную кампанию, просто скопируйте ее точное название сюда." persistent-hint=""/>
-				<v-btn color="success" class="ml-0" @click="getCampaign()">
-					<v-icon></v-icon>
+				<v-btn color="success" class="ml-0" @click="getCampaign()" :loading="loading">
 					Сгенерировать кампанию
 				</v-btn>
-				<v-tooltip top v-if="campaignCsv">
-					<v-btn slot="activator" @click="downloadCsv" flat icon>
+				<v-tooltip top>
+					<v-btn slot="activator" @click="downloadCsv" :loading="loadingCsv" flat icon>
 						<v-icon>cloud_download</v-icon>
 					</v-btn>
 					<span>Скачать кампанию в формате .CSV</span>
 				</v-tooltip>
+				<!--<v-btn @click="downloadCsv" color="info" :loading="loadingCsv" >-->
+					<!--<v-icon class="mr-1">cloud_download</v-icon> Скачать в .CSV-->
+				<!--</v-btn>-->
 
-				<v-tooltip top v-if="campaignCsv">
+				<v-tooltip top v-if="campaignHtml">
 					<v-btn class="ml-0" slot="activator" @click="copyResult()" flat icon>
 						<v-icon>file_copy</v-icon>
 					</v-btn>
@@ -99,19 +101,24 @@
 
 			</v-flex>
 		</v-layout>
-		<v-layout v-if="campaignCsv">
-			<v-card>
+		<v-layout v-if="campaignHtml">
+			<v-card full-width class="elevation-3">
 				<v-card-text>
-					<v-btn class="ml-0" @click="copyResult()">
-						<v-icon small class="mr-1">file_copy</v-icon>
-						Скопировать кампанию в буфер обмена
-					</v-btn>
-					<v-btn class="" @click="downloadCsv()">
-						<v-icon small class="mr-1">cloud_download</v-icon>
-						Скачать кампанию в формате .csv
-					</v-btn>
-					<v-divider class="my-3"/>
-					<pre style="overflow: scroll">{{campaignCsv}}</pre>
+					<v-flex>
+						<v-btn class="ml-0" @click="copyResult()">
+							<v-icon small class="mr-1">file_copy</v-icon>
+							Скопировать кампанию в буфер обмена
+						</v-btn>
+						<v-btn class="" @click="downloadCsv()" :loading="loadingCsv">
+							<v-icon small class="mr-1">cloud_download</v-icon>
+							Скачать кампанию в формате .csv
+						</v-btn>
+						<!--<v-divider class="my-3"/>-->
+					</v-flex>
+					<v-flex>
+						<!--<v-textarea v-model="campaignCsv" full-width outline rows="20"/>-->
+						<div class="caption" v-html="campaignHtml"></div>
+					</v-flex>
 				</v-card-text>
 			</v-card>
 		</v-layout>
@@ -119,8 +126,9 @@
 </template>
 
 <script>
-	import {CampaignBuilder, Keyword, Ad, BROAD, EXACT, PHRASE} from '../campaignBuilder'
-
+	// import {CampaignBuilder, Keyword, Ad, BROAD, EXACT, PHRASE} from '../campaignBuilder'
+	import axios from 'axios'
+	import utils from '../utils'
 
 	export default {
 		name: "GoogleAdsGenerator",
@@ -136,6 +144,9 @@
 				exact: true,
 			},
 			campaignCsv: '',
+			campaignHtml: '',
+			loading: false,
+			loadingCsv: false,
 		}),
 		methods: {
 			addAds() {
@@ -150,66 +161,41 @@
 				this.ads.push(JSON.parse(JSON.stringify(this.ads[adId])));
 			},
 			copyResult() {
-				this.$copyText(this.campaignCsv)
+				utils.copyElementToClipboard('table-result');
 			},
 			downloadCsv() {
-				let name = this.campaignName || 'google-ads-campaign';
-				name = name + '.csv';
-				downloadText(name, this.campaignCsv)
+				this.loading = false;
+				this.loadingCsv = true;
+				axios.post('https://api.yaroshenko.tools/campaign-generator', {
+					keywords: this.keywords,
+					ads: this.ads,
+					matchtypes: this.matchtypes,
+					campaignName: this.campaignName,
+					downloadCsv: true,
+					clientDate: new Date(),
+				}).then(response => {
+					const url = window.URL.createObjectURL(new Blob([response.data]));
+					const link = document.createElement('a');
+					link.href = url;
+					link.setAttribute('download', `${this.campaignName ? this.campaignName : 'campaign'}.csv`);
+					document.body.appendChild(link);
+					link.click();
+					this.loadingCsv = false;
+				})
 			},
 			getCampaign() {
-
-				const campaign = new CampaignBuilder(this.campaignName);
-				let keywords = this.keywords.split("\n");
-				console.log(keywords)
-				for (let i = 0; i < keywords.length; i++) {
-					let keyword = keywords[i].trim();
-					keyword = replaceAll(keyword, '\\+', '');
-					keyword = replaceAll(keyword, '\\-', '');
-					keyword = replaceAll(keyword, '\\[', '');
-					keyword = replaceAll(keyword, '\\]', '');
-					keyword = replaceAll(keyword, '\\"', '');
-					keyword = replaceAll(keyword, '\\"', '');
-					keyword = keyword.replace(/ +(?= )/g, '');
-
-					if (keyword) {
-						// Start building campaign here
-
-						console.log(keyword)
-						campaign.startAdGroup(keyword)
-
-						for (let j = 0; j < this.ads.length; j++) {
-							if (this.isValidAd(this.ads[j])) {
-								campaign.addAd(new Ad(this.ads[j], keyword));
-							}
-						}
-
-						if (this.matchtypes.broad) {
-							campaign.addKeyword(new Keyword(keyword, BROAD));
-						}
-
-						if (this.matchtypes.broadMoifier) {
-							const POSTFIX = 'ZZZXXXAAASSSLLLKKKJJJQQQ'
-							let broadModifierKeyword = '+' + replaceAll(keyword, ' ', ' +') + POSTFIX;
-							let noPluses = this.matchtypes.noPluses;
-							noPluses = replaceAll(noPluses, ' ', '').split(',').filter(item => item !== '');
-							console.log(noPluses)
-							for (let n in noPluses) {
-								broadModifierKeyword = replaceAll(broadModifierKeyword, '\\+' + noPluses[n] + ' ', noPluses[n] + ' ');
-								broadModifierKeyword = replaceAll(broadModifierKeyword, '\\+' + noPluses[n] + POSTFIX, noPluses[n] + POSTFIX);
-							}
-							broadModifierKeyword = broadModifierKeyword.replace(POSTFIX, '');
-							campaign.addKeyword(new Keyword(broadModifierKeyword, BROAD));
-						}
-						if (this.matchtypes.phrase) {
-							campaign.addKeyword(new Keyword(keyword, PHRASE));
-						}
-						if (this.matchtypes.exact) {
-							campaign.addKeyword(new Keyword(keyword, EXACT));
-						}
-						this.campaignCsv = campaign.getCsv();
-					}
-				}
+				this.loading = true;
+				this.loadingCsv = false;
+				axios.post('https://api.yaroshenko.tools/campaign-generator', {
+					keywords: this.keywords,
+					ads: this.ads,
+					matchtypes: this.matchtypes,
+					campaignName: this.campaignName,
+				}).then(response => {
+					// console.log(response.data.campaign)
+					this.campaignHtml = response.data.campaign;
+					this.loading = false;
+				})
 			},
 
 		},
@@ -228,27 +214,14 @@
 		updated() {
 			const objectToSave = JSON.parse(JSON.stringify(this._data));
 			delete objectToSave.campaignCsv;
+			delete objectToSave.campaignHtml;
+			delete objectToSave.loading;
+			delete objectToSave.loadingCsv;
 			localStorage.setItem('google-ads-generator', JSON.stringify(objectToSave))
 		},
 	}
 
-	function replaceAll(target, search, replacement) {
-		if (!target) {
-			return ''
-		} else {
-			return target.replace(new RegExp(search, 'g'), replacement);
-		}
-	}
 
-	function downloadText(filename, text) {
-		let element = document.createElement('a');
-		element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-		element.setAttribute('download', filename);
-		element.style.display = 'none';
-		document.body.appendChild(element);
-		element.click();
-		document.body.removeChild(element);
-	}
 
 </script>
 
