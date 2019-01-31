@@ -6,6 +6,7 @@
 			<v-flex class="pt-0 pb-0" xs12 sm6 md6>
 				<v-checkbox v-model="noOperators" hide-details label="Ничего не фиксировать"></v-checkbox>
 				<v-checkbox v-model="quotes" hide-details label='"Зафиксировать число слов"'></v-checkbox>
+				<v-checkbox v-model="exact" hide-details label='!Зафиксировать !словоформу'></v-checkbox>
 				<v-checkbox v-model="quotesAndExact" hide-details label='"!Зафиксировать !число !слов !и !словоформу"'></v-checkbox>
 			</v-flex>
 			<v-flex class="pt-0 pb-0" xs12 sm6 md6>
@@ -45,6 +46,7 @@
 			noOperators: true,
 			quotes: true,
 			brackets: false,
+			exact: true,
 			quotesAndBrackets: false,
 			quotesAndExact: true,
 			quotesBracketsAndExact: false,
@@ -72,6 +74,9 @@
 						}
 						if (this.quotes) {
 							result = result + `<div class="red--text text--darken-4">\"${keywordNoPluses}\"</div>`;
+						}
+						if (this.exact) {
+							result = result + `<div class="red--text text--darken-3">${exactKeyword}</div>`;
 						}
 						if (this.brackets) {
 							result = result + `<div class="blue--text text--darken-3">\[${keyword}\]</div>`;

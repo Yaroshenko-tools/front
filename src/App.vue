@@ -49,7 +49,19 @@
 			<v-container fluid grid-list-xl class="white">
 				<router-view/>
 				<div class="mt-4 text--disabled">
-					<span>&copy; 2018 Алексей Ярошенко. Хотите что-то добавить, предложить новую утилиту или нашли баг? Напишите в группу в телеграмме <a href="https://t.me/yaroshenko_tools" rel="noreferrer" target="_blank">@yaroshenko_tools</a></span>
+					<v-layout row>
+					<v-flex>
+						<v-divider class="mb-4"/>
+						<ul>
+							<li><a href="https://yaroshenko.by" target="_blank">Блог Ярошенко</a></li>
+							<li><a href="https://salespark.org" target="_blank">Заказать контекст</a></li>
+						</ul>
+						<p class="mt-4">
+						Хотите что-то добавить, предложить новую утилиту или нашли баг? Напишите в группу в телеграмме <a href="https://t.me/yaroshenko_tools" target="_blank">@yaroshenko_tools</a>
+						</p>
+					</v-flex>
+					</v-layout>
+					<span>&copy; 2019 yaroshenko.tools</span>
 				</div>
 			</v-container>
 		</v-content>

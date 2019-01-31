@@ -16,6 +16,12 @@
 				<v-text-field v-if="matchtypes.broadMoifier" v-model="matchtypes.noPluses" label="Не ставить '+' перед словами (через запятую)"></v-text-field>
 				<v-checkbox v-model="matchtypes.phrase" hide-details label="Фразовое соответствие"></v-checkbox>
 				<v-checkbox v-model="matchtypes.exact" hide-details label="Точное соттвестствие"></v-checkbox>
+				<p class="mt-4">Можно задать уникальный URL и/или Заголовок 1 для любого ключа в формате:
+					<strong><code>keyword|url|заголовок1</code></strong>
+					<br/>
+					Только URL: keyword|url<br/>
+					Только заголовок: keyword||заголовок1<br/>
+				</p>
 			</v-flex>
 			<v-flex md4>
 				<v-expansion-panel expand>
@@ -130,6 +136,9 @@
 	import axios from 'axios'
 	import utils from '../utils'
 
+	// const apiDomain = 'https://api.yaroshenko.tools';
+	const apiDomain = 'http://localhost:3000';
+
 	export default {
 		name: "GoogleAdsGenerator",
 		data: () => ({
@@ -166,7 +175,7 @@
 			downloadCsv() {
 				this.loading = false;
 				this.loadingCsv = true;
-				axios.post('https://api.yaroshenko.tools/campaign-generator', {
+				axios.post(`${apiDomain}/campaign-generator`, {
 					keywords: this.keywords,
 					ads: this.ads,
 					matchtypes: this.matchtypes,
@@ -186,7 +195,7 @@
 			getCampaign() {
 				this.loading = true;
 				this.loadingCsv = false;
-				axios.post('https://api.yaroshenko.tools/campaign-generator', {
+				axios.post(`${apiDomain}/campaign-generator`, {
 					keywords: this.keywords,
 					ads: this.ads,
 					matchtypes: this.matchtypes,
