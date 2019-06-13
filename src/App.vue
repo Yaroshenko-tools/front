@@ -97,7 +97,7 @@
 						to: '/google-ads-generator'
 					},
 					{
-						icon: 'dvr',
+						icon: 'trending_up',
 						title: 'Статистическая значимость',
 						to: '/stats-calc'
 					},
