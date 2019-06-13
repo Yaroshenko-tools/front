@@ -104,7 +104,7 @@
 		}),
 		computed: {
 			result() {
-				let url = this.url.trim().toLowerCase();
+				let url = this.url.trim();
 				if (!url.startsWith('http://') && !url.startsWith('https://')) {
 					url = 'https://' + url;
 				}
@@ -158,7 +158,7 @@
 						utm_source: 'yandex',
 						utm_medium: 'cpc',
 						utm_campaign: '{campaign_name_lat}',
-						utm_content: '{creative_id}',
+						utm_content: '{ad_id}',
 						utm_term: '{keyword}',
 					}
 				}

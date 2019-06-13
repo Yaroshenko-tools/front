@@ -87,7 +87,7 @@
 					<span>Скачать кампанию в формате .CSV</span>
 				</v-tooltip>
 				<!--<v-btn @click="downloadCsv" color="info" :loading="loadingCsv" >-->
-					<!--<v-icon class="mr-1">cloud_download</v-icon> Скачать в .CSV-->
+				<!--<v-icon class="mr-1">cloud_download</v-icon> Скачать в .CSV-->
 				<!--</v-btn>-->
 
 				<v-tooltip top v-if="campaignHtml">
@@ -128,6 +128,12 @@
 				</v-card-text>
 			</v-card>
 		</v-layout>
+		<v-layout>
+			<v-flex class="text-xs-center">
+				<h3>Как пользоваться генератором Google Ads. Обучающее видео</h3>
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/KIcH5LyuY5k" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</v-flex>
+		</v-layout>
 	</div>
 </template>
 
@@ -137,7 +143,7 @@
 	import utils from '../utils'
 
 	// const apiDomain = 'https://api.yaroshenko.tools';
-	const apiDomain = 'http://localhost:3000';
+	const apiDomain = 'https://api.yaroshenko.tools';
 
 	export default {
 		name: "GoogleAdsGenerator",
@@ -229,7 +235,6 @@
 			localStorage.setItem('google-ads-generator', JSON.stringify(objectToSave))
 		},
 	}
-
 
 
 </script>

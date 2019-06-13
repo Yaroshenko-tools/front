@@ -4,6 +4,7 @@ import UtmGenerator from './components/UtmGenerator'
 import Matchtypes from './components/Matchtypes'
 import MatchtypesDirect from './components/MatchtypesDirect'
 import GoogleAdsGenerator from './components/GoogleAdsGenerator'
+import StatisticalSignificance from './components/StatisticalSignificance'
 import Index from './components/Index'
 
 Vue.use(Router);
@@ -46,6 +47,15 @@ const router = new Router({
 			meta: {
 				title: 'Генератор объявлений Google Ads',
 				description: 'Сгенерируйте кампани, группы объявлений, ключи в разных типах соответствия и объявления в Google Ads за 60 секунд!'
+			}
+		},
+		{
+			path: '/stats-calc',
+			name: 'StatisticalSignificance',
+			component: StatisticalSignificance,
+			meta: {
+				title: 'Калькулятор статистической значимости',
+				description: 'Введите число кликов и конверсий (или показов и кликов для CTR) и получите интервалы, в которых могут лежать конверсия или CTR с вероятностью 80, 90, 95 и 99%'
 			}
 		},
 		{

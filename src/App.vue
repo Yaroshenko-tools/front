@@ -92,14 +92,19 @@
 						to: '/utm'
 					},
 					{
-						icon: 'compare_arrows',
-						title: 'Типы соответствия Google Ads',
-						to: '/matchtypes'
-					},
-					{
 						icon: 'dvr',
 						title: 'Генератор Google Ads',
 						to: '/google-ads-generator'
+					},
+					{
+						icon: 'dvr',
+						title: 'Статистическая значимость',
+						to: '/stats-calc'
+					},
+					{
+						icon: 'compare_arrows',
+						title: 'Типы соответствия Google Ads',
+						to: '/matchtypes'
 					},
 					{
 						icon: 'compare_arrows',
