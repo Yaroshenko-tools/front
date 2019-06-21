@@ -1,40 +1,50 @@
 <template>
 	<div>
 		<h1 class="title mb-3">Калькулятор статистической значимости</h1>
-		<p class="mb-0">Введите число кликов и конверсий (или коэффициент конверсии) и получите интервалы, в которых может лежать конверсия с вероятностью 70%, 80%, 90%, 95% и 99%</p>
-		<v-layout>
-			<v-flex class="" xs12 sm12 md5>
-				<v-text-field v-model="nCount" type="number" label="Число кликов" v-on:change="updateConvCoef()"></v-text-field>
+		<p class="mb-0">Введите число кликов и конверсий и получите интервалы, в которых может лежать конверсия с вероятностью 70%, 80%, 90%, 95% и 99%</p>
+
+		<v-layout row wrap>
+			<v-flex xs12 sm12 md6>
+				<v-text-field v-model="nCount" type="number" label="Число кликов"></v-text-field>
 				<v-layout row>
 					<v-flex>
-						<v-text-field v-model="convCount" type="number" label="Число конверсий" v-on:change="updateConvCoef()"></v-text-field>
+						<v-text-field v-model="convCount" type="number" label="Число конверсий"></v-text-field>
 					</v-flex>
-					<v-flex class="mt-4">или</v-flex>
 					<v-flex>
-						<v-text-field v-model="convCoef" suffix="%" type="number" label="Коэфициент конверсии" v-on:change="updateConvCount()"></v-text-field>
+						<v-text-field v-model="convCoef" suffix="%" type="number" label="Коэфициент конверсии" disabled></v-text-field>
 					</v-flex>
 				</v-layout>
+				<p class="caption">
+					На диаграмме видно, какая может быть конверсия с вероятностью 95% (доверительный интервал). <br/>
+					Вероятность в 95% (<var>p < 0.05</var>) взята как общепринятый уровень статистической значимости.
+				</p>
 			</v-flex>
-			<v-flex class="" xs12 sm12 md7>
+			<v-flex xs12 sm12 md6 class="text-xs-center ">
+				<v-progress-circular
+								:rotate="270"
+								:size="210"
+								:width="36"
+								:value=percentInt95
+								:color=this.cmap[colorId95]
+				>
+					<span>
+						<strong>{{interval95[0]}}%</strong> - <strong>{{interval95[1]}}%</strong><br/>
+						<small>±{{interval95[2]}}%</small>
+					</span>
+				</v-progress-circular>
+			</v-flex>
+			<v-flex xs12 sm12 md12>
 				<v-card>
 					<v-card-text>
 						<h3 class="mb-2">Вот насколько значимые получились результаты:</h3>
 						<ul>
-							<li>С вероятностью <strong>70%</strong> конверсия находится между <strong>{{interval70[0]}}%</strong> и <strong>{{interval70[1]}}%</strong>. Отклонение <strong>±{{interval70[2]}}%</strong></li>
-							<li>С вероятностью <strong>80%</strong> конверсия находится между <strong>{{interval80[0]}}%</strong> и <strong>{{interval80[1]}}%</strong>. Отклонение <strong>±{{interval80[2]}}%</strong></li>
-							<li>С вероятностью <strong>90%</strong> конверсия находится между <strong>{{interval90[0]}}%</strong> и <strong>{{interval90[1]}}%</strong>. Отклонение <strong>±{{interval90[2]}}%</strong></li>
-							<li>С вероятностью <strong>95%</strong> конверсия находится между <strong>{{interval95[0]}}%</strong> и <strong>{{interval95[1]}}%</strong>. Отклонение <strong>±{{interval95[2]}}%</strong></li>
 							<li>С вероятностью <strong>99%</strong> конверсия находится между <strong>{{interval99[0]}}%</strong> и <strong>{{interval99[1]}}%</strong>. Отклонение <strong>±{{interval99[2]}}%</strong></li>
+							<li>С вероятностью <strong>95%</strong> конверсия находится между <strong>{{interval95[0]}}%</strong> и <strong>{{interval95[1]}}%</strong>. Отклонение <strong>±{{interval95[2]}}%</strong></li>
+							<li>С вероятностью <strong>90%</strong> конверсия находится между <strong>{{interval90[0]}}%</strong> и <strong>{{interval90[1]}}%</strong>. Отклонение <strong>±{{interval90[2]}}%</strong></li>
+							<li>С вероятностью <strong>80%</strong> конверсия находится между <strong>{{interval80[0]}}%</strong> и <strong>{{interval80[1]}}%</strong>. Отклонение <strong>±{{interval80[2]}}%</strong></li>
+							<li>С вероятностью <strong>70%</strong> конверсия находится между <strong>{{interval70[0]}}%</strong> и <strong>{{interval70[1]}}%</strong>. Отклонение <strong>±{{interval70[2]}}%</strong></li>
 						</ul>
 
-						<!--<v-progress-circular-->
-						<!--:rotate="360"-->
-						<!--:size="255"-->
-						<!--:width="3"-->
-						<!--:value="70"-->
-						<!--color="red"-->
-						<!--&gt;<strong>{{interval70[0]}}%</strong> < Cv < <strong>{{interval70[1]}}%</strong>-->
-						<!--</v-progress-circular>-->
 					</v-card-text>
 				</v-card>
 			</v-flex>
@@ -43,7 +53,10 @@
 		<v-layout>
 			<v-flex class="mt-5">
 				<p>
-					На самом деле, это не совсем калькулятор статистической занчимости, ибо сама статистическая занчимость здесь явно не фигурирует.
+					Вместо кликов и конверсий можно использовать показы и клики соответственно, чтобы считать значения CTR вместо конверсии.
+				</p>
+				<p class="text--secondary caption">
+					На самом деле, это не совсем калькулятор статистической занчимости, <code>70%.. 99% = 1 - p</code>, где p &mdash; уровень значимости, т.е. он уже нами задан.
 					<br/>
 					В математической модели используются некоторые допущения, поэтому значения - не истина в последней инстанции. Имейте ввиду :)
 				</p>
@@ -53,17 +66,20 @@
 </template>
 
 <script>
-	import utils from '../utils'
+	import colormap from 'colormap'
+
 
 	export default {
 		name: "StatisticalSignificance",
 		data: () => ({
 			nCount: 0,
 			convCount: 0,
-			convCoef: 0,
-
+			cmap: 0
 		}),
 		computed: {
+			convCoef() {
+				return (this.convCount / this.nCount * 100).toFixed(2)
+			},
 			interval70() {
 				return getInterval(this.nCount, this.convCount, 1.036)
 			},
@@ -78,6 +94,14 @@
 			},
 			interval99() {
 				return getInterval(this.nCount, this.convCount, 2.57)
+			},
+			percentInt95() {
+				return this.interval95[2] > 99.9 ? 99.9 : this.interval95[2];
+			},
+			colorId95() {
+				const coef = 1.7;
+				return parseInt(this.percentInt95 * coef > 99 ? 99 : this.percentInt95 * coef);
+				// return 50
 			}
 		},
 		created() {
@@ -85,6 +109,14 @@
 			for (let key in storedData) {
 				this[key] = storedData[key];
 			}
+
+			this.cmap = colormap({
+				colormap: 'portland',
+				nshades: 101,
+				format: 'hex',
+				alpha: 1
+			});
+
 		},
 		updated() {
 			localStorage.setItem('stats-calc', JSON.stringify(this._data))
@@ -95,17 +127,19 @@
 			},
 			updateConvCount() {
 				this.convCount = (this.convCoef / 100 * this.nCount).toFixed(0)
-			}
+			},
+
+
 		},
 		watch: {},
 	}
 
 	function getInterval(n, conv, nSigma) {
 		if (parseInt(n) === 0 || !n || !conv) {
-			return [0 , 0, 0]
+			return [0, 0, 0]
 		}
 
-		let p = conv / n;
+		let p = conv / n >= 1 ? 1 : conv / n;
 		let std = (n * p * (1 - p)) ** 0.5;
 		let mean = n * p;
 		let minConv = (mean - std * nSigma) / n;

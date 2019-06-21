@@ -57,7 +57,7 @@
 							<li><a href="https://salespark.org" target="_blank">Заказать контекст</a></li>
 						</ul>
 						<p class="mt-4">
-						Хотите что-то добавить, предложить новую утилиту или нашли баг? Напишите в группу в телеграмме <a href="https://t.me/yaroshenko_tools" target="_blank">@yaroshenko_tools</a>
+						Хотите что-то добавить, предложить новую утилиту или нашли баг? Напишите в чат в телеграмме <a href="https://t.me/yaroshenko_tools" target="_blank">@yaroshenko_tools</a>
 						</p>
 					</v-flex>
 					</v-layout>

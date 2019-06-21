@@ -94,7 +94,7 @@
 					<v-btn class="ml-0" slot="activator" @click="copyResult()" flat icon>
 						<v-icon>file_copy</v-icon>
 					</v-btn>
-					<span>Скоприровать кампанию в буфер обмена</span>
+					<span>Скопировать кампанию в буфер обмена</span>
 				</v-tooltip>
 				<h4 class="subheading">Как пользоваться:</h4>
 				<ul>
