@@ -101,7 +101,6 @@
 			colorId95() {
 				const coef = 1.7;
 				return parseInt(this.percentInt95 * coef > 99 ? 99 : this.percentInt95 * coef);
-				// return 50
 			}
 		},
 		created() {
@@ -153,6 +152,7 @@
 			(std * nSigma * 100 / mean).toFixed(2).replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/, '$1'),
 		]
 	}
+
 </script>
 
 <style scoped>
