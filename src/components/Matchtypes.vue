@@ -19,10 +19,10 @@
 
 		<v-layout row>
 			<v-flex xs12 sm6 md6>
-				<v-textarea class="" v-model="keywords" rows="12" box label="Скопируйте сюда ключевые слова, каждое с новой строки"></v-textarea>
+				<v-textarea class="" v-model="keywords" rows="12" filled label="Скопируйте сюда ключевые слова, каждое с новой строки"></v-textarea>
 			</v-flex>
 			<v-flex xs12 sm6 md6>
-				<!--<v-textarea box v-model="result" rows="10" label="Здесь появится результат" id="result"></v-textarea>-->
+				<!--<v-textarea filled v-model="result" rows="10" label="Здесь появится результат" id="result"></v-textarea>-->
 				<v-card color="grey lighten-3 elevation-0 scroll caption" height="255">
 					<v-card-text v-html="result" id="result" contenteditable="true"></v-card-text>
 				</v-card>

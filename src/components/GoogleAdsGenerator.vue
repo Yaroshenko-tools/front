@@ -5,7 +5,7 @@
 		<v-layout row>
 			<v-flex md4>
 				<v-textarea
-								box
+								filled
 								label="Вставьте сюда ключевые слова"
 								:rows="8"
 								v-model="keywords"
@@ -76,12 +76,12 @@
 				</div>
 			</v-flex>
 			<v-flex md4>
-				<v-text-field box class="mb-3" label="Название кампании" v-model="campaignName" hint="Если импортируете в уже созданную кампанию, просто скопируйте ее точное название сюда." persistent-hint=""/>
+				<v-text-field filled class="mb-3" label="Название кампании" v-model="campaignName" hint="Если импортируете в уже созданную кампанию, просто скопируйте ее точное название сюда." persistent-hint=""/>
 				<v-btn color="success" class="ml-0" @click="getCampaign()" :loading="loading">
 					Сгенерировать кампанию
 				</v-btn>
 				<v-tooltip top>
-					<v-btn slot="activator" @click="downloadCsv" :loading="loadingCsv" flat icon>
+					<v-btn @click="downloadCsv" :loading="loadingCsv" text icon>
 						<v-icon>cloud_download</v-icon>
 					</v-btn>
 					<span>Скачать кампанию в формате .CSV</span>
@@ -91,7 +91,7 @@
 				<!--</v-btn>-->
 
 				<v-tooltip top v-if="campaignHtml">
-					<v-btn class="ml-0" slot="activator" @click="copyResult()" flat icon>
+					<v-btn class="ml-0" slot="activator" @click="copyResult()" text icon>
 						<v-icon>file_copy</v-icon>
 					</v-btn>
 					<span>Скопировать кампанию в буфер обмена</span>

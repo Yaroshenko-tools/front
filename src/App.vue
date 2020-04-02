@@ -2,32 +2,32 @@
 	<v-app>
 		<v-navigation-drawer fixed clipped app temporary v-model="drawer" left dark>
 			<v-list>
-				<v-list-tile>
-					<!--<v-list-tile-action>-->
+				<v-list-item>
+					<!--<v-list-item-action>-->
 					<!--<v-btn icon @click.stop="mini = !mini">-->
 					<!--<v-icon v-html="chevronIcon"></v-icon> -->
 					<!--</v-btn>-->
 					<!--</v-list-tile-action>-->
-					<v-list-tile-content></v-list-tile-content>
-				</v-list-tile>
-				<v-list-tile class="" active-class="green" v-for="(item, i) in items" :key="i" :to="item.to">
-					<v-list-tile-action>
+					<v-list-item-content></v-list-item-content>
+				</v-list-item>
+				<v-list-item class="" active-class="green" v-for="(item, i) in items" :key="i" :to="item.to">
+					<v-list-item-action>
 						<v-icon v-html="item.icon"></v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title v-text="item.title"></v-list-tile-title>
-					</v-list-tile-content>
-				</v-list-tile>
+					</v-list-item-action>
+					<v-list-item-content>
+						<v-list-item-title v-text="item.title"></v-list-item-title>
+					</v-list-item-content>
+				</v-list-item>
 			</v-list>
 		</v-navigation-drawer>
-		<v-toolbar fixed app clipped-left class="" dense>
-			<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+		<v-app-bar fixed app clipped-left class="" dense>
+			<v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 			<router-link to="/" tag="v-toolbar-title" class="pointer ml-0 mr-3">
 				<!--<v-toolbar-title>-->
 				<!--<v-icon color="blue">	</v-icon>-->
-				<v-toolbar-side-icon>
+				<v-app-bar-nav-icon>
 					<img :src="logo" class="logo"/>
-				</v-toolbar-side-icon>
+				</v-app-bar-nav-icon>
 				yaroshenko.tools
 				<!--</v-toolbar-title>-->
 
@@ -44,7 +44,7 @@
 			<!--<v-toolbar-side-icon @click.stop="mini = !mini"></v-toolbar-side-icon>-->
 			<!--<v-toolbar-side-icon @click.stop="mini = !mini"></v-toolbar-side-icon>-->
 
-		</v-toolbar>
+		</v-app-bar>
 		<v-content>
 			<v-container fluid grid-list-xl class="white">
 				<router-view/>

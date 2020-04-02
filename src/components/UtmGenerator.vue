@@ -4,13 +4,13 @@
 		<h1 class="title mb-4">Генератор UTM-меток</h1>
 		<div>Выберите источник трафика или заполните поля вручную:</div>
 
-		<v-btn class="ml-0" small outline @click="setTrafficSource('adwords')">Google Ads</v-btn>
-		<v-btn class="ml-0" small outline @click="setTrafficSource('direct')">Яндекс.Директ</v-btn>
-		<v-btn class="ml-0" small outline @click="setTrafficSource('vk')">VK.com</v-btn>
-		<v-btn class="ml-0" small outline @click="setTrafficSource('fb')">Facebook</v-btn>
-		<v-btn class="ml-0" small outline @click="setTrafficSource('instagram')">Instagram</v-btn>
-		<v-btn class="ml-0" small outline @click="setTrafficSource('mytarget')">Target.mail.ru</v-btn>
-		<v-btn class="ml-0" color="error" small outline @click="setTrafficSource('reset')">Сброс</v-btn>
+		<v-btn class="ml-0" small outlined @click="setTrafficSource('adwords')">Google Ads</v-btn>
+		<v-btn class="ml-0" small outlined @click="setTrafficSource('direct')">Яндекс.Директ</v-btn>
+		<v-btn class="ml-0" small outlined @click="setTrafficSource('vk')">VK.com</v-btn>
+		<v-btn class="ml-0" small outlined @click="setTrafficSource('fb')">Facebook</v-btn>
+		<v-btn class="ml-0" small outlined @click="setTrafficSource('instagram')">Instagram</v-btn>
+		<v-btn class="ml-0" small outlined @click="setTrafficSource('mytarget')">Target.mail.ru</v-btn>
+		<v-btn class="ml-0" color="error" small outlined @click="setTrafficSource('reset')">Сброс</v-btn>
 
 		<v-text-field
 						v-model="url"
@@ -54,7 +54,7 @@
 			</v-flex>
 			<v-flex xs12 sm6 md6>
 				<v-textarea
-								box
+								filled
 								label="Ссылка с UTM-меткой появится здесь"
 								v-model="result"
 								readonly
@@ -124,7 +124,7 @@
 			localStorage.setItem('utm', JSON.stringify(this._data))
 		},
 		watch: {
-			result(value) {
+			result() {
 				this.shortUrl = '';
 			},
 		},

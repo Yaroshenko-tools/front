@@ -1,17 +1,15 @@
 <template>
 	<div>
-		<!--<div>Index</div>-->
 		<v-card class="pa-3">
 			<h1>Утилиты для работы с контекстной рекламой</h1>
 			<v-list two-line>
-				<template v-for="(item, index) in items">
-					<div>
-						<router-link tag="v-list-tile" :to="item.link">
-							<v-list-tile-content>
-								<v-list-tile-title><router-link :to="item.link">{{item.title}}</router-link></v-list-tile-title>
-								<v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
-							</v-list-tile-content>
-
+				<template v-for="(item, key) in items">
+					<div :key="key">
+						<router-link tag="v-list-item" :to="item.link">
+							<v-list-item-content>
+								<v-list-item-title><router-link :to="item.link">{{item.title}}</router-link></v-list-item-title>
+								<v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+							</v-list-item-content>
 						</router-link>
 					</div>
 				</template>
