@@ -39,7 +39,9 @@
                 <span class="pa-0">
                   <v-icon v-if="isValidAd(ad)" small color="success">check_circle</v-icon>
                   <v-tooltip v-else top>
-                    <v-icon slot="activator" small color="warning">error</v-icon>
+                    <template v-slot:activator="{ on }">
+                      <v-icon small color="warning" v-on="on">error</v-icon>
+                    </template>
                     <span>Не заполнены все обязательные поля. Объявление не будет включено в сгенерированную кампанию</span>
                   </v-tooltip>
                 </span>
@@ -107,14 +109,12 @@
           </v-btn>
           <span>Скачать кампанию в формате .CSV</span>
         </v-tooltip>
-        <!--<v-btn @click="downloadCsv" color="info" :loading="loadingCsv" >-->
-        <!--<v-icon class="mr-1">cloud_download</v-icon> Скачать в .CSV-->
-        <!--</v-btn>-->
-
         <v-tooltip top v-if="campaignHtml">
-          <v-btn class="ml-0" slot="activator" @click="copyResult()" text icon>
-            <v-icon>file_copy</v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn class="ml-0" v-on="on" @click="copyResult()" text icon>
+              <v-icon>file_copy</v-icon>
+            </v-btn>
+          </template>
           <span>Скопировать кампанию в буфер обмена</span>
         </v-tooltip>
         <h4 class="subheading">Как пользоваться:</h4>
@@ -127,7 +127,6 @@
           </li>
           <li>Вставьте скопированный фрагмент туда.</li>
         </ul>
-
       </v-flex>
     </v-layout>
     <v-layout v-if="campaignHtml">
@@ -142,10 +141,8 @@
               <v-icon small class="mr-1">cloud_download</v-icon>
               Скачать кампанию в формате .csv
             </v-btn>
-            <!--<v-divider class="my-3"/>-->
           </v-flex>
           <v-flex>
-            <!--<v-textarea v-model="campaignCsv" full-width outline rows="20"/>-->
             <div class="caption" v-html="campaignHtml"></div>
           </v-flex>
         </v-card-text>
@@ -163,7 +160,6 @@
 </template>
 
 <script>
-  // import {CampaignBuilder, Keyword, Ad, BROAD, EXACT, PHRASE} from '../campaignBuilder'
   import axios from 'axios'
   import utils from '../utils'
 
