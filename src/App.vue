@@ -130,8 +130,6 @@
 				return this.mini ? 'chevron_right' : 'chevron_left'
 			},
 		},
-		created() {
-		},
 		name: 'App'
 	}
 </script>

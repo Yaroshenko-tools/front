@@ -8,11 +8,11 @@
     <v-layout row>
       <v-flex md4>
         <v-textarea
-            filled
-            label="Вставьте сюда ключевые слова"
-            :rows="8"
-            v-model="keywords"
-            class="mb-0"
+          filled
+          label="Вставьте сюда ключевые слова"
+          :rows="8"
+          v-model="keywords"
+          class="mb-0"
         />
         <v-checkbox class="mt-0" v-model="matchtypes.broad" hide-details label="Широкое соответствие"></v-checkbox>
         <v-checkbox v-model="matchtypes.broadMoifier" hide-details
@@ -163,107 +163,98 @@
 </template>
 
 <script>
-    // import {CampaignBuilder, Keyword, Ad, BROAD, EXACT, PHRASE} from '../campaignBuilder'
-    import axios from 'axios'
-    import utils from '../utils'
+  // import {CampaignBuilder, Keyword, Ad, BROAD, EXACT, PHRASE} from '../campaignBuilder'
+  import axios from 'axios'
+  import utils from '../utils'
 
-    const apiDomain = 'http://127.0.0.1:3000';
-    // const apiDomain = 'https://api.yaroshenko.tools';
+  export default {
+    name: "GoogleAdsGenerator",
+    data: () => ({
+      campaignName: '',
+      keywords: '',
+      ads: [{}, {}, {}],
+      matchtypes: {
+        broad: false,
+        broadMoifier: true,
+        noPluses: 'в, на, под, из, с, от, у, и, за',
+        phrase: false,
+        exact: true,
+      },
+      campaignCsv: '',
+      campaignHtml: '',
+      loading: false,
+      loadingCsv: false,
+    }),
+    methods: {
+      addAds() {
+        this.ads.push({});
+      },
+      deleteAd(adId) {
+        if (confirm('Вы уверены, что хотите удалить это объявление?')) {
+          this.ads.splice(adId, 1);
+        }
+      },
+      copyAd(adId) {
+        this.ads.push(JSON.parse(JSON.stringify(this.ads[adId])));
+      },
+      copyResult() {
+        utils.copyElementToClipboard('table-result');
+      },
+      downloadCsv() {
+        this.loading = false;
+        this.loadingCsv = true;
+        axios.post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
+          keywords: this.keywords,
+          ads: this.ads,
+          matchtypes: this.matchtypes,
+          campaignName: this.campaignName,
+          downloadCsv: true,
+          clientDate: new Date(),
+        }).then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', `${this.campaignName ? this.campaignName : 'campaign'}.csv`);
+          document.body.appendChild(link);
+          link.click();
+          this.loadingCsv = false;
+        })
+      },
+      getCampaign() {
+        this.loading = true;
+        this.loadingCsv = false;
+        axios.post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
+          keywords: this.keywords,
+          ads: this.ads,
+          matchtypes: this.matchtypes,
+          campaignName: this.campaignName,
+        }).then(response => {
+          // console.log(response.data.campaign)
+          this.campaignHtml = response.data.campaign;
+          this.loading = false;
+        })
+      },
 
-    export default {
-        name: "GoogleAdsGenerator",
-        data: () => ({
-            campaignName: '',
-            keywords: '',
-            ads: [{}, {}, {}],
-            matchtypes: {
-                broad: false,
-                broadMoifier: true,
-                noPluses: 'в, на, под, из, с, от, у, и, за',
-                phrase: false,
-                exact: true,
-            },
-            campaignCsv: '',
-            campaignHtml: '',
-            loading: false,
-            loadingCsv: false,
-        }),
-        methods: {
-            addAds() {
-                this.ads.push({});
-            },
-            deleteAd(adId) {
-                if (confirm('Вы уверены, что хотите удалить это объявление?')) {
-                    this.ads.splice(adId, 1);
-                }
-            },
-            copyAd(adId) {
-                this.ads.push(JSON.parse(JSON.stringify(this.ads[adId])));
-            },
-            copyResult() {
-                utils.copyElementToClipboard('table-result');
-            },
-            downloadCsv() {
-                this.loading = false;
-                this.loadingCsv = true;
-                axios.post(`${apiDomain}/campaign-generator`, {
-                    keywords: this.keywords,
-                    ads: this.ads,
-                    matchtypes: this.matchtypes,
-                    campaignName: this.campaignName,
-                    downloadCsv: true,
-                    clientDate: new Date(),
-                }).then(response => {
-                    const url = window.URL.createObjectURL(new Blob([response.data]));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute('download', `${this.campaignName ? this.campaignName : 'campaign'}.csv`);
-                    document.body.appendChild(link);
-                    link.click();
-                    this.loadingCsv = false;
-                })
-            },
-            getCampaign() {
-                this.loading = true;
-                this.loadingCsv = false;
-                axios.post(`${apiDomain}/campaign-generator`, {
-                    keywords: this.keywords,
-                    ads: this.ads,
-                    matchtypes: this.matchtypes,
-                    campaignName: this.campaignName,
-                }).then(response => {
-                    // console.log(response.data.campaign)
-                    this.campaignHtml = response.data.campaign;
-                    this.loading = false;
-                })
-            },
+    },
+    computed: {
+      isValidAd() {
+        return ad => ad.h1 && ad.h2 && ad.d1 && ad.url
+      }
+    },
 
-        },
-        computed: {
-            isValidAd() {
-                return ad => ad.h1 && ad.h2 && ad.d1 && ad.url
-            }
-        },
-
-        created() {
-            const storedData = JSON.parse(localStorage.getItem('google-ads-generator'));
-            for (let key in storedData) {
-                this[key] = storedData[key];
-            }
-        },
-        updated() {
-            const objectToSave = JSON.parse(JSON.stringify(this._data));
-            delete objectToSave.campaignCsv;
-            delete objectToSave.campaignHtml;
-            delete objectToSave.loading;
-            delete objectToSave.loadingCsv;
-            localStorage.setItem('google-ads-generator', JSON.stringify(objectToSave))
-        },
-    }
-
-
+    created() {
+      const storedData = JSON.parse(localStorage.getItem('google-ads-generator'));
+      for (let key in storedData) {
+        this[key] = storedData[key];
+      }
+    },
+    updated() {
+      const objectToSave = JSON.parse(JSON.stringify(this._data));
+      delete objectToSave.campaignCsv;
+      delete objectToSave.campaignHtml;
+      delete objectToSave.loading;
+      delete objectToSave.loadingCsv;
+      localStorage.setItem('google-ads-generator', JSON.stringify(objectToSave))
+    },
+  }
 </script>
-
-<style scoped>
-
-</style>
