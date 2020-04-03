@@ -1,51 +1,41 @@
 <template>
   <div>
-
     <h1 class="title mb-4">Генератор UTM-меток</h1>
     <div>Выберите источник трафика или заполните поля вручную:</div>
-
-    <v-btn class="ml-0" small outlined @click="setTrafficSource('adwords')">Google Ads</v-btn>
-    <v-btn class="ml-0" small outlined @click="setTrafficSource('direct')">Яндекс.Директ</v-btn>
-    <v-btn class="ml-0" small outlined @click="setTrafficSource('vk')">VK.com</v-btn>
-    <v-btn class="ml-0" small outlined @click="setTrafficSource('fb')">Facebook</v-btn>
-    <v-btn class="ml-0" small outlined @click="setTrafficSource('instagram')">Instagram</v-btn>
-    <v-btn class="ml-0" small outlined @click="setTrafficSource('mytarget')">Target.mail.ru</v-btn>
-    <v-btn class="ml-0" color="error" small outlined @click="setTrafficSource('reset')">Сброс</v-btn>
-
+    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('adwords')">Google Ads</v-btn>
+    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('direct')">Яндекс.Директ</v-btn>
+    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('vk')">VK.com</v-btn>
+    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('fb')">Facebook</v-btn>
+    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('instagram')">Instagram</v-btn>
+    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('mytarget')">Target.mail.ru</v-btn>
+    <v-btn class="ml-0 mx-2" color="error" small outlined @click="setTrafficSource('reset')">Сброс</v-btn>
     <v-text-field
       v-model="url"
       label="URL целевой страницы"
       placeholder="Вставьте сюда ссылку на сайт или целевую страницу. Например: https://yaroshenko.tools"
     ></v-text-field>
-    <!--<v-flex xs12 sm6 md8 offset-md5 > asd</v-flex>-->
     <v-layout row>
       <v-flex xs12 sm6 md6>
-
         <v-text-field
           v-model="params.utm_source"
           label="utm_source *"
           placeholder="Источника трафика. Например, google"
         ></v-text-field>
-
-
         <v-text-field
           v-model="params.utm_medium"
           label="utm_medium *"
           placeholder="Тип трафика. Например: cpc, email, banner"
         ></v-text-field>
-
         <v-text-field
           v-model="params.utm_campaign"
           label="utm_campaign *"
           placeholder="Рекламная кампания: например, google-poisk"
         ></v-text-field>
-
         <v-text-field
           v-model="params.utm_content"
           label="utm_content"
           placeholder="Например, cpc, email, banner"
         ></v-text-field>
-
         <v-text-field
           v-model="params.utm_term"
           label="utm_term"
@@ -59,27 +49,35 @@
           v-model="result"
           readonly
         ></v-textarea>
-        <v-btn class="success ml-0" @click="copyResult">
+        <v-btn class="success ml-0 mr-2" @click="copyResult">
           <v-icon small>file_copy</v-icon>&nbsp;
           Скопировать
         </v-btn>
-        <v-btn class="info ml-0" @click="urlShortener" :disabled="!url" type="button" :loading="shortenerLoading">
+        <v-btn class="info ml-0 mr-2" @click="urlShortener" :disabled="!url" type="button" :loading="shortenerLoading">
           <v-icon small>link</v-icon>&nbsp;
           Короткий URL
         </v-btn>
         <v-flex v-if="shortUrl" mt-3>
           <v-layout>
-
             <v-text-field v-model="shortUrl" readonly></v-text-field>
             <v-btn class="ml-0" @click="copyShortUrl">
               <v-icon small>file_copy</v-icon>&nbsp;
               Скопировать
             </v-btn>
-
           </v-layout>
         </v-flex>
       </v-flex>
     </v-layout>
+
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="5000"
+      color="success"
+      right
+      bottom
+    >
+      Успешно скопировано
+    </v-snackbar>
   </div>
 </template>
 
@@ -100,6 +98,7 @@
         utm_content: '',
         utm_term: '',
       },
+      snackbar: false
 
     }),
     computed: {
@@ -142,6 +141,7 @@
       },
       copyResult() {
         this.$copyText(this.result)
+        this.snackbar = true;
       },
       setTrafficSource(source) {
         if (source === 'adwords') {
@@ -235,7 +235,3 @@
     return url + (isParamExists ? firstSeperator : '') + queryString;
   }
 </script>
-
-<style scoped>
-
-</style>

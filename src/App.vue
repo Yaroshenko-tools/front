@@ -3,11 +3,6 @@
 		<v-navigation-drawer fixed clipped app temporary v-model="drawer" left dark>
 			<v-list>
 				<v-list-item>
-					<!--<v-list-item-action>-->
-					<!--<v-btn icon @click.stop="mini = !mini">-->
-					<!--<v-icon v-html="chevronIcon"></v-icon> -->
-					<!--</v-btn>-->
-					<!--</v-list-tile-action>-->
 					<v-list-item-content></v-list-item-content>
 				</v-list-item>
 				<v-list-item class="" active-class="green" v-for="(item, i) in items" :key="i" :to="item.to">
@@ -20,33 +15,20 @@
 				</v-list-item>
 			</v-list>
 		</v-navigation-drawer>
-		<v-app-bar fixed app clipped-left class="" dense>
+		<v-app-bar fixed app clipped-left dense>
 			<v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-			<router-link to="/" tag="v-toolbar-title" class="pointer ml-0 mr-3">
-				<!--<v-toolbar-title>-->
-				<!--<v-icon color="blue">	</v-icon>-->
+			<router-link to="/" tag="v-toolbar-title" class="pointer pl-0 ml-0 mr-3">
 				<v-app-bar-nav-icon>
 					<img :src="logo" class="logo"/>
 				</v-app-bar-nav-icon>
 				yaroshenko.tools
-				<!--</v-toolbar-title>-->
-
 			</router-link>
-
-			<!--<v-toolbar-title>-->
 			<span class="mr-3 hidden-sm-and-down"> Бесплатные утилиты для работы с контекстной рекламой</span>
 			<span class="mr-3"> Telegram: <a href="https://t.me/yaroshenko_tools" rel="noreferrer" target="_blank">@yaroshenko_tools</a></span>
-			<!--</v-toolbar-title>-->
-
-
 			<v-spacer></v-spacer>
-			<!--<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>-->
-			<!--<v-toolbar-side-icon @click.stop="mini = !mini"></v-toolbar-side-icon>-->
-			<!--<v-toolbar-side-icon @click.stop="mini = !mini"></v-toolbar-side-icon>-->
-
 		</v-app-bar>
 		<v-content>
-			<v-container fluid grid-list-xl class="white">
+			<v-container fluid grid-list-xl class="white pa-5">
 				<router-view/>
 				<div class="mt-4 text--disabled">
 					<v-divider class="mb-4"/>
@@ -66,8 +48,6 @@
 								<li><a href="https://salespark.org" target="_blank">Заказать контекст</a></li>
 							</ul>
 						</v-flex>
-
-
 					</v-layout>
 					<p class="mt-4">
 						Хотите что-то добавить, предложить новую утилиту или нашли баг? Напишите в чат в телеграмме <a href="https://t.me/yaroshenko_tools" target="_blank">@yaroshenko_tools</a>
@@ -76,9 +56,6 @@
 				</div>
 			</v-container>
 		</v-content>
-
-		<!--<v-footer class="pa-3 elevation-3" app fixed>-->
-		<!--</v-footer>-->
 	</v-app>
 </template>
 
