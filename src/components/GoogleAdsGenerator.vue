@@ -71,8 +71,8 @@
                   </v-layout>
                   <v-text-field label="Адрес целевой страницы *" v-model="ad.url" placeholder="https://yaroshenko.tools"
                                 type="url"/>
-                  <a href="#" @click.prevent="deleteAd(index)" class="red--text">Удалить объявление</a>
-                  <a href="#" @click.prevent="copyAd(index)" class="right">Скопировать объявление</a>
+                  <v-btn text small @click.prevent="deleteAd(index)" class="red--text">Удалить объявление</v-btn>
+                  <v-btn text small @click.prevent="copyAd(index)" class="right">Скопировать объявление</v-btn>
                 </v-card-text>
               </v-card>
             </v-expansion-panel-content>
@@ -104,9 +104,11 @@
           Сгенерировать кампанию
         </v-btn>
         <v-tooltip top>
-          <v-btn @click="downloadCsv" :loading="loadingCsv" text icon>
-            <v-icon>cloud_download</v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" @click="downloadCsv" :loading="loadingCsv" text icon>
+              <v-icon>cloud_download</v-icon>
+            </v-btn>
+          </template>
           <span>Скачать кампанию в формате .CSV</span>
         </v-tooltip>
         <v-tooltip top v-if="campaignHtml">
