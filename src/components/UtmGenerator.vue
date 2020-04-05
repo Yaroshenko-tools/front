@@ -105,13 +105,27 @@
 		computed: {
 			result() {
 				let url = this.url.trim();
+				let regeXpHashtag = /(#(.+)?)/gmi;
+				let match = url.match(regeXpHashtag);
+
 				if (!url.startsWith('http://') && !url.startsWith('https://')) {
 					url = 'https://' + url;
 				}
+
 				if(this.url.trim() && (url.match(new RegExp('/', "g")) || []).length < 3) {
 					url = url + '/';
 				}
-				return addParamsToUrl(url, this.params)
+
+				url = addParamsToUrl(url, this.params);
+
+				// Если в урле есть хештег, отправляем его в конец
+				if(match && match[0]){
+					url = url.replace(match[0], '');
+					// url = (match[0] === '#') ? url : url + match[0];
+					return url + match[0];
+				}
+
+				return url
 			},
 		},
 		created() {
