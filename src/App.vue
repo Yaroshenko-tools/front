@@ -5,7 +5,7 @@
         <v-list-item>
           <v-list-item-content></v-list-item-content>
         </v-list-item>
-        <v-list-item class="" active-class="green" v-for="(item, i) in items" :key="i" :to="item.to">
+        <v-list-item active-class="green" v-for="(item, i) in items" :key="i" :to="{name:item.linkName}" exact>
           <v-list-item-action>
             <v-icon v-html="item.icon"></v-icon>
           </v-list-item-action>
@@ -17,7 +17,7 @@
     </v-navigation-drawer>
     <v-app-bar fixed app clipped-left dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <router-link :to="{ path: 'Index' }" tag="v-toolbar-title" class="pointer pl-0 ml-0 mr-3">
+      <router-link :to="{ name: 'Index' }" tag="v-toolbar-title" class="pointer pl-0 ml-0 mr-3">
         <v-app-bar-nav-icon>
           <img :src="logo" class="logo"/>
         </v-app-bar-nav-icon>
@@ -36,19 +36,19 @@
             <v-flex>
               <ul>
                 <li>
-                  <router-link :to="{ path: 'UtmGenerator' }">Генератор UTM-меток</router-link>
+                  <router-link :to="{ name: 'UtmGenerator' }">Генератор UTM-меток</router-link>
                 </li>
                 <li>
-                  <router-link :to="{ path: 'GoogleAdsGenerator' }">Генератор объявлений Google Ads</router-link>
+                  <router-link :to="{ name: 'GoogleAdsGenerator' }">Генератор объявлений Google Ads</router-link>
                 </li>
                 <li>
-                  <router-link :to="{ path: 'StatisticalSignificance' }">Калькулятор статистической значимости</router-link>
+                  <router-link :to="{ name: 'StatisticalSignificance' }">Калькулятор статистической значимости</router-link>
                 </li>
                 <li>
-                  <router-link :to="{ path: 'Matchtypes' }">Конвертер типов соответствия Google Ads</router-link>
+                  <router-link :to="{ name: 'Matchtypes' }">Конвертер типов соответствия Google Ads</router-link>
                 </li>
                 <li>
-                  <router-link :to="{ path: 'MatchtypesDirect' }">Конвертер типов соответствия Яндекс.Директ</router-link>
+                  <router-link :to="{ name: 'MatchtypesDirect' }">Конвертер типов соответствия Яндекс.Директ</router-link>
                 </li>
               </ul>
             </v-flex>
@@ -83,32 +83,32 @@
           {
             icon: 'list',
             title: 'Все утилиты',
-            to: '/'
+            linkName: 'Index'
           },
           {
             icon: 'link',
             title: 'Генератор UTM-меток',
-            to: '/utm'
+            linkName: 'UtmGenerator'
           },
           {
             icon: 'dvr',
             title: 'Генератор Google Ads',
-            to: '/google-ads-generator'
+            linkName: 'GoogleAdsGenerator'
           },
           {
             icon: 'trending_up',
             title: 'Статистическая значимость',
-            to: '/stats-calc'
+            linkName: 'StatisticalSignificance'
           },
           {
             icon: 'compare_arrows',
             title: 'Типы соответствия Google Ads',
-            to: '/matchtypes'
+            linkName: 'Matchtypes'
           },
           {
             icon: 'compare_arrows',
             title: 'Операторы Яндекс.Директ',
-            to: '/matchtypes-direct'
+            linkName: 'MatchtypesDirect'
           },
         ],
       }
