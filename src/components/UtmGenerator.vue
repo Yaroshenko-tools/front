@@ -43,29 +43,63 @@
         ></v-text-field>
       </v-flex>
       <v-flex xs12 sm6 md6>
-        <v-textarea
-          filled
-          label="Ссылка с UTM-меткой появится здесь"
-          v-model="result"
-          readonly
-        ></v-textarea>
-        <v-btn class="success ml-0 mr-2" @click="copyResult">
-          <v-icon small>file_copy</v-icon>&nbsp;
-          Скопировать
-        </v-btn>
-        <v-btn class="info ml-0 mr-2" @click="urlShortener" :disabled="!url" type="button" :loading="shortenerLoading">
-          <v-icon small>link</v-icon>&nbsp;
-          Короткий URL
-        </v-btn>
-        <v-flex v-if="shortUrl" mt-3>
-          <v-layout>
-            <v-text-field v-model="shortUrl" readonly></v-text-field>
-            <v-btn class="ml-0" @click="copyShortUrl">
+        <v-row>
+          <v-col>
+            <v-textarea
+              filled
+              label="Ссылка с UTM-меткой появится здесь"
+              v-model="result"
+              readonly
+            ></v-textarea>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-btn class="success ml-0 mr-2" @click="copyResult">
               <v-icon small>file_copy</v-icon>&nbsp;
               Скопировать
             </v-btn>
-          </v-layout>
-        </v-flex>
+          </v-col>
+          <v-col>
+            <v-card
+              :color="(!url) ? 'grey lighten-5' : ''"
+            >
+              <v-container>
+                <v-row justify="space-between">
+                  <v-col>
+                    <v-btn class="info ml-0 mr-2" @click="urlShortener" :disabled="!url" type="button"
+                           :loading="shortenerLoading">
+                      <v-icon small>link</v-icon>&nbsp;
+                      Получить короткий URL
+                    </v-btn>
+                  </v-col>
+                  <v-col>
+                    <v-select
+                      :disabled="!url"
+                      v-model="shortUrl.selectedProvider"
+                      :items="shortUrl.prodivers"
+                      label="Выбрать провайдера коротких ссылок"
+                      item-text="name"
+                      single-line
+                      class="ml-0 mr-2 mt-0 pt-0"
+                    ></v-select>
+                  </v-col>
+                </v-row>
+                <v-row v-if="shortUrl.val" mt-3>
+                  <v-col>
+                    <v-text-field v-model="shortUrl.val" readonly class="mt-0 pt-0"></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-btn class="ml-0" @click="copyShortUrl" width="100%">
+                      <v-icon small>file_copy</v-icon>&nbsp;
+                      Скопировать
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-flex>
     </v-layout>
 
@@ -89,7 +123,18 @@
     data: () => ({
       trafficSource: '',
       url: '',
-      shortUrl: '',
+      shortUrl: {
+        val: '',
+        prodivers: [
+          {
+            name: 'vk.cc',
+          },
+          {
+            name: 'bit.ly',
+          }
+        ],
+        selectedProvider: 'vk.cc',
+      },
       shortenerLoading: false,
       params: {
         utm_source: '',
@@ -111,14 +156,14 @@
           url = 'https://' + url;
         }
 
-        if(this.url.trim() && (url.match(new RegExp('/', "g")) || []).length < 3) {
+        if (this.url.trim() && (url.match(new RegExp('/', "g")) || []).length < 3) {
           url = url + '/';
         }
 
         url = addParamsToUrl(url, this.params);
 
         // Если в урле есть хештег, отправляем его в конец
-        if(match && match[0]){
+        if (match && match[0]) {
           url = url.replace(match[0], '');
           // url = (match[0] === '#') ? url : url + match[0];
           return url + match[0];
@@ -138,20 +183,24 @@
     },
     watch: {
       result() {
-        this.shortUrl = '';
+        this.shortUrl.val = '';
       },
     },
     methods: {
       urlShortener() {
         this.shortenerLoading = true;
-        axios.post(`${process.env.VUE_APP_BACKEND_URL}/shortener`, {url: this.result})
+        axios.post(`${process.env.VUE_APP_BACKEND_URL}/shortener`, {
+          url: this.result,
+          provider: this.shortUrl.selectedProvider
+        })
           .then(response => {
-            this.shortUrl = response.data.url;
+            this.shortUrl.val = response.data.url;
             this.shortenerLoading = false;
           })
       },
       copyShortUrl() {
-        this.$copyText(this.shortUrl)
+        this.$copyText(this.shortUrl.val)
+        this.snackbar = true;
       },
       copyResult() {
         this.$copyText(this.result)
