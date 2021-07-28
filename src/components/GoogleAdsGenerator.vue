@@ -34,7 +34,7 @@
             <v-expansion-panel-header>
               <div>
                 <span class="pa-0">
-                  Объявление {{index + 1}}
+                  Объявление {{ index + 1 }}
                 </span>
                 <span class="pa-0">
                   <v-icon v-if="isValidAd(ad)" small color="success">check_circle</v-icon>
@@ -48,33 +48,32 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-card>
-                <v-card-text class="grey lighten-3">
-                  <v-text-field label="Заголовок 1 *" v-model="ad.h1" counter="30"
-                                placeholder="Например: {KeyWord:[KeyWord]}"/>
-                  <v-text-field label="Заголовок 2 *" v-model="ad.h2" counter="30"
-                                placeholder="Здесь текст второго заголовка"/>
-                  <v-text-field label="Заголовок 3" v-model="ad.h3" counter="30"
-                                placeholder="3-й заголовок не обязателен, но желателен"/>
-                  <v-textarea rows="2" label="Описание 1 *" v-model="ad.d1" counter="90"/>
-                  <v-textarea rows="2" label="Описание 2" v-model="ad.d2" counter="90"/>
-                  <v-layout row>
-                    <v-flex>
-                      <v-text-field label="Путь 1" v-model="ad.p1" counter="15"/>
-                    </v-flex>
-                    <v-flex class="my-auto">
-                      <v-icon>/</v-icon>
-                    </v-flex>
-                    <v-flex>
-                      <v-text-field label="Путь 2" v-model="ad.p2" counter="15"/>
-                    </v-flex>
-                  </v-layout>
-                  <v-text-field label="Адрес целевой страницы *" v-model="ad.url" placeholder="https://yaroshenko.tools"
-                                type="url"/>
-                  <v-btn text small @click.prevent="deleteAd(index)" class="red--text">Удалить объявление</v-btn>
-                  <v-btn text small @click.prevent="copyAd(index)" class="right">Скопировать объявление</v-btn>
-                </v-card-text>
-              </v-card>
+
+              <v-text-field label="Заголовок 1 *" v-model="ad.h1" counter="30"
+                            placeholder="Например: {KeyWord:[KeyWord]}"/>
+              <v-text-field label="Заголовок 2 *" v-model="ad.h2" counter="30"
+                            placeholder="Здесь текст второго заголовка"/>
+              <v-text-field label="Заголовок 3" v-model="ad.h3" counter="30"
+                            placeholder="3-й заголовок не обязателен, но желателен"/>
+              <v-textarea rows="2" label="Описание 1 *" v-model="ad.d1" counter="90"/>
+              <v-textarea rows="2" label="Описание 2" v-model="ad.d2" counter="90"/>
+              <v-layout row>
+                <v-flex>
+                  <v-text-field label="Путь 1" v-model="ad.p1" counter="15"/>
+                </v-flex>
+                <v-flex class="my-auto">
+                  <v-icon>/</v-icon>
+                </v-flex>
+                <v-flex>
+                  <v-text-field label="Путь 2" v-model="ad.p2" counter="15"/>
+                </v-flex>
+              </v-layout>
+              <v-text-field label="Адрес целевой страницы *" v-model="ad.url" placeholder="https://yaroshenko.tools"
+                            type="url"/>
+              <v-row no-gutters>
+                <v-btn text small @click.prevent="deleteAd(index)" class="red--text">Удалить</v-btn>
+                <v-btn text small @click.prevent="copyAd(index)" class="right">Скопировать объявление</v-btn>
+              </v-row>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -162,97 +161,97 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import utils from '../utils'
+import axios from 'axios'
+import utils from '../utils'
 
-  export default {
-    name: "GoogleAdsGenerator",
-    data: () => ({
-      campaignName: '',
-      keywords: '',
-      ads: [{}, {}, {}],
-      matchtypes: {
-        broad: false,
-        broadMoifier: true,
-        noPluses: 'в, на, под, из, с, от, у, и, за',
-        phrase: false,
-        exact: true,
-      },
-      campaignCsv: '',
-      campaignHtml: '',
-      loading: false,
-      loadingCsv: false,
-    }),
-    methods: {
-      addAds() {
-        this.ads.push({});
-      },
-      deleteAd(adId) {
-        if (confirm('Вы уверены, что хотите удалить это объявление?')) {
-          this.ads.splice(adId, 1);
-        }
-      },
-      copyAd(adId) {
-        this.ads.push(JSON.parse(JSON.stringify(this.ads[adId])));
-      },
-      copyResult() {
-        utils.copyElementToClipboard('table-result');
-      },
-      downloadCsv() {
-        this.loading = false;
-        this.loadingCsv = true;
-        axios.post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
-          keywords: this.keywords,
-          ads: this.ads,
-          matchtypes: this.matchtypes,
-          campaignName: this.campaignName,
-          downloadCsv: true,
-          clientDate: new Date(),
-        }).then(response => {
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', `${this.campaignName ? this.campaignName : 'campaign'}.csv`);
-          document.body.appendChild(link);
-          link.click();
-          this.loadingCsv = false;
-        })
-      },
-      getCampaign() {
-        this.loading = true;
+export default {
+  name: "GoogleAdsGenerator",
+  data: () => ({
+    campaignName: '',
+    keywords: '',
+    ads: [{}, {}, {}],
+    matchtypes: {
+      broad: false,
+      broadMoifier: true,
+      noPluses: 'в, на, под, из, с, от, у, и, за',
+      phrase: false,
+      exact: true,
+    },
+    campaignCsv: '',
+    campaignHtml: '',
+    loading: false,
+    loadingCsv: false,
+  }),
+  methods: {
+    addAds() {
+      this.ads.push({});
+    },
+    deleteAd(adId) {
+      if (confirm('Вы уверены, что хотите удалить это объявление?')) {
+        this.ads.splice(adId, 1);
+      }
+    },
+    copyAd(adId) {
+      this.ads.push(JSON.parse(JSON.stringify(this.ads[adId])));
+    },
+    copyResult() {
+      utils.copyElementToClipboard('table-result');
+    },
+    downloadCsv() {
+      this.loading = false;
+      this.loadingCsv = true;
+      axios.post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
+        keywords: this.keywords,
+        ads: this.ads,
+        matchtypes: this.matchtypes,
+        campaignName: this.campaignName,
+        downloadCsv: true,
+        clientDate: new Date(),
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${this.campaignName ? this.campaignName : 'campaign'}.csv`);
+        document.body.appendChild(link);
+        link.click();
         this.loadingCsv = false;
-        axios.post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
-          keywords: this.keywords,
-          ads: this.ads,
-          matchtypes: this.matchtypes,
-          campaignName: this.campaignName,
-        }).then(response => {
-          // console.log(response.data.campaign)
-          this.campaignHtml = response.data.campaign;
-          this.loading = false;
-        })
-      },
-
+      })
     },
-    computed: {
-      isValidAd() {
-        return ad => ad.h1 && ad.h2 && ad.d1 && ad.url
-      }
+    getCampaign() {
+      this.loading = true;
+      this.loadingCsv = false;
+      axios.post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
+        keywords: this.keywords,
+        ads: this.ads,
+        matchtypes: this.matchtypes,
+        campaignName: this.campaignName,
+      }).then(response => {
+        // console.log(response.data.campaign)
+        this.campaignHtml = response.data.campaign;
+        this.loading = false;
+      })
     },
 
-    created() {
-      const storedData = JSON.parse(localStorage.getItem('google-ads-generator'));
-      for (let key in storedData) {
-        this[key] = storedData[key];
-      }
-    },
-    updated() {
-      const objectToSave = JSON.parse(JSON.stringify(this._data));
-      delete objectToSave.campaignCsv;
-      delete objectToSave.campaignHtml;
-      delete objectToSave.loading;
-      delete objectToSave.loadingCsv;
-      localStorage.setItem('google-ads-generator', JSON.stringify(objectToSave))
-    },
-  }
+  },
+  computed: {
+    isValidAd() {
+      return ad => ad.h1 && ad.h2 && ad.d1 && ad.url
+    }
+  },
+
+  created() {
+    const storedData = JSON.parse(localStorage.getItem('google-ads-generator'));
+    for (let key in storedData) {
+      this[key] = storedData[key];
+    }
+  },
+  updated() {
+    const objectToSave = JSON.parse(JSON.stringify(this._data));
+    delete objectToSave.campaignCsv;
+    delete objectToSave.campaignHtml;
+    delete objectToSave.loading;
+    delete objectToSave.loadingCsv;
+    localStorage.setItem('google-ads-generator', JSON.stringify(objectToSave))
+  },
+}
 </script>
