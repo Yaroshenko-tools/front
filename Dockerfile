@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:latest as build-stage
 RUN mkdir /app
 WORKDIR /app
 COPY . /app
