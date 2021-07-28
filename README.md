@@ -1,4 +1,6 @@
-# tools
+# Frontend part of Yaroshenko.tools
+
+<img alt="Publish Status" src="https://github.com/Yaroshenko-tools/front/workflows/Deploy%20to%20Docker%20registry/badge.svg?color=green" />
 
 > A Vue.js project
 
