@@ -57,6 +57,7 @@
             <v-flex>
               <ul>
                 <li><a href="https://yaroshenko.by" target="_blank">Блог Ярошенко</a></li>
+                <li><a href="https://romua1d.ru" target="_blank">Блог опытног вебмастера</a></li>
                 <li><a href="https://salespark.org" target="_blank">Заказать контекст</a></li>
               </ul>
             </v-flex>
