@@ -6,11 +6,11 @@
           <v-list-item-content></v-list-item-content>
         </v-list-item>
         <v-list-item active-class="green" v-for="(item, i) in items" :key="i" :to="{name:item.linkName}" exact>
-          <v-list-item-action>
+          <v-list-item-action class="mr-2">
             <v-icon v-html="item.icon"></v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="item.title"></v-list-item-title>
+            <v-list-item-title class="caption font-weight-black" v-text="item.title"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -57,6 +57,7 @@
             <v-flex>
               <ul>
                 <li><a href="https://yaroshenko.by" target="_blank">Блог Ярошенко</a></li>
+                <li><a href="https://romua1d.ru" target="_blank">Блог опытног вебмастера</a></li>
                 <li><a href="https://salespark.org" target="_blank">Заказать контекст</a></li>
               </ul>
             </v-flex>
