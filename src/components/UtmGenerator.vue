@@ -85,7 +85,7 @@
                   filled
                   class="mt-0 pt-0"
                   append-icon="content_copy"
-                  @click:append="copyResult"
+                  @click:append="copyShortUrl"
                 ></v-text-field>
               </v-col>
             </v-row>
