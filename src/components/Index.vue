@@ -5,13 +5,15 @@
       <v-list two-line>
         <template v-for="(item, key) in items">
           <div :key="key">
-            <router-link tag="v-list-item" :to="{ name: item.linkName }">
-              <v-list-item-content>
-                <v-list-item-title>
-                  <router-link :to="{ name: item.linkName }">{{item.title}}</router-link>
-                </v-list-item-title>
-                <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
-              </v-list-item-content>
+            <router-link v-slot="{navigate}" custom :to="{ name: item.linkName }">
+              <v-list-item @click="navigate" @keypress.enter="navigate" role="link">
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <router-link :to="{ name: item.linkName }">{{item.title}}</router-link>
+                  </v-list-item-title>
+                  <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
             </router-link>
           </div>
         </template>

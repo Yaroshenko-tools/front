@@ -17,17 +17,19 @@
     </v-navigation-drawer>
     <v-app-bar fixed app clipped-left dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <router-link :to="{ name: 'Index' }" tag="v-toolbar-title" class="pointer pl-0 ml-0 mr-3">
-        <v-app-bar-nav-icon>
-          <img :src="logo" class="logo"/>
-        </v-app-bar-nav-icon>
-        yaroshenko.tools
+      <router-link :to="{ name: 'Index' }" v-slot="{navigate}" custom class="pointer pl-0 ml-0 mr-3">
+        <v-toolbar-title  @click="navigate" @keypress.enter="navigate" role="link">
+          <v-app-bar-nav-icon>
+            <img :src="logo" class="logo"/>
+          </v-app-bar-nav-icon>
+          yaroshenko.tools
+        </v-toolbar-title>
       </router-link>
       <span class="mr-3 hidden-sm-and-down"> Бесплатные утилиты для работы с контекстной рекламой</span>
       <span class="mr-3"> Telegram: <a href="https://t.me/yaroshenko_tools" rel="noreferrer" target="_blank">@yaroshenko_tools</a></span>
       <v-spacer></v-spacer>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <v-container fluid grid-list-xl class="white pa-5">
         <router-view/>
         <div class="mt-4 text--disabled">
@@ -66,7 +68,7 @@
           <span>&copy; 2019 yaroshenko.tools</span>
         </div>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
