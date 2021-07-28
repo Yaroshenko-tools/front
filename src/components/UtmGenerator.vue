@@ -196,7 +196,7 @@
           .then(response => {
             this.shortUrl.val = response.data.url;
             this.shortenerLoading = false;
-          })
+          }, () => this.shortenerLoading = false)
       },
       copyShortUrl() {
         this.$copyText(this.shortUrl.val)
