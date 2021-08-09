@@ -15,10 +15,6 @@
           class="mb-0"
         />
         <v-checkbox class="mt-0" v-model="matchtypes.broad" hide-details label="Широкое соответствие"></v-checkbox>
-        <v-checkbox v-model="matchtypes.broadMoifier" hide-details
-                    label="Модификатор широкого соответствия"></v-checkbox>
-        <v-text-field v-if="matchtypes.broadMoifier" v-model="matchtypes.noPluses"
-                      label="Не ставить '+' перед словами (через запятую)"></v-text-field>
         <v-checkbox v-model="matchtypes.phrase" hide-details label="Фразовое соответствие"></v-checkbox>
         <v-checkbox v-model="matchtypes.exact" hide-details label="Точное соттвестствие"></v-checkbox>
         <p class="mt-4">Можно задать уникальный URL и/или Заголовок 1 для любого ключа в формате:
@@ -172,8 +168,6 @@ export default {
     ads: [{}, {}, {}],
     matchtypes: {
       broad: false,
-      broadMoifier: true,
-      noPluses: 'в, на, под, из, с, от, у, и, за',
       phrase: false,
       exact: true,
     },
