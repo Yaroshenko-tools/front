@@ -6,7 +6,6 @@
     <v-layout row>
       <v-flex class="pt-0 pb-0" xs12 sm6 md6>
         <v-checkbox v-model="broad" hide-details label="Широкое соответствие"></v-checkbox>
-        <v-checkbox v-model="broadMoifier" hide-details label="Модификатор широкого соответствия"></v-checkbox>
       </v-flex>
       <v-flex class="pt-0 pb-0" xs12 sm6 md6>
         <v-checkbox v-model="phrase" hide-details label="Фразовое соответствие"></v-checkbox>
