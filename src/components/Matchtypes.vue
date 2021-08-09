@@ -2,14 +2,11 @@
   <div>
     <h1 class="title mb-3">Конвертер типов соответствия ключевых слов Google Ads</h1>
     <p class="mb-0">Утилита конвертирует ключевые слова в любой из 4-х типах соответствия Google AdWords: широкое
-      соответствие, модификатор широкого соответствия, фразовое соответствие и точное соответствие.</p>
+      соответствие, фразовое соответствие и точное соответствие.</p>
     <v-layout row>
       <v-flex class="pt-0 pb-0" xs12 sm6 md6>
         <v-checkbox v-model="broad" hide-details label="Широкое соответствие"></v-checkbox>
         <v-checkbox v-model="broadMoifier" hide-details label="Модификатор широкого соответствия"></v-checkbox>
-        <v-text-field v-if="broadMoifier" v-model="noPluses"
-                      label="Не ставить '+' перед словами и предлогами (через запятую)"></v-text-field>
-
       </v-flex>
       <v-flex class="pt-0 pb-0" xs12 sm6 md6>
         <v-checkbox v-model="phrase" hide-details label="Фразовое соответствие"></v-checkbox>
@@ -46,17 +43,14 @@
     name: "Matchtypes",
     data: () => ({
       broad: false,
-      broadMoifier: true,
       phrase: false,
       exact: true,
       keywords: '',
-      noPluses: 'в, на, под, из, с, от, у, и, за'
     }),
     computed: {
       result() {
         let keywords = this.keywords.split("\n");
         let result = '';
-        const postfix = 'XXYYCC';
         for (let i in keywords) {
           let keyword = keywords[i].trim()
             .replaceAll('\\+', '')
@@ -70,19 +64,6 @@
             if (this.broad) {
               // result = result + keyword + "\n";
               result = result + `<div class="grey--text text--darken-4">${keyword}</div>`;
-            }
-            if (this.broadMoifier) {
-
-              let broadModifierKeyword = '+' + keyword.replaceAll(' ', ' +') + postfix;
-              let noPluses = this.noPluses.replaceAll(' ', '').split(',').filter(item => item !== '');
-              console.log(noPluses)
-              for (let n in noPluses) {
-                broadModifierKeyword = broadModifierKeyword.replaceAll('\\+' + noPluses[n] + ' ', noPluses[n] + ' ');
-                broadModifierKeyword = broadModifierKeyword.replaceAll('\\+' + noPluses[n] + postfix, noPluses[n] + postfix);
-              }
-              broadModifierKeyword = broadModifierKeyword.replace(postfix, '');
-              // result = result + broadModifierKeyword + "\n";
-              result = result + `<div class="red--text text--darken-4">${broadModifierKeyword}</div>`;
             }
             if (this.phrase) {
               // result = result + '"' + keyword + '"' + "\n";
