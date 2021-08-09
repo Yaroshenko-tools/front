@@ -165,6 +165,12 @@ export default {
   },
   created() {
     const storedData = JSON.parse(localStorage.getItem('utm'));
+
+    // Если версия не имеет selectedProvider, значит перезапишем стор
+    if (!storedData?.shortUrl?.selectedProvider) {
+      localStorage.setItem('utm', JSON.stringify(this._data))
+    }
+
     for (let key in storedData) {
       this[key] = storedData[key];
     }
