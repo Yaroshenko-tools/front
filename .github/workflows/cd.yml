@@ -8,11 +8,11 @@ on:
 jobs:
   main:
     env:
-      commitmsg: ${{ github.event.head_commit.message}}
+      commitmsg: ${{ github.event.commits[0].message}}
       commitsha: ${{ github.sha }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+#      - uses: actions/checkout@master
 #      - name: Publish to Registry
 #        uses: elgohr/Publish-Docker-Github-Action@master
 #        with:
@@ -20,6 +20,9 @@ jobs:
 #          username: ${{ secrets.DOCKER_USERNAME }}
 #          password: ${{ secrets.DOCKER_PASSWORD }}
 #          registry: ${{ secrets.DOCKER_REGISTRY }}
+      - name: Logging
+        run: |
+            echo "${{toJSON(github.event)}}"
       - name: Sending info about updating to telegram
         uses: appleboy/telegram-action@master
         with:
