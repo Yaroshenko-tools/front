@@ -1,0 +1,22 @@
+name: Test workflow
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  main:
+    env:
+      commitmsg: ${{ github.event.head_commit.message }}
+      commitsha: ${{ github.sha }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: send info about update
+        uses: appleboy/telegram-action@master
+        with:
+          to: 188118870
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            <b>Изменения успешно добавлены в репозиторий:</b> <code>${{ env.commitmsg }}</code> <br/><br/>sha: ${{ env.commitsha }}
