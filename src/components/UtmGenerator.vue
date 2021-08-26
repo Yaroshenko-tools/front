@@ -164,16 +164,7 @@ export default {
     },
   },
   created() {
-    const storedData = JSON.parse(localStorage.getItem('utm'));
-
-    // Если версия не имеет selectedProvider, значит перезапишем стор
-    if (!storedData?.shortUrl?.selectedProvider) {
-      localStorage.setItem('utm', JSON.stringify(this._data))
-    }
-
-    for (let key in storedData) {
-      this[key] = storedData[key];
-    }
+    this.initStorage();
   },
   updated() {
     localStorage.setItem('utm', JSON.stringify(this._data))
@@ -184,6 +175,19 @@ export default {
     },
   },
   methods: {
+    initStorage() {
+      const storedData = JSON.parse(localStorage.getItem('utm'));
+
+      // Если версия не имеет selectedProvider, значит перезапишем стор
+      if (!storedData?.shortUrl?.selectedProvider) {
+        localStorage.setItem('utm', JSON.stringify(this._data));
+        return;
+      }
+
+      for (let key in storedData) {
+        this[key] = storedData[key];
+      }
+    },
     urlShortener() {
       this.shortenerLoading = true;
       axios.post(`${process.env.VUE_APP_BACKEND_URL}/shortener`, {
