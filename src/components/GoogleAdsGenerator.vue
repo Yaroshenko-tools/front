@@ -22,7 +22,7 @@
           <strong><code>keyword|url|заголовок1</code></strong>
         </p>
         <p class="mb-0">
-          Только URL: <strong><code>keyword|url</code></strong><br/>
+          Только URL: <strong><code>keyword|url</code></strong><br />
         </p>
         <p class="mb-0">
           Только заголовок: <strong><code>keyword||заголовок1</code></strong>
