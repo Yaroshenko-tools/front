@@ -17,11 +17,18 @@
         <v-checkbox class="mt-0" v-model="matchtypes.broad" hide-details label="Широкое соответствие"></v-checkbox>
         <v-checkbox v-model="matchtypes.phrase" hide-details label="Фразовое соответствие"></v-checkbox>
         <v-checkbox v-model="matchtypes.exact" hide-details label="Точное соттвестствие"></v-checkbox>
-        <p class="mt-4">Можно задать уникальный URL и/или Заголовок 1 для любого ключа в формате:
+        <p class="mt-4 mb-0">
+          Можно задать уникальный URL и/или Заголовок 1 для любого ключа в формате:
           <strong><code>keyword|url|заголовок1</code></strong>
-          <br/>
-          Только URL: keyword|url<br/>
-          Только заголовок: keyword||заголовок1<br/>
+        </p>
+        <p class="mb-0">
+          Только URL: <strong><code>keyword|url</code></strong><br/>
+        </p>
+        <p class="mb-0">
+          Только заголовок: <strong><code>keyword||заголовок1</code></strong>
+        </p>
+        <p>
+          Пример: <strong><code>панель-пвх||Купить панель-пвх</code></strong>
         </p>
       </v-flex>
       <v-flex md4>
