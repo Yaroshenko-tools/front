@@ -7,6 +7,9 @@ on:
 
 jobs:
   main:
+    env:
+      commitmsg: ${{ github.event.head_commit.message}}
+      commitsha: ${{ github.sha }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -17,15 +20,6 @@ jobs:
 #          username: ${{ secrets.DOCKER_USERNAME }}
 #          password: ${{ secrets.DOCKER_PASSWORD }}
 #          registry: ${{ secrets.DOCKER_REGISTRY }}
-      - name: Logging
-        run: |
-          # Get last commit message
-          readonly local last_commit2_log=$(git log --format=%B -n 1 -skip 1 ${{ github.event.after }})
-          echo "last commit 2  log: $last_commit2_log"
-
-          readonly local filter_count=$(echo "$last_commit_log" | grep -c "$COMMIT_FILTER" )
-          echo "number of occurence of '$COMMIT_FILTER' in '$last_commit_log': $filter_count"
-
       - name: Sending info about updating to telegram
         uses: appleboy/telegram-action@master
         with:
