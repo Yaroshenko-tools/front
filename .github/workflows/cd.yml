@@ -20,9 +20,7 @@ jobs:
       - name: Logging
         run: |
           # Get last commit message
-          readonly local last_commit2_log=$(git log -n 1 --skip 1 --pretty=format:"%s" --first-parent master)
-          readonly local last_commit1_log=$(git log -n 1 --pretty=format:"%s" --first-parent master)
-          echo "last commit 1 log: $last_commit1_log"
+          readonly local last_commit2_log=$(git log --format=%B -n 1 ${{ github.event.after }})
           echo "last commit 2  log: $last_commit2_log"
 
           readonly local filter_count=$(echo "$last_commit_log" | grep -c "$COMMIT_FILTER" )
