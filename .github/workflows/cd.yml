@@ -20,8 +20,10 @@ jobs:
       - name: Logging
         run: |
           # Get last commit message
-          readonly local last_commit_log=$(git log -2 --pretty=format:"%s")
-          echo "last commit log: $last_commit_log"
+          readonly local last_commit2_log=$(git log -n 1 --skip 1 --pretty=format:"%s")
+          readonly local last_commit1_log=$(git log -n 1 --pretty=format:"%s")
+          echo "last commit 1 log: $last_commit1_log"
+          echo "last commit 2  log: $last_commit2_log"
 
           readonly local filter_count=$(echo "$last_commit_log" | grep -c "$COMMIT_FILTER" )
           echo "number of occurence of '$COMMIT_FILTER' in '$last_commit_log': $filter_count"
