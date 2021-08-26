@@ -32,4 +32,4 @@ jobs:
           message: |
             <b>Изменения успешно добавлены на сайт:</b> <code>${{ env.commitmsg }}</code>
 
-            - sha: ${{ env.commitsha }}
+            sha: ${{ env.commitsha }}
