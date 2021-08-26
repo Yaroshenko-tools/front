@@ -6,6 +6,8 @@ on:
 
 jobs:
   main:
+    env:
+      commitmsg: ${{ github.event.head_commit.message }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -16,4 +18,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            <b>Новые изменения:</b> <code>${{ github.event.pull_request.base.message }}</code> (${{ github.event.pull_request.base.sha }})
+            <b>Новые изменения:</b> <code>$${{ env.commitmsg }}</code> (${{ github.event.pull_request.base.sha }})
