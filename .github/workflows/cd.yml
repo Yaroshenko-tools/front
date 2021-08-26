@@ -20,7 +20,7 @@ jobs:
       - name: Logging
         run: |
           # Get last commit message
-          readonly local last_commit_log=$(git log -2 --pretty=format:"%s")
+          readonly local last_commit_log=$(git log -n 1 --skip 1 --pretty=format:"%s")
           echo "last commit log: $last_commit_log"
 
           readonly local filter_count=$(echo "$last_commit_log" | grep -c "$COMMIT_FILTER" )
