@@ -8,7 +8,7 @@ on:
 jobs:
   main:
     env:
-      commitmsg: ${{ github.event.commits[0].message}}
+      commitmsg: ${{ github.event.pull_request.title}}
       commitsha: ${{ github.sha }}
     runs-on: ubuntu-latest
     steps:
