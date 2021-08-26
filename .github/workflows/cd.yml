@@ -27,4 +27,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            <b>Изменения успешно добавлены на сайт:</b> <code>${{ env.commitmsg }}</code> <br/><br/>sha: ${{ env.commitsha }}
+            <b>Изменения успешно добавлены на сайт:</b> <code>${{ env.commitmsg }}</code>\n\nsha: ${{ env.commitsha }}
