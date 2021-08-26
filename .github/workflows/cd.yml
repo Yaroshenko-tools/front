@@ -20,6 +20,9 @@ jobs:
 #          username: ${{ secrets.DOCKER_USERNAME }}
 #          password: ${{ secrets.DOCKER_PASSWORD }}
 #          registry: ${{ secrets.DOCKER_REGISTRY }}
+      - name: Logging
+        run: |
+            echo "${{toJSON(github.event)}}"
       - name: Sending info about updating to telegram
         uses: appleboy/telegram-action@master
         with:
