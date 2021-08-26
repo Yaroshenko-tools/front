@@ -10,17 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: shmidtelson/yaroshenko-frontend:latest
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: ${{ secrets.DOCKER_REGISTRY }}
+#      - name: Publish to Registry
+#        uses: elgohr/Publish-Docker-Github-Action@master
+#        with:
+#          name: shmidtelson/yaroshenko-frontend:latest
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
+#          registry: ${{ secrets.DOCKER_REGISTRY }}
       - name: send info about update
         uses: appleboy/telegram-action@master
         with:
-          to: ${{ secrets.TELEGRAM_TO }}
+          to: 188118870
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            <b>Новые изменения:</b> `${{ github.event.head_commit.message }}` (${{ github.event.pull_request.base.sha }})
+          format: |
+            <b>Новые изменения:</b> <code>${{ github.event.pull_request.base.message }}</code> (${{ github.event.pull_request.base.sha }})
