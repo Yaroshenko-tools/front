@@ -20,11 +20,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: ${{ secrets.DOCKER_REGISTRY }}
-      - name: send info about update
+      - name: Sending info about updating to telegram
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            <b>Изменения успешно добавлены в репозиторий:</b> <code>${{ env.commitmsg }}</code> <br/><br/>sha: ${{ env.commitsha }}
+            <b>Изменения успешно добавлены на сайт:</b> <code>${{ env.commitmsg }}</code> <br/><br/>sha: ${{ env.commitsha }}
