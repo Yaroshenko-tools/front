@@ -13,23 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-#      - name: Publish to Registry
-#        uses: elgohr/Publish-Docker-Github-Action@master
-#        with:
-#          name: shmidtelson/yaroshenko-frontend:latest
-#          username: ${{ secrets.DOCKER_USERNAME }}
-#          password: ${{ secrets.DOCKER_PASSWORD }}
-#          registry: ${{ secrets.DOCKER_REGISTRY }}
-      - name: Logging
-        run: |
-            echo "${{toJSON(github.event)}}"
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: shmidtelson/yaroshenko-frontend:latest
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: ${{ secrets.DOCKER_REGISTRY }}
       - name: Sending info about updating to telegram
         uses: appleboy/telegram-action@master
         with:
-          to: 188118870
+          to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            <b>Изменения успешно добавлены на сайт:</b> <code>${{ env.commitmsg }}</code>
+            <b>Изменения успешно добавлены на сайт:</b>  <code>${{ env.commitmsg }}</code>
 
             sha: ${{ env.commitsha }}
