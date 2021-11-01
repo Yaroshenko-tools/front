@@ -1,8 +1,9 @@
 <template>
   <div>
     <h1 class="title mb-3">Конвертер типов соответствия ключевых слов Google Ads</h1>
-    <p class="mb-0">Утилита конвертирует ключевые слова в любой из 4-х типах соответствия Google AdWords: широкое
-      соответствие, фразовое соответствие и точное соответствие.</p>
+    <p class="mb-0">
+      {{$route.meta.description}}
+    </p>
     <v-layout row>
       <v-flex class="pt-0 pb-0" xs12 sm6 md6>
         <v-checkbox v-model="broad" hide-details label="Широкое соответствие"></v-checkbox>
