@@ -1,13 +1,13 @@
 {
   "name": "tools",
-  "description": "A Vue.js project",
+  "description": "Yaroshenko.tools project",
   "version": "1.0.0",
   "author": "aleksey yaroshenko",
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
     "prod": "serve -s dist",
-    "build": "vue-cli-service build",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
