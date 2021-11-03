@@ -6,9 +6,6 @@
     </p>
     <v-layout row>
       <v-flex class="pt-0 pb-0" xs12 sm6 md6>
-        <v-checkbox v-model="broad" hide-details label="Широкое соответствие"></v-checkbox>
-      </v-flex>
-      <v-flex class="pt-0 pb-0" xs12 sm6 md6>
         <v-checkbox v-model="phrase" hide-details label="Фразовое соответствие"></v-checkbox>
         <v-checkbox v-model="exact" hide-details label="Точное соттвестствие"></v-checkbox>
       </v-flex>
@@ -41,7 +38,6 @@
   export default {
     name: "Matchtypes",
     data: () => ({
-      broad: false,
       phrase: false,
       exact: true,
       keywords: '',
@@ -60,10 +56,6 @@
             .replace(/ +(?= )/g, '');
 
           if (keyword) {
-            if (this.broad) {
-              // result = result + keyword + "\n";
-              result = result + `<div class="grey--text text--darken-4">${keyword}</div>`;
-            }
             if (this.phrase) {
               // result = result + '"' + keyword + '"' + "\n";
               result = result + `<div class="blue--text text--darken-4">"${keyword}"</div>`;
