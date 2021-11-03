@@ -53,35 +53,30 @@
 
               <v-text-field
                 v-model="ad.h1"
-                :maxlength="validation.titleMaxLength"
                 :counter="validation.titleMaxLength"
                 label="Заголовок 1 *"
                 placeholder="Например: {KeyWord:[KeyWord]}"
               />
               <v-text-field
                 v-model="ad.h2"
-                :maxlength="validation.titleMaxLength"
                 :counter="validation.titleMaxLength"
                 label="Заголовок 2 *"
                 placeholder="Здесь текст второго заголовка"
               />
               <v-text-field
                 v-model="ad.h3"
-                :maxlength="validation.titleMaxLength"
                 :counter="validation.titleMaxLength"
                 label="Заголовок 3"
                 placeholder="3-й заголовок не обязателен, но желателен"
               />
               <v-textarea
                 v-model="ad.d1"
-                :maxlength="validation.descMaxLength"
                 :counter="validation.descMaxLength"
                 rows="2"
                 label="Описание 1 *"
               />
               <v-textarea
                 v-model="ad.d2"
-                :maxlength="validation.descMaxLength"
                 :counter="validation.descMaxLength"
                 rows="2"
                 label="Описание 2"
@@ -90,7 +85,6 @@
                 <v-flex>
                   <v-text-field
                     v-model="ad.p1"
-                    :maxlength="validation.pathMaxLength"
                     :counter="validation.pathMaxLength"
                     label="Путь 1"
                   />
@@ -101,7 +95,6 @@
                 <v-flex>
                   <v-text-field
                     v-model="ad.p2"
-                    :maxlength="validation.pathMaxLength"
                     :counter="validation.pathMaxLength"
                     label="Путь 2"
                   />
