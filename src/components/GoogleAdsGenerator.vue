@@ -14,7 +14,6 @@
           v-model="keywords"
           class="mb-0"
         />
-        <v-checkbox class="mt-0" v-model="matchtypes.broad" hide-details label="Широкое соответствие"></v-checkbox>
         <v-checkbox v-model="matchtypes.phrase" hide-details label="Фразовое соответствие"></v-checkbox>
         <v-checkbox v-model="matchtypes.exact" hide-details label="Точное соттвестствие"></v-checkbox>
         <p class="mt-4 mb-0">
@@ -174,7 +173,6 @@ export default {
     keywords: '',
     ads: [{}, {}, {}],
     matchtypes: {
-      broad: false,
       phrase: false,
       exact: true,
     },
