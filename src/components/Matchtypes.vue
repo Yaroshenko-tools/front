@@ -6,15 +6,17 @@
     </p>
     <v-layout row>
       <v-flex class="pt-0 pb-0" xs12 sm6 md6>
-        <v-checkbox v-model="broad" hide-details label="Широкое соответствие"></v-checkbox>
-      </v-flex>
-      <v-flex class="pt-0 pb-0" xs12 sm6 md6>
         <v-checkbox v-model="phrase" hide-details label="Фразовое соответствие"></v-checkbox>
         <v-checkbox v-model="exact" hide-details label="Точное соттвестствие"></v-checkbox>
       </v-flex>
+      <v-flex class="pt-0 pb-0" xs12 sm6 md6>
+        <v-checkbox
+          v-model="broad"
+          label="Широкое соответствие"
+          messages="В данный момент работает по принципу фразового соотвествия"
+        />
+      </v-flex>
     </v-layout>
-
-
     <v-layout row>
       <v-flex xs12 sm6 md6>
         <v-textarea class="" v-model="keywords" rows="12" filled
