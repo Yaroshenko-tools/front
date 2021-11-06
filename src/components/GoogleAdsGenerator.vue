@@ -7,15 +7,37 @@
       подойдет, чтобы быстро собрать структуру кампании по маскам или для SKA (Single Keyword Adgroup).</p>
     <v-layout row>
       <v-flex md4>
-        <v-textarea
-          filled
-          label="Вставьте сюда ключевые слова"
-          :rows="8"
-          v-model="keywords"
-          class="mb-0"
-        />
-        <v-checkbox v-model="matchtypes.phrase" hide-details label="Фразовое соответствие"></v-checkbox>
-        <v-checkbox v-model="matchtypes.exact" hide-details label="Точное соттвестствие"></v-checkbox>
+        <v-row>
+          <v-col>
+            <v-textarea
+              filled
+              label="Вставьте сюда ключевые слова"
+              :rows="8"
+              v-model="keywords"
+              class="mb-0"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col class="pa-0">
+            <v-checkbox v-model="matchtypes.phrase" hide-details dense label="Фразовое соответствие" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col class="pa-0">
+            <v-checkbox v-model="matchtypes.exact" hide-details dense label="Точное соответствие" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col class="pa-0">
+            <v-checkbox
+              class="mt-0" v-model="matchtypes.broad"
+              messages="В данный момент работает по принципу фразового соотвествия"
+              label="Широкое соответствие"
+              dense
+            />
+          </v-col>
+        </v-row>
         <p class="mt-4 mb-0">
           Можно задать уникальный URL и/или Заголовок 1 для любого ключа в формате:
           <strong><code>keyword|url|заголовок1</code></strong>
@@ -212,6 +234,7 @@ export default {
     keywords: '',
     ads: [{}, {}, {}],
     matchtypes: {
+      broad: false,
       phrase: false,
       exact: true,
     },

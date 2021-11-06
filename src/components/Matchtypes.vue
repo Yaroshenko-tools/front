@@ -9,9 +9,14 @@
         <v-checkbox v-model="phrase" hide-details label="Фразовое соответствие"></v-checkbox>
         <v-checkbox v-model="exact" hide-details label="Точное соттвестствие"></v-checkbox>
       </v-flex>
+      <v-flex class="pt-0 pb-0" xs12 sm6 md6>
+        <v-checkbox
+          v-model="broad"
+          label="Широкое соответствие"
+          messages="В данный момент работает по принципу фразового соотвествия"
+        />
+      </v-flex>
     </v-layout>
-
-
     <v-layout row>
       <v-flex xs12 sm6 md6>
         <v-textarea class="" v-model="keywords" rows="12" filled
@@ -38,6 +43,7 @@
   export default {
     name: "Matchtypes",
     data: () => ({
+      broad: false,
       phrase: false,
       exact: true,
       keywords: '',
@@ -56,6 +62,10 @@
             .replace(/ +(?= )/g, '');
 
           if (keyword) {
+            if (this.broad) {
+              // result = result + keyword + "\n";
+              result = result + `<div class="grey--text text--darken-4">${keyword}</div>`;
+            }
             if (this.phrase) {
               // result = result + '"' + keyword + '"' + "\n";
               result = result + `<div class="blue--text text--darken-4">"${keyword}"</div>`;
