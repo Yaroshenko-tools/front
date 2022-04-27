@@ -12,7 +12,11 @@ jobs:
       commitsha: ${{ github.sha }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: yarn
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v4
         with:
