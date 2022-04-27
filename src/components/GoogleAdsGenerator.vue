@@ -19,17 +19,17 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col class="pa-0">
-            <v-checkbox v-model="matchtypes.phrase" hide-details dense label="Фразовое соответствие" />
+          <v-col class="py-0">
+            <v-checkbox v-model="matchtypes.phrase" hide-details dense label="Фразовое соответствие"/>
           </v-col>
         </v-row>
         <v-row>
-          <v-col class="pa-0">
-            <v-checkbox v-model="matchtypes.exact" hide-details dense label="Точное соответствие" />
+          <v-col class="py-0">
+            <v-checkbox v-model="matchtypes.exact" hide-details dense label="Точное соответствие"/>
           </v-col>
         </v-row>
         <v-row>
-          <v-col class="pa-0">
+          <v-col class="py-0">
             <v-checkbox
               class="mt-0" v-model="matchtypes.broad"
               messages="В данный момент работает по принципу фразового соотвествия"
@@ -38,19 +38,23 @@
             />
           </v-col>
         </v-row>
-        <p class="mt-4 mb-0">
-          Можно задать уникальный URL и/или Заголовок 1 для любого ключа в формате:
-          <strong><code>keyword|url|заголовок1</code></strong>
-        </p>
-        <p class="mb-0">
-          Только URL: <strong><code>keyword|url</code></strong><br />
-        </p>
-        <p class="mb-0">
-          Только заголовок: <strong><code>keyword||заголовок1</code></strong>
-        </p>
-        <p>
-          Пример: <strong><code>панель-пвх||Купить панель-пвх</code></strong>
-        </p>
+        <v-row>
+          <v-col>
+            <p class="mt-4 mb-0">
+              Можно задать уникальный URL и/или Заголовок 1 для любого ключа в формате:
+              <strong><code>keyword|url|заголовок1</code></strong>
+            </p>
+            <p class="mb-0">
+              Только URL: <strong><code>keyword|url</code></strong><br/>
+            </p>
+            <p class="mb-0">
+              Только заголовок: <strong><code>keyword||заголовок1</code></strong>
+            </p>
+            <p>
+              Пример: <strong><code>панель-пвх||Купить панель-пвх</code></strong>
+            </p>
+          </v-col>
+        </v-row>
       </v-flex>
       <v-flex md4>
         <v-expansion-panels multiple>
