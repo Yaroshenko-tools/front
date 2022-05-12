@@ -65,7 +65,7 @@
                   Объявление {{ index + 1 }}
                 </span>
                 <span class="pa-0">
-                  <v-icon v-if="isValidAd(ad)" small color="success">check_circle</v-icon>
+                  <v-icon v-if="formValid[index]" small color="success">check_circle</v-icon>
                   <v-tooltip v-else top>
                     <template v-slot:activator="{ on }">
                       <v-icon small color="warning" v-on="on">error</v-icon>
@@ -76,62 +76,7 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-
-              <v-text-field
-                v-model="ad.h1"
-                :counter="validation.titleMaxLength"
-                label="Заголовок 1 *"
-                placeholder="Например: {KeyWord:[KeyWord]}"
-              />
-              <v-text-field
-                v-model="ad.h2"
-                :counter="validation.titleMaxLength"
-                label="Заголовок 2 *"
-                placeholder="Здесь текст второго заголовка"
-              />
-              <v-text-field
-                v-model="ad.h3"
-                :counter="validation.titleMaxLength"
-                label="Заголовок 3"
-                placeholder="3-й заголовок не обязателен, но желателен"
-              />
-              <v-textarea
-                v-model="ad.d1"
-                :counter="validation.descMaxLength"
-                rows="2"
-                label="Описание 1 *"
-              />
-              <v-textarea
-                v-model="ad.d2"
-                :counter="validation.descMaxLength"
-                rows="2"
-                label="Описание 2"
-              />
-              <v-layout row>
-                <v-flex>
-                  <v-text-field
-                    v-model="ad.p1"
-                    :counter="validation.pathMaxLength"
-                    label="Путь 1"
-                  />
-                </v-flex>
-                <v-flex class="my-auto">
-                  <v-icon>/</v-icon>
-                </v-flex>
-                <v-flex>
-                  <v-text-field
-                    v-model="ad.p2"
-                    :counter="validation.pathMaxLength"
-                    label="Путь 2"
-                  />
-                </v-flex>
-              </v-layout>
-              <v-text-field
-                v-model="ad.url"
-                label="Адрес целевой страницы *"
-                placeholder="https://yaroshenko.tools"
-                type="url"
-              />
+              <GoogleAdsGeneratorAdForm :form-data.sync="ads[index]" :form-valid.sync="formValid[index]" />
               <v-row no-gutters>
                 <v-btn text small @click.prevent="deleteAd(index)" class="red--text">Удалить</v-btn>
                 <v-btn text small @click.prevent="copyAd(index)" class="right">Скопировать объявление</v-btn>
@@ -225,15 +170,16 @@
 <script>
 import axios from 'axios'
 import utils from '../utils'
+import { limits } from "../helpers/rules";
+import GoogleAdsGeneratorAdForm from "./GoogleAdsGeneratorAdForm";
 
 export default {
   name: "GoogleAdsGenerator",
+  components: {GoogleAdsGeneratorAdForm},
+
   data: () => ({
-    validation: {
-      titleMaxLength: 30,
-      descMaxLength: 90,
-      pathMaxLength: 15,
-    },
+    formValid: {},
+    validation: limits,
     campaignName: '',
     keywords: '',
     ads: [{}, {}, {}],
@@ -298,11 +244,6 @@ export default {
     },
 
   },
-  computed: {
-    isValidAd() {
-      return ad => ad.h1 && ad.h2 && ad.d1 && ad.url
-    }
-  },
 
   created() {
     const storedData = JSON.parse(localStorage.getItem('google-ads-generator'));
@@ -310,6 +251,7 @@ export default {
       this[key] = storedData[key];
     }
   },
+
   updated() {
     const objectToSave = JSON.parse(JSON.stringify(this._data));
     delete objectToSave.campaignCsv;
