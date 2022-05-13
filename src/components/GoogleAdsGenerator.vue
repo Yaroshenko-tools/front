@@ -117,7 +117,7 @@
           </template>
           <span>Скачать кампанию в формате .CSV</span>
         </v-tooltip>
-        <v-tooltip top v-if="campaignHtml">
+        <v-tooltip top v-if="campaignResult">
           <template v-slot:activator="{ on }">
             <v-btn class="ml-0" v-on="on" @click="copyResult()" text icon>
               <v-icon>file_copy</v-icon>
@@ -137,7 +137,7 @@
         </ul>
       </v-flex>
     </v-layout>
-    <v-layout v-if="campaignHtml">
+    <v-layout v-if="campaignResult">
       <v-card full-width class="elevation-3">
         <v-card-text>
           <v-flex>
@@ -151,7 +151,9 @@
             </v-btn>
           </v-flex>
           <v-flex>
-            <div class="caption" v-html="campaignHtml"></div>
+            <div class="caption" >
+              <GoogleAdsGeneratorResultTable :items="campaignResult" />
+            </div>
           </v-flex>
         </v-card-text>
       </v-card>
@@ -172,10 +174,11 @@ import axios from 'axios'
 import utils from '../utils'
 import { limits } from "../helpers/rules";
 import GoogleAdsGeneratorAdForm from "./GoogleAdsGeneratorAdForm";
+import GoogleAdsGeneratorResultTable from "./GoogleAdsGeneratorResultTable";
 
 export default {
   name: "GoogleAdsGenerator",
-  components: {GoogleAdsGeneratorAdForm},
+  components: {GoogleAdsGeneratorAdForm, GoogleAdsGeneratorResultTable},
 
   data: () => ({
     formValid: {},
@@ -189,7 +192,7 @@ export default {
       exact: true,
     },
     campaignCsv: '',
-    campaignHtml: '',
+    campaignResult: null,
     loading: false,
     loadingCsv: false,
   }),
@@ -233,13 +236,12 @@ export default {
       this.loadingCsv = false;
 
       axios.post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
-        keywords: this.keywords,
+        keywords: this.keywords.split(/\r?\n/),
         ads: this.ads,
-        matchtypes: this.matchtypes,
+        matchtypes: this.selectedMatchTypes,
         campaignName: this.campaignName,
       }).then(response => {
-        // console.log(response.data.campaign)
-        this.campaignHtml = response.data.campaign;
+        this.campaignResult = response.data;
         this.loading = false;
       })
     },
@@ -254,7 +256,7 @@ export default {
   updated() {
     const objectToSave = JSON.parse(JSON.stringify(this._data));
     delete objectToSave.campaignCsv;
-    delete objectToSave.campaignHtml;
+    delete objectToSave.campaignResult;
     delete objectToSave.loading;
     delete objectToSave.loadingCsv;
     localStorage.setItem('google-ads-generator', JSON.stringify(objectToSave))
@@ -267,6 +269,11 @@ export default {
       }
 
       return false
+    },
+
+    selectedMatchTypes() {
+      const matchtypes = Object.keys(this.matchtypes)
+      return matchtypes.filter(item => this.matchtypes[item])
     }
   }
 }
