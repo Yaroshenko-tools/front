@@ -1,7 +1,7 @@
 <template>
   <v-form
     ref="form"
-    v-model="formValid"
+    v-model="isFormValid"
   >
     <v-text-field
       v-model="form.headlines[0]"
@@ -117,9 +117,8 @@ export default {
       type: Object,
       default: () => {}
     },
-
   },
-  setup({ formData }, {emit}) {
+  setup({ formData }, { emit, refs }) {
     const formObject = 'headlines' in formData ? formData : {
       headlines: ['', '', ''],
       descriptions: ['', ''],
@@ -129,7 +128,7 @@ export default {
 
     const form = reactive(formObject)
 
-    const formValid = ref(true)
+    const isFormValid = ref(false)
 
     const addHeadline = () => {
       form.headlines.push('')
@@ -147,17 +146,20 @@ export default {
       return form.descriptions.length < 4
     })
 
+    const validateForm = () => refs.form.validate()
+
     watch(form, (val) => {
       emit('update:form-data', val)
     });
 
-    watch(formValid, (val) => {
+    watch(isFormValid, (val) => {
       emit('update:form-valid', val)
     });
 
     return {
       form,
-      formValid,
+      isFormValid,
+      validateForm,
 
       limits,
 

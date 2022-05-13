@@ -65,7 +65,7 @@
                   Объявление {{ index + 1 }}
                 </span>
                 <span class="pa-0">
-                  <v-icon v-if="formValid[index]" small color="success">check_circle</v-icon>
+                  <v-icon v-if="formValid[`form-${index}`]" small color="success">check_circle</v-icon>
                   <v-tooltip v-else top>
                     <template v-slot:activator="{ on }">
                       <v-icon small color="warning" v-on="on">error</v-icon>
@@ -76,7 +76,7 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <GoogleAdsGeneratorAdForm :form-data.sync="ads[index]" :form-valid.sync="formValid[index]" />
+              <GoogleAdsGeneratorAdForm :form-data.sync="ads[index]" :form-valid.sync="formValid[`form-${index}`]" />
               <v-row no-gutters>
                 <v-btn text small @click.prevent="deleteAd(index)" class="red--text">Удалить</v-btn>
                 <v-btn text small @click.prevent="copyAd(index)" class="right">Скопировать объявление</v-btn>
@@ -106,7 +106,7 @@
         <v-text-field filled class="mb-3" label="Название кампании" v-model="campaignName"
                       hint="Если импортируете в уже созданную кампанию, просто скопируйте ее точное название сюда."
                       persistent-hint=""/>
-        <v-btn color="success" class="ml-0" @click="getCampaign()" :loading="loading">
+        <v-btn color="success" class="ml-0" @click="getCampaign()" :loading="loading" :disabled="!isFormsValid">
           Сгенерировать кампанию
         </v-btn>
         <v-tooltip top>
@@ -182,7 +182,7 @@ export default {
     validation: limits,
     campaignName: '',
     keywords: '',
-    ads: [{}, {}, {}],
+    ads: [{}],
     matchtypes: {
       broad: false,
       phrase: false,
@@ -231,6 +231,7 @@ export default {
     getCampaign() {
       this.loading = true;
       this.loadingCsv = false;
+
       axios.post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
         keywords: this.keywords,
         ads: this.ads,
@@ -242,9 +243,7 @@ export default {
         this.loading = false;
       })
     },
-
   },
-
   created() {
     const storedData = JSON.parse(localStorage.getItem('google-ads-generator'));
     for (let key in storedData) {
@@ -260,5 +259,15 @@ export default {
     delete objectToSave.loadingCsv;
     localStorage.setItem('google-ads-generator', JSON.stringify(objectToSave))
   },
+
+  computed: {
+    isFormsValid() {
+      if (Object.keys(this.formValid).length) {
+        return Object.values(this.formValid).every(el => el === true)
+      }
+
+      return false
+    }
+  }
 }
 </script>
