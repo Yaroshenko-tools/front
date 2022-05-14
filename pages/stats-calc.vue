@@ -123,8 +123,7 @@ v-model="convCoef" suffix="%" type="number" label="Коэфициент конв
         return parseInt(this.percentInt95 * coef > 99 ? 99 : this.percentInt95 * coef);
       }
     },
-    watch: {},
-    created() {
+    mounted() {
       const storedData = JSON.parse(localStorage.getItem('stats-calc'));
       for (const key in storedData) {
         this[key] = storedData[key];

@@ -118,7 +118,7 @@ v-model="keywords" class="" rows="12" filled
         return result;
       },
     },
-    created() {
+    mounted() {
       const storedData = JSON.parse(localStorage.getItem('matchtypes-direct'));
       for (const key in storedData) {
         this[key] = storedData[key];

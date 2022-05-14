@@ -223,7 +223,7 @@ export default defineComponent({
       return matchtypes.filter(item => this.matchtypes[item])
     }
   },
-  created() {
+  mounted() {
     const storedData = JSON.parse(localStorage.getItem('google-ads-generator'));
     for (const key in storedData) {
       this[key] = storedData[key];
