@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title mb-3">Генератор объявлений Google Ads</h1>
+    <h1 class="title mb-3">Генератор адаптивных объявлений Google Ads</h1>
     <p>Создайте кампанию в Google AdWords из ключевых слов и масок за 60 секнуд! Утилита генерирует группы объявлений (1
       ключ = 1 группа), ключевые слова в выбранных вами типах соответствия и объявления в группе. В объявления можно
       подставлять ключ или N-ное по счету слово из ключа. Скопируйте результат, вставьте в AdWords Editor. Отлично
@@ -62,10 +62,10 @@
             <v-expansion-panel-header>
               <div>
                 <span class="pa-0">
-                  Объявление {{ index + 1 }}
+                  Адаптивное объявление {{ index + 1 }}
                 </span>
                 <span class="pa-0">
-                  <v-icon v-if="isValidAd(ad)" small color="success">check_circle</v-icon>
+                  <v-icon v-if="ads[index].formValid" small color="success">check_circle</v-icon>
                   <v-tooltip v-else top>
                     <template v-slot:activator="{ on }">
                       <v-icon small color="warning" v-on="on">error</v-icon>
@@ -76,62 +76,7 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-
-              <v-text-field
-                v-model="ad.h1"
-                :counter="validation.titleMaxLength"
-                label="Заголовок 1 *"
-                placeholder="Например: {KeyWord:[KeyWord]}"
-              />
-              <v-text-field
-                v-model="ad.h2"
-                :counter="validation.titleMaxLength"
-                label="Заголовок 2 *"
-                placeholder="Здесь текст второго заголовка"
-              />
-              <v-text-field
-                v-model="ad.h3"
-                :counter="validation.titleMaxLength"
-                label="Заголовок 3"
-                placeholder="3-й заголовок не обязателен, но желателен"
-              />
-              <v-textarea
-                v-model="ad.d1"
-                :counter="validation.descMaxLength"
-                rows="2"
-                label="Описание 1 *"
-              />
-              <v-textarea
-                v-model="ad.d2"
-                :counter="validation.descMaxLength"
-                rows="2"
-                label="Описание 2"
-              />
-              <v-layout row>
-                <v-flex>
-                  <v-text-field
-                    v-model="ad.p1"
-                    :counter="validation.pathMaxLength"
-                    label="Путь 1"
-                  />
-                </v-flex>
-                <v-flex class="my-auto">
-                  <v-icon>/</v-icon>
-                </v-flex>
-                <v-flex>
-                  <v-text-field
-                    v-model="ad.p2"
-                    :counter="validation.pathMaxLength"
-                    label="Путь 2"
-                  />
-                </v-flex>
-              </v-layout>
-              <v-text-field
-                v-model="ad.url"
-                label="Адрес целевой страницы *"
-                placeholder="https://yaroshenko.tools"
-                type="url"
-              />
+              <GoogleAdsGeneratorAdForm :form-data.sync="ads[index]" :form-valid.sync="ads[index].formValid" />
               <v-row no-gutters>
                 <v-btn text small @click.prevent="deleteAd(index)" class="red--text">Удалить</v-btn>
                 <v-btn text small @click.prevent="copyAd(index)" class="right">Скопировать объявление</v-btn>
@@ -161,7 +106,7 @@
         <v-text-field filled class="mb-3" label="Название кампании" v-model="campaignName"
                       hint="Если импортируете в уже созданную кампанию, просто скопируйте ее точное название сюда."
                       persistent-hint=""/>
-        <v-btn color="success" class="ml-0" @click="getCampaign()" :loading="loading">
+        <v-btn color="success" class="ml-0" @click="getCampaign()" :loading="loading" :disabled="!isFormsValid">
           Сгенерировать кампанию
         </v-btn>
         <v-tooltip top>
@@ -172,7 +117,7 @@
           </template>
           <span>Скачать кампанию в формате .CSV</span>
         </v-tooltip>
-        <v-tooltip top v-if="campaignHtml">
+        <v-tooltip top v-if="campaignResult">
           <template v-slot:activator="{ on }">
             <v-btn class="ml-0" v-on="on" @click="copyResult()" text icon>
               <v-icon>file_copy</v-icon>
@@ -192,7 +137,7 @@
         </ul>
       </v-flex>
     </v-layout>
-    <v-layout v-if="campaignHtml">
+    <v-layout v-if="campaignResult">
       <v-card full-width class="elevation-3">
         <v-card-text>
           <v-flex>
@@ -206,7 +151,9 @@
             </v-btn>
           </v-flex>
           <v-flex>
-            <div class="caption" v-html="campaignHtml"></div>
+            <div class="caption" >
+              <GoogleAdsGeneratorResultTable :items="campaignResult" />
+            </div>
           </v-flex>
         </v-card-text>
       </v-card>
@@ -224,32 +171,38 @@
 
 <script>
 import axios from 'axios'
+import dayjs from 'dayjs'
 import utils from '../utils'
+import { limits } from "../helpers/rules";
+import GoogleAdsGeneratorAdForm from "./GoogleAdsGeneratorAdForm";
+import GoogleAdsGeneratorResultTable from "./GoogleAdsGeneratorResultTable";
+
+const AD_PROTOTYPE = {
+  formValid: true
+}
 
 export default {
   name: "GoogleAdsGenerator",
+  components: {GoogleAdsGeneratorAdForm, GoogleAdsGeneratorResultTable},
+
   data: () => ({
-    validation: {
-      titleMaxLength: 30,
-      descMaxLength: 90,
-      pathMaxLength: 15,
-    },
+    validation: limits,
     campaignName: '',
     keywords: '',
-    ads: [{}, {}, {}],
+    ads: [AD_PROTOTYPE],
     matchtypes: {
       broad: false,
       phrase: false,
       exact: true,
     },
     campaignCsv: '',
-    campaignHtml: '',
+    campaignResult: null,
     loading: false,
     loadingCsv: false,
   }),
   methods: {
     addAds() {
-      this.ads.push({});
+      this.ads.push(AD_PROTOTYPE);
     },
     deleteAd(adId) {
       if (confirm('Вы уверены, что хотите удалить это объявление?')) {
@@ -266,57 +219,68 @@ export default {
       this.loading = false;
       this.loadingCsv = true;
       axios.post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
-        keywords: this.keywords,
+        keywords: this.keywords.split(/\r?\n/),
         ads: this.ads,
-        matchtypes: this.matchtypes,
+        matchtypes: this.selectedMatchTypes,
         campaignName: this.campaignName,
         downloadCsv: true,
-        clientDate: new Date(),
       }).then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `${this.campaignName ? this.campaignName : 'campaign'}.csv`);
-        document.body.appendChild(link);
-        link.click();
+        this.downloadCsvFile(response.data)
         this.loadingCsv = false;
       })
+    },
+    downloadCsvFile(data) {
+      const url = window.URL.createObjectURL(new Blob([data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${this.campaignName ? this.campaignName : 'campaign'}-${dayjs().format('YYYY-MM-DD_HH-mm-ss')}.csv`);
+      document.body.appendChild(link);
+      link.click();
     },
     getCampaign() {
       this.loading = true;
       this.loadingCsv = false;
+
       axios.post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
-        keywords: this.keywords,
+        keywords: this.keywords.split(/\r?\n/),
         ads: this.ads,
-        matchtypes: this.matchtypes,
+        matchtypes: this.selectedMatchTypes,
         campaignName: this.campaignName,
       }).then(response => {
-        // console.log(response.data.campaign)
-        this.campaignHtml = response.data.campaign;
+        this.campaignResult = response.data;
         this.loading = false;
       })
     },
-
   },
-  computed: {
-    isValidAd() {
-      return ad => ad.h1 && ad.h2 && ad.d1 && ad.url
-    }
-  },
-
   created() {
     const storedData = JSON.parse(localStorage.getItem('google-ads-generator'));
     for (let key in storedData) {
       this[key] = storedData[key];
     }
   },
+
   updated() {
     const objectToSave = JSON.parse(JSON.stringify(this._data));
     delete objectToSave.campaignCsv;
-    delete objectToSave.campaignHtml;
+    delete objectToSave.campaignResult;
     delete objectToSave.loading;
     delete objectToSave.loadingCsv;
     localStorage.setItem('google-ads-generator', JSON.stringify(objectToSave))
   },
+
+  computed: {
+    isFormsValid() {
+      const validItemsList = this.ads.map(item => {
+        return item.formValid
+      })
+
+      return validItemsList.every(el => el === true)
+    },
+
+    selectedMatchTypes() {
+      const matchtypes = Object.keys(this.matchtypes)
+      return matchtypes.filter(item => this.matchtypes[item])
+    }
+  }
 }
 </script>

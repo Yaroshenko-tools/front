@@ -1705,6 +1705,11 @@
   optionalDependencies:
     prettier "^1.18.2 || ^2.0.0"
 
+"@vue/composition-api@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.6.1.tgz#3b809802979af9ec06678437bead7617f0f85be5"
+  integrity sha512-QNeduwRllSRzo9ZOzZjtzCeGUx0sEfrEDHmQlf+goLw4calBPBbpYWf8ueh6VSBrWJGQRJPsRPmTVEeTKRKBMg==
+
 "@vue/vue-loader-v15@npm:vue-loader@^15.9.7":
   version "15.9.8"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-15.9.8.tgz#4b0f602afaf66a996be1e534fb9609dc4ab10e61"
@@ -2799,6 +2804,11 @@ csso@^4.2.0:
   integrity sha512-wvlcdIbf6pwKEk7vHj8/Bkc0B4ylXZruLvOgs9doS5eOsOpuodOV2zJChSpkp+pRpYQLQMeF04nr3Z68Sta9jA==
   dependencies:
     css-tree "^1.1.2"
+
+dayjs@^1.11.2:
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.2.tgz#fa0f5223ef0d6724b3d8327134890cfe3d72fbe5"
+  integrity sha512-F4LXf1OeU9hrSYRPTTj/6FbO4HTjPKXvEIC1P2kcnFurViINCVk3ZV0xAS3XVx9MkMsXbbqlK6hjseaYbgKEHw==
 
 de-indent@^1.0.2:
   version "1.0.2"
