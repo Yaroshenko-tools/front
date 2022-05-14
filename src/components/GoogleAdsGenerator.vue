@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title mb-3">Генератор объявлений Google Ads</h1>
+    <h1 class="title mb-3">Генератор адаптивных объявлений Google Ads</h1>
     <p>Создайте кампанию в Google AdWords из ключевых слов и масок за 60 секнуд! Утилита генерирует группы объявлений (1
       ключ = 1 группа), ключевые слова в выбранных вами типах соответствия и объявления в группе. В объявления можно
       подставлять ключ или N-ное по счету слово из ключа. Скопируйте результат, вставьте в AdWords Editor. Отлично
@@ -62,7 +62,7 @@
             <v-expansion-panel-header>
               <div>
                 <span class="pa-0">
-                  Объявление {{ index + 1 }}
+                  Адаптивное объявление {{ index + 1 }}
                 </span>
                 <span class="pa-0">
                   <v-icon v-if="ads[index].formValid" small color="success">check_circle</v-icon>
