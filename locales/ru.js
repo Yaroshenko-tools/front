@@ -32,4 +32,10 @@ export default {
   utils: 'Все утилиты',
   not_found_seo_title: 'Страница не найдена (404)',
   not_found_seo_description: 'Вернитесь на главную и повторите запрос снова',
+
+  common_bug: 'Хотите что-то добавить, предложить новую утилиту или нашли баг? Напишите в чат в телеграмме',
+
+  footer_blog_yaroshenko: 'Блог Ярошенко',
+  footer_blog_expirienced_webmaster: 'Блог опытного вебмастера',
+  footer_sales_park: 'Заказать контекст',
 }

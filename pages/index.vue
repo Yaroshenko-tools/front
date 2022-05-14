@@ -11,7 +11,7 @@
                   <v-list-item-title>
                     <nuxt-link :to="localePath({ name: item.linkName })">{{item.title}}</nuxt-link>
                   </v-list-item-title>
-                  <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+                  <v-list-item-subtitle>{{item.subtitle}}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </nuxt-link>

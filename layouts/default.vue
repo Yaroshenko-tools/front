@@ -56,14 +56,14 @@
             </v-flex>
             <v-flex>
               <ul>
-                <li><a href="https://yaroshenko.by" target="_blank">Блог Ярошенко</a></li>
-                <li><a href="https://web7.pro" target="_blank">Блог опытного вебмастера</a></li>
-                <li><a href="https://salespark.org" target="_blank">Заказать контекст</a></li>
+                <li><a href="https://yaroshenko.by" target="_blank">{{ $t('footer_blog_yaroshenko') }}</a></li>
+                <li><a href="https://web7.pro" target="_blank">{{ $t('footer_blog_expirienced_webmaster') }}</a></li>
+                <li><a href="https://salespark.org" target="_blank">{{ $t('footer_sales_park') }}</a></li>
               </ul>
             </v-flex>
           </v-layout>
           <p class="mt-4">
-            Хотите что-то добавить, предложить новую утилиту или нашли баг? Напишите в чат в телеграмме <a
+            {{ $t('common_bug') }} <a
             href="https://t.me/yaroshenko_tools" target="_blank">@yaroshenko_tools</a>
           </p>
           <span>&copy; 2019 yaroshenko.tools</span>

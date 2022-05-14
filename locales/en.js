@@ -32,4 +32,10 @@ export default {
   utils: 'All Utilities',
   not_found_seo_title: 'Page not found (404)',
   not_found_seo_description: 'Go back to home page and try again',
+
+  common_bug: 'Do you want to add something, suggest a new utility or found a bug? Chat on telegram',
+
+  footer_blog_yaroshenko: 'Yaroshenko\'s blog',
+  footer_blog_expirienced_webmaster: 'Experienced webmaster blog',
+  footer_sales_park: 'Order context',
 }
