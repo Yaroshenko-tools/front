@@ -65,7 +65,7 @@
                   Объявление {{ index + 1 }}
                 </span>
                 <span class="pa-0">
-                  <v-icon v-if="formValid[`form-${index}`]" small color="success">check_circle</v-icon>
+                  <v-icon v-if="ads[index].formValid" small color="success">check_circle</v-icon>
                   <v-tooltip v-else top>
                     <template v-slot:activator="{ on }">
                       <v-icon small color="warning" v-on="on">error</v-icon>
@@ -76,7 +76,7 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <GoogleAdsGeneratorAdForm :form-data.sync="ads[index]" :form-valid.sync="formValid[`form-${index}`]" />
+              <GoogleAdsGeneratorAdForm :form-data.sync="ads[index]" :form-valid.sync="ads[index].formValid" />
               <v-row no-gutters>
                 <v-btn text small @click.prevent="deleteAd(index)" class="red--text">Удалить</v-btn>
                 <v-btn text small @click.prevent="copyAd(index)" class="right">Скопировать объявление</v-btn>
@@ -176,16 +176,19 @@ import { limits } from "../helpers/rules";
 import GoogleAdsGeneratorAdForm from "./GoogleAdsGeneratorAdForm";
 import GoogleAdsGeneratorResultTable from "./GoogleAdsGeneratorResultTable";
 
+const AD_PROTOTYPE = {
+  formValid: true
+}
+
 export default {
   name: "GoogleAdsGenerator",
   components: {GoogleAdsGeneratorAdForm, GoogleAdsGeneratorResultTable},
 
   data: () => ({
-    formValid: {},
     validation: limits,
     campaignName: '',
     keywords: '',
-    ads: [{}],
+    ads: [AD_PROTOTYPE],
     matchtypes: {
       broad: false,
       phrase: false,
@@ -198,7 +201,7 @@ export default {
   }),
   methods: {
     addAds() {
-      this.ads.push({});
+      this.ads.push(AD_PROTOTYPE);
     },
     deleteAd(adId) {
       if (confirm('Вы уверены, что хотите удалить это объявление?')) {
@@ -264,11 +267,11 @@ export default {
 
   computed: {
     isFormsValid() {
-      if (Object.keys(this.formValid).length) {
-        return Object.values(this.formValid).every(el => el === true)
-      }
+      const validItemsList = this.ads.map(item => {
+        return item.formValid
+      })
 
-      return false
+      return validItemsList.every(el => el === true)
     },
 
     selectedMatchTypes() {
