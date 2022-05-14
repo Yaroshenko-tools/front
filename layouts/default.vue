@@ -5,7 +5,7 @@
         <v-list-item>
           <v-list-item-content></v-list-item-content>
         </v-list-item>
-        <v-list-item v-for="(item, i) in items" :key="i" active-class="green" :to="{name:item.linkName}" exact>
+        <v-list-item v-for="(item, i) in items" :key="i" active-class="green" :to="localePath({name: item.linkName})" exact>
           <v-list-item-action class="mr-2">
             <v-icon v-html="item.icon"></v-icon>
           </v-list-item-action>
@@ -17,14 +17,14 @@
     </v-navigation-drawer>
     <v-app-bar fixed app clipped-left dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <router-link v-slot="{navigate}" :to="{ name: 'Index' }" custom class="pointer pl-0 ml-0 mr-3">
+      <nuxt-link v-slot="{navigate}" :to="localePath({ name: 'index' })" custom class="pointer pl-0 ml-0 mr-3">
         <v-toolbar-title  role="link" @click="navigate" @keypress.enter="navigate">
           <v-app-bar-nav-icon>
             <img src="logo-tools.png" class="logo"/>
           </v-app-bar-nav-icon>
           yaroshenko.tools
         </v-toolbar-title>
-      </router-link>
+      </nuxt-link>
       <span class="mr-3 hidden-sm-and-down"> Бесплатные утилиты для работы с контекстной рекламой</span>
       <span class="mr-3"> Telegram: <a href="https://t.me/yaroshenko_tools" rel="noreferrer" target="_blank">@yaroshenko_tools</a></span>
       <v-spacer></v-spacer>
@@ -38,19 +38,19 @@
             <v-flex>
               <ul>
                 <li>
-                  <router-link :to="{ name: 'UtmGenerator' }">Генератор UTM-меток</router-link>
+                  <nuxt-link :to="localePath({ name: 'utm' })">Генератор UTM-меток</nuxt-link>
                 </li>
                 <li>
-                  <router-link :to="{ name: 'GoogleAdsGenerator' }">Генератор объявлений Google Ads</router-link>
+                  <nuxt-link :to="localePath({ name: 'google-ads-generator' })">Генератор объявлений Google Ads</nuxt-link>
                 </li>
                 <li>
-                  <router-link :to="{ name: 'StatisticalSignificance' }">Калькулятор статистической значимости</router-link>
+                  <nuxt-link :to="localePath({ name: 'stats-calc' })">Калькулятор статистической значимости</nuxt-link>
                 </li>
                 <li>
-                  <router-link :to="{ name: 'Matchtypes' }">Конвертер типов соответствия Google Ads</router-link>
+                  <nuxt-link :to="localePath({ name: 'matchtypes' })">Конвертер типов соответствия Google Ads</nuxt-link>
                 </li>
                 <li>
-                  <router-link :to="{ name: 'MatchtypesDirect' }">Конвертер типов соответствия Яндекс.Директ</router-link>
+                  <nuxt-link :to="localePath({ name: 'matchtypes-direct' })">Конвертер типов соответствия Яндекс.Директ</nuxt-link>
                 </li>
               </ul>
             </v-flex>
@@ -83,32 +83,32 @@ export default {
         {
           icon: 'list',
           title: 'Все утилиты',
-          linkName: 'Index'
+          linkName: 'index'
         },
         {
           icon: 'link',
           title: 'Генератор UTM-меток',
-          linkName: 'UtmGenerator'
+          linkName: 'utm'
         },
         {
           icon: 'dvr',
           title: 'Генератор Google Ads',
-          linkName: 'GoogleAdsGenerator'
+          linkName: 'google-ads-generator'
         },
         {
           icon: 'trending_up',
           title: 'Статистическая значимость',
-          linkName: 'StatisticalSignificance'
+          linkName: 'stats-calc'
         },
         {
           icon: 'compare_arrows',
           title: 'Типы соответствия Google Ads',
-          linkName: 'Matchtypes'
+          linkName: 'matchtypes'
         },
         {
           icon: 'compare_arrows',
           title: 'Операторы Яндекс.Директ',
-          linkName: 'MatchtypesDirect'
+          linkName: 'matchtypes-direct'
         },
       ],
   }),
