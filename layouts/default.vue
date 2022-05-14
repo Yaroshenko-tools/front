@@ -20,12 +20,12 @@
       <nuxt-link v-slot="{navigate}" :to="localePath({ name: 'index' })" custom class="pointer pl-0 ml-0 mr-3">
         <v-toolbar-title  role="link" @click="navigate" @keypress.enter="navigate">
           <v-app-bar-nav-icon>
-            <img src="logo-tools.png" class="logo"/>
+            <img src="/logo-tools.png" class="logo"/>
           </v-app-bar-nav-icon>
           yaroshenko.tools
         </v-toolbar-title>
       </nuxt-link>
-      <span class="mr-3 hidden-sm-and-down"> Бесплатные утилиты для работы с контекстной рекламой</span>
+      <span class="mr-3 hidden-sm-and-down">{{$t('index_head_title')}}</span>
       <span class="mr-3"> Telegram: <a href="https://t.me/yaroshenko_tools" rel="noreferrer" target="_blank">@yaroshenko_tools</a></span>
       <v-spacer></v-spacer>
     </v-app-bar>
@@ -38,19 +38,19 @@
             <v-flex>
               <ul>
                 <li>
-                  <nuxt-link :to="localePath({ name: 'utm' })">Генератор UTM-меток</nuxt-link>
+                  <nuxt-link :to="localePath({ name: 'utm' })">{{$t('utm_h1')}}</nuxt-link>
                 </li>
                 <li>
-                  <nuxt-link :to="localePath({ name: 'google-ads-generator' })">Генератор объявлений Google Ads</nuxt-link>
+                  <nuxt-link :to="localePath({ name: 'google-ads-generator' })">{{ $t('google_ads_generator_h1') }}</nuxt-link>
                 </li>
                 <li>
-                  <nuxt-link :to="localePath({ name: 'stats-calc' })">Калькулятор статистической значимости</nuxt-link>
+                  <nuxt-link :to="localePath({ name: 'stats-calc' })">{{$t('stats_calc_h1')}}</nuxt-link>
                 </li>
                 <li>
-                  <nuxt-link :to="localePath({ name: 'matchtypes' })">Конвертер типов соответствия Google Ads</nuxt-link>
+                  <nuxt-link :to="localePath({ name: 'matchtypes' })">{{$t('matchtypes_h1')}}</nuxt-link>
                 </li>
                 <li>
-                  <nuxt-link :to="localePath({ name: 'matchtypes-direct' })">Конвертер типов соответствия Яндекс.Директ</nuxt-link>
+                  <nuxt-link :to="localePath({ name: 'matchtypes-direct' })">{{$t('matchtypes_direct_h1')}}</nuxt-link>
                 </li>
               </ul>
             </v-flex>
@@ -74,43 +74,51 @@
 </template>
 
 <script>
+import {useI18n} from "~/common/composable/i18n";
+
 export default {
   name: 'App',
+  setup() {
+    const {t} = useI18n()
+    const items = [
+      {
+        icon: 'list',
+        title: t('utils'),
+        linkName: 'index'
+      },
+      {
+        icon: 'link',
+        title: t('utm_h1'),
+        linkName: 'utm'
+      },
+      {
+        icon: 'dvr',
+        title: t('google_ads_generator_h1'),
+        linkName: 'google-ads-generator'
+      },
+      {
+        icon: 'trending_up',
+        title: t('stats_calc_h1'),
+        linkName: 'stats-calc'
+      },
+      {
+        icon: 'compare_arrows',
+        title: t('matchtypes_h1'),
+        linkName: 'matchtypes'
+      },
+      {
+        icon: 'compare_arrows',
+        title: t('matchtypes_direct_h1'),
+        linkName: 'matchtypes-direct'
+      },
+    ]
+
+    return {items}
+  },
+
   data: ()  => ({
       drawer: false,
       mini: true,
-      items: [
-        {
-          icon: 'list',
-          title: 'Все утилиты',
-          linkName: 'index'
-        },
-        {
-          icon: 'link',
-          title: 'Генератор UTM-меток',
-          linkName: 'utm'
-        },
-        {
-          icon: 'dvr',
-          title: 'Генератор Google Ads',
-          linkName: 'google-ads-generator'
-        },
-        {
-          icon: 'trending_up',
-          title: 'Статистическая значимость',
-          linkName: 'stats-calc'
-        },
-        {
-          icon: 'compare_arrows',
-          title: 'Типы соответствия Google Ads',
-          linkName: 'matchtypes'
-        },
-        {
-          icon: 'compare_arrows',
-          title: 'Операторы Яндекс.Директ',
-          linkName: 'matchtypes-direct'
-        },
-      ],
   }),
   head () {
     return this.$nuxtI18nHead({ addSeoAttributes: true })

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card class="pa-3">
-      <h1>Утилиты для работы с контекстной рекламой</h1>
+      <h1>{{ $t('index_h1') }}</h1>
       <v-list two-line>
         <template v-for="(item, key) in items">
           <div :key="key">
@@ -32,36 +32,37 @@ export default defineComponent({
     const {t} = useI18n()
 
     useMeta(createHeaders(t('index_seo_title'), t('index_seo_description')))
-  },
-  data: () => ({
-    items: [
+
+    const items = [
       {
-        title: 'Генератор UTM-меток',
-        subtitle: 'Создайте ссылку с UTM-метками для Google Ads, Яндекс.Директ, VK, Facebook, Instagram и target.mail.ru',
+        title: t('utm_h1'),
+        subtitle: t('utm_subtitle'),
         linkName: 'utm'
       },
       {
-        title: 'Генератор объявлений для Google Ads',
-        subtitle: 'Создайте кампанию в Google AdWords из ключевых слов за 60 секнуд! Генерируйте группы и объявления с ключами, на основе заданных ключей и шаболнов объявлений.',
+        title: t('google_ads_generator_h1'),
+        subtitle: t('google_ads_generator_subtitle'),
         linkName: 'google-ads-generator'
       },
       {
-        title: 'Калькулятор статистической значимости',
-        subtitle: 'Введите число кликов и конверсий (или коэффициент конверсии) и получите интервалы, в которых могут лежать конверсия с вероятностью 70%, 80%, 90%, 95% и 99%',
+        title: t('stats_calc_h1'),
+        subtitle: t('stats_calc_subtitle'),
         linkName: 'stats-calc'
       },
       {
-        title: 'Конвертер типов соответствия ключевых слов для Google Ads',
-        subtitle: 'Превратите список ключевых слов в ключи в широком, фразовом и точном соответствии',
+        title: t('matchtypes_h1'),
+        subtitle: t('matchtypes_subtitle'),
         linkName: 'matchtypes'
       },
       {
-        title: 'Утилита, добавляющая к ключам операторы Яндекс.Директ',
-        subtitle: 'Добавьте операторы "!" [прямоугольные скобки] и "кавычки" к вашим ключам для Яндекс.Директ',
+        title: t('matchtypes_direct_h1'),
+        subtitle: t('matchtypes_direct_subtitle'),
         linkName: 'matchtypes-direct'
       }
     ]
-  }),
+
+    return {items}
+  },
   head() {},
 })
 </script>
