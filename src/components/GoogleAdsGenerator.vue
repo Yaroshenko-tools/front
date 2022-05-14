@@ -171,6 +171,7 @@
 
 <script>
 import axios from 'axios'
+import dayjs from 'dayjs'
 import utils from '../utils'
 import { limits } from "../helpers/rules";
 import GoogleAdsGeneratorAdForm from "./GoogleAdsGeneratorAdForm";
@@ -218,21 +219,23 @@ export default {
       this.loading = false;
       this.loadingCsv = true;
       axios.post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
-        keywords: this.keywords,
+        keywords: this.keywords.split(/\r?\n/),
         ads: this.ads,
-        matchtypes: this.matchtypes,
+        matchtypes: this.selectedMatchTypes,
         campaignName: this.campaignName,
         downloadCsv: true,
-        clientDate: new Date(),
       }).then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `${this.campaignName ? this.campaignName : 'campaign'}.csv`);
-        document.body.appendChild(link);
-        link.click();
+        this.downloadCsvFile(response.data)
         this.loadingCsv = false;
       })
+    },
+    downloadCsvFile(data) {
+      const url = window.URL.createObjectURL(new Blob([data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${this.campaignName ? this.campaignName : 'campaign'}-${dayjs().format('YYYY-MM-DD_HH-mm-ss')}.csv`);
+      document.body.appendChild(link);
+      link.click();
     },
     getCampaign() {
       this.loading = true;
