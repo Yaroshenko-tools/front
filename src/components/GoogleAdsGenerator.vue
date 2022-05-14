@@ -247,7 +247,7 @@ export default {
         matchtypes: this.selectedMatchTypes,
         campaignName: this.campaignName,
       }).then(response => {
-        this.campaignResult = response.data;
+        this.campaignResult = response.data.data;
         this.loading = false;
       })
     },
