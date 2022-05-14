@@ -1,11 +1,11 @@
 <template>
   <v-app>
-    <v-navigation-drawer fixed clipped app temporary v-model="drawer" left dark>
+    <v-navigation-drawer v-model="drawer" fixed clipped app temporary left dark>
       <v-list>
         <v-list-item>
           <v-list-item-content></v-list-item-content>
         </v-list-item>
-        <v-list-item active-class="green" v-for="(item, i) in items" :key="i" :to="{name:item.linkName}" exact>
+        <v-list-item v-for="(item, i) in items" :key="i" active-class="green" :to="{name:item.linkName}" exact>
           <v-list-item-action class="mr-2">
             <v-icon v-html="item.icon"></v-icon>
           </v-list-item-action>
@@ -17,10 +17,10 @@
     </v-navigation-drawer>
     <v-app-bar fixed app clipped-left dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <router-link :to="{ name: 'Index' }" v-slot="{navigate}" custom class="pointer pl-0 ml-0 mr-3">
-        <v-toolbar-title  @click="navigate" @keypress.enter="navigate" role="link">
+      <router-link v-slot="{navigate}" :to="{ name: 'Index' }" custom class="pointer pl-0 ml-0 mr-3">
+        <v-toolbar-title  role="link" @click="navigate" @keypress.enter="navigate">
           <v-app-bar-nav-icon>
-            <img :src="logo" class="logo"/>
+            <img src="logo-tools.png" class="logo"/>
           </v-app-bar-nav-icon>
           yaroshenko.tools
         </v-toolbar-title>
@@ -31,7 +31,7 @@
     </v-app-bar>
     <v-main>
       <v-container fluid grid-list-xl class="white pa-5">
-        <router-view/>
+        <Nuxt />
         <div class="mt-4 text--disabled">
           <v-divider class="mb-4"/>
           <v-layout row>
@@ -74,75 +74,65 @@
 </template>
 
 <script>
-  import logo from "./assets/logo-tools.png"
-
-  export default {
-    data() {
-      return {
-        drawer: false,
-        mini: true,
-        logo: logo,
-        items: [
-          {
-            icon: 'list',
-            title: 'Все утилиты',
-            linkName: 'Index'
-          },
-          {
-            icon: 'link',
-            title: 'Генератор UTM-меток',
-            linkName: 'UtmGenerator'
-          },
-          {
-            icon: 'dvr',
-            title: 'Генератор Google Ads',
-            linkName: 'GoogleAdsGenerator'
-          },
-          {
-            icon: 'trending_up',
-            title: 'Статистическая значимость',
-            linkName: 'StatisticalSignificance'
-          },
-          {
-            icon: 'compare_arrows',
-            title: 'Типы соответствия Google Ads',
-            linkName: 'Matchtypes'
-          },
-          {
-            icon: 'compare_arrows',
-            title: 'Операторы Яндекс.Директ',
-            linkName: 'MatchtypesDirect'
-          },
-        ],
-      }
-    },
-    computed: {
-      chevronIcon() {
-        return this.mini ? 'chevron_right' : 'chevron_left'
-      },
-    },
-    name: 'App'
-  }
+export default {
+  name: 'App',
+  data: ()  => ({
+      drawer: false,
+      mini: true,
+      items: [
+        {
+          icon: 'list',
+          title: 'Все утилиты',
+          linkName: 'Index'
+        },
+        {
+          icon: 'link',
+          title: 'Генератор UTM-меток',
+          linkName: 'UtmGenerator'
+        },
+        {
+          icon: 'dvr',
+          title: 'Генератор Google Ads',
+          linkName: 'GoogleAdsGenerator'
+        },
+        {
+          icon: 'trending_up',
+          title: 'Статистическая значимость',
+          linkName: 'StatisticalSignificance'
+        },
+        {
+          icon: 'compare_arrows',
+          title: 'Типы соответствия Google Ads',
+          linkName: 'Matchtypes'
+        },
+        {
+          icon: 'compare_arrows',
+          title: 'Операторы Яндекс.Директ',
+          linkName: 'MatchtypesDirect'
+        },
+      ],
+  }),
+  head () {
+    return this.$nuxtI18nHead({ addSeoAttributes: true })
+  },
+}
 </script>
 <style>
-  .logo {
-    height: 30px;
-    width: 30px;
-    -webkit-transition: -webkit-transform 10s linear;
-    transition: transform 10s linear;
-    /*filter: invert(100%);*/
-  }
+.logo {
+  height: 30px;
+  width: 30px;
+  transition: transform 10s linear;
+}
 
-  .logo:hover {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+.logo:hover {
+  transform: rotate(360deg);
+}
 
-  .pointer {
-    cursor: pointer;
-  }
+.pointer {
+  cursor: pointer;
+}
 
-  .nowrap {
-    white-space: nowrap;
-  }
+.nowrap {
+  white-space: nowrap;
+}
 </style>

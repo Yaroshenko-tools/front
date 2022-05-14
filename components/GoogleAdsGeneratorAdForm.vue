@@ -62,8 +62,8 @@
     <div v-for="(_, index) in form.descriptions" :key="`description-${index + 1}`">
       <v-textarea
         v-if="index > 1"
-        rows="2"
         v-model="form.descriptions[index]"
+        rows="2"
         :counter="limits.descMaxLength"
         :label="`Описание ${index + 1}`"
         :placeholder="`${index + 1}-й описание`"
@@ -108,8 +108,8 @@
   </v-form>
 </template>
 <script>
-import {limits, maxSymbols, requiredField} from "../helpers/rules";
-import {computed, reactive, ref, watch} from '@vue/composition-api'
+import {ref} from "@nuxtjs/composition-api";
+import { limits, maxSymbols, requiredField } from "~/common/helpers/rules";
 
 export default {
   props: {

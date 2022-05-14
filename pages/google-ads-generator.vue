@@ -10,10 +10,10 @@
         <v-row>
           <v-col>
             <v-textarea
+              v-model="keywords"
               filled
               label="Вставьте сюда ключевые слова"
               :rows="8"
-              v-model="keywords"
               class="mb-0"
             />
           </v-col>
@@ -31,7 +31,7 @@
         <v-row>
           <v-col class="py-0">
             <v-checkbox
-              class="mt-0" v-model="matchtypes.broad"
+              v-model="matchtypes.broad" class="mt-0"
               messages="В данный момент работает по принципу фразового соотвествия"
               label="Широкое соответствие"
               dense
@@ -67,7 +67,7 @@
                 <span class="pa-0">
                   <v-icon v-if="ads[index].formValid" small color="success">check_circle</v-icon>
                   <v-tooltip v-else top>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-icon small color="warning" v-on="on">error</v-icon>
                     </template>
                     <span>Не заполнены все обязательные поля. Объявление не будет включено в сгенерированную кампанию</span>
@@ -78,8 +78,8 @@
             <v-expansion-panel-content>
               <GoogleAdsGeneratorAdForm :form-data.sync="ads[index]" :form-valid.sync="ads[index].formValid" />
               <v-row no-gutters>
-                <v-btn text small @click.prevent="deleteAd(index)" class="red--text">Удалить</v-btn>
-                <v-btn text small @click.prevent="copyAd(index)" class="right">Скопировать объявление</v-btn>
+                <v-btn text small class="red--text" @click.prevent="deleteAd(index)">Удалить</v-btn>
+                <v-btn text small class="right" @click.prevent="copyAd(index)">Скопировать объявление</v-btn>
               </v-row>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -103,23 +103,24 @@
         </div>
       </v-flex>
       <v-flex md4>
-        <v-text-field filled class="mb-3" label="Название кампании" v-model="campaignName"
+        <v-text-field
+v-model="campaignName" filled class="mb-3" label="Название кампании"
                       hint="Если импортируете в уже созданную кампанию, просто скопируйте ее точное название сюда."
                       persistent-hint=""/>
-        <v-btn color="success" class="ml-0" @click="getCampaign()" :loading="loading" :disabled="!isFormsValid">
+        <v-btn color="success" class="ml-0" :loading="loading" :disabled="!isFormsValid" @click="getCampaign()">
           Сгенерировать кампанию
         </v-btn>
         <v-tooltip top>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" @click="downloadCsv" :loading="loadingCsv" text icon>
+          <template #activator="{ on }">
+            <v-btn :loading="loadingCsv" text icon v-on="on" @click="downloadCsv">
               <v-icon>cloud_download</v-icon>
             </v-btn>
           </template>
           <span>Скачать кампанию в формате .CSV</span>
         </v-tooltip>
-        <v-tooltip top v-if="campaignResult">
-          <template v-slot:activator="{ on }">
-            <v-btn class="ml-0" v-on="on" @click="copyResult()" text icon>
+        <v-tooltip v-if="campaignResult" top>
+          <template #activator="{ on }">
+            <v-btn class="ml-0" text icon v-on="on" @click="copyResult()">
               <v-icon>file_copy</v-icon>
             </v-btn>
           </template>
@@ -145,7 +146,7 @@
               <v-icon small class="mr-1">file_copy</v-icon>
               Скопировать кампанию в буфер обмена
             </v-btn>
-            <v-btn class="" @click="downloadCsv()" :loading="loadingCsv">
+            <v-btn class="" :loading="loadingCsv" @click="downloadCsv()">
               <v-icon small class="mr-1">cloud_download</v-icon>
               Скачать кампанию в формате .csv
             </v-btn>
@@ -161,7 +162,8 @@
     <v-layout>
       <v-flex class="text-xs-center">
         <h3>Как пользоваться генератором Google Ads. Обучающее видео</h3>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/KIcH5LyuY5k" frameborder="0"
+        <iframe
+width="560" height="315" src="https://www.youtube.com/embed/KIcH5LyuY5k" frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
       </v-flex>
@@ -172,19 +174,24 @@
 <script>
 import axios from 'axios'
 import dayjs from 'dayjs'
-import utils from '../utils'
-import { limits } from "../helpers/rules";
-import GoogleAdsGeneratorAdForm from "./GoogleAdsGeneratorAdForm";
-import GoogleAdsGeneratorResultTable from "./GoogleAdsGeneratorResultTable";
+
+import {defineComponent, useMeta} from "@nuxtjs/composition-api";
+import { limits } from "~/common/helpers/rules";
+import utils from '~/common/utils'
+import {useI18n} from "~/common/composable/i18n";
+import {createHeaders} from "~/common/helpers/seo";
 
 const AD_PROTOTYPE = {
   formValid: true
 }
 
-export default {
+export default defineComponent({
   name: "GoogleAdsGenerator",
-  components: {GoogleAdsGeneratorAdForm, GoogleAdsGeneratorResultTable},
+  setup() {
+    const {t} = useI18n()
 
+    useMeta(createHeaders(t('google_ads_generator_seo_title'), t('google_ads_generator_seo_description')))
+  },
   data: () => ({
     validation: limits,
     campaignName: '',
@@ -200,6 +207,37 @@ export default {
     loading: false,
     loadingCsv: false,
   }),
+  head() {},
+
+  computed: {
+    isFormsValid() {
+      const validItemsList = this.ads.map(item => {
+        return item.formValid
+      })
+
+      return validItemsList.every(el => el === true)
+    },
+
+    selectedMatchTypes() {
+      const matchtypes = Object.keys(this.matchtypes)
+      return matchtypes.filter(item => this.matchtypes[item])
+    }
+  },
+  created() {
+    const storedData = JSON.parse(localStorage.getItem('google-ads-generator'));
+    for (const key in storedData) {
+      this[key] = storedData[key];
+    }
+  },
+
+  updated() {
+    const objectToSave = JSON.parse(JSON.stringify(this._data));
+    delete objectToSave.campaignCsv;
+    delete objectToSave.campaignResult;
+    delete objectToSave.loading;
+    delete objectToSave.loadingCsv;
+    localStorage.setItem('google-ads-generator', JSON.stringify(objectToSave))
+  },
   methods: {
     addAds() {
       this.ads.push(AD_PROTOTYPE);
@@ -251,36 +289,6 @@ export default {
         this.loading = false;
       })
     },
-  },
-  created() {
-    const storedData = JSON.parse(localStorage.getItem('google-ads-generator'));
-    for (let key in storedData) {
-      this[key] = storedData[key];
-    }
-  },
-
-  updated() {
-    const objectToSave = JSON.parse(JSON.stringify(this._data));
-    delete objectToSave.campaignCsv;
-    delete objectToSave.campaignResult;
-    delete objectToSave.loading;
-    delete objectToSave.loadingCsv;
-    localStorage.setItem('google-ads-generator', JSON.stringify(objectToSave))
-  },
-
-  computed: {
-    isFormsValid() {
-      const validItemsList = this.ads.map(item => {
-        return item.formValid
-      })
-
-      return validItemsList.every(el => el === true)
-    },
-
-    selectedMatchTypes() {
-      const matchtypes = Object.keys(this.matchtypes)
-      return matchtypes.filter(item => this.matchtypes[item])
-    }
   }
-}
+})
 </script>

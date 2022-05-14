@@ -46,12 +46,12 @@
         <v-row>
           <v-col>
             <v-textarea
+              v-model="result"
               filled
               label="Ссылка с UTM-меткой появится здесь"
-              v-model="result"
               append-icon="content_copy"
-              @click:append="copyResult"
               readonly
+              @click:append="copyResult"
             ></v-textarea>
           </v-col>
         </v-row>
@@ -60,8 +60,8 @@
             <v-row justify="space-between">
               <v-col>
                 <v-select
-                  :disabled="!url"
                   v-model="shortUrl.selectedProvider"
+                  :disabled="!url"
                   :items="shortUrl.prodivers"
                   label="Выбрать провайдера коротких ссылок"
                   item-text="name"
@@ -70,8 +70,9 @@
                 ></v-select>
               </v-col>
               <v-col>
-                <v-btn class="info ml-0 mr-2" @click="urlShortener" :disabled="!url" type="button"
-                       :loading="shortenerLoading">
+                <v-btn
+class="info ml-0 mr-2" :disabled="!url" type="button" :loading="shortenerLoading"
+                       @click="urlShortener">
                   <v-icon small>link</v-icon>&nbsp;
                   Получить короткий URL
                 </v-btn>
@@ -108,9 +109,17 @@
 
 <script>
 import axios from 'axios'
+import {defineComponent, useMeta} from "@nuxtjs/composition-api";
+import {useI18n} from "~/common/composable/i18n";
+import {createHeaders} from "~/common/helpers/seo";
 
-export default {
+export default defineComponent({
   name: "UtmGenerator",
+  setup() {
+    const {t} = useI18n()
+
+    useMeta(createHeaders(t('utm_seo_title'), t('utm_seo_description')))
+  },
   data: () => ({
     trafficSource: '',
     url: '',
@@ -137,11 +146,12 @@ export default {
     snackbar: false
 
   }),
+  head() {},
   computed: {
     result() {
       let url = this.url.trim();
-      let regeXpHashtag = /(#(.+)?)/gmi;
-      let match = url.match(regeXpHashtag);
+      const regeXpHashtag = /(#(.+)?)/gmi;
+      const match = url.match(regeXpHashtag);
 
       if (!url.startsWith('http://') && !url.startsWith('https://')) {
         url = 'https://' + url;
@@ -163,28 +173,28 @@ export default {
       return url;
     },
   },
-  created() {
-    this.initStorage();
-  },
-  updated() {
-    localStorage.setItem('utm', JSON.stringify(this._data))
-  },
   watch: {
     result() {
       this.shortUrl.val = '';
     },
   },
+  mounted() {
+    this.initStorage();
+  },
+  updated() {
+    localStorage.setItem('utm', JSON.stringify(this._data))
+  },
   methods: {
     initStorage() {
-      const storedData = JSON.parse(localStorage.getItem('utm'));
+      const storedData = JSON.parse(localStorage.getItem('utm'))
 
       // Если версия не имеет selectedProvider, значит перезапишем стор
       if (!storedData?.shortUrl?.selectedProvider) {
-        localStorage.setItem('utm', JSON.stringify(this._data));
+       localStorage.setItem('utm', JSON.stringify(this._data));
         return;
       }
 
-      for (let key in storedData) {
+      for (const key in storedData) {
         this[key] = storedData[key];
       }
     },
@@ -274,13 +284,13 @@ export default {
       }
     }
   },
-}
+})
 
 const addParamsToUrl = (url, params) => {
-  const firstSeperator = (url.indexOf('?') === -1 ? '?' : '&');
+  const firstSeperator = (!url.includes('?') ? '?' : '&');
   const queryStringParts = [];
   let isParamExists = false;
-  for (let key in params) {
+  for (const key in params) {
     let value = params[key];
     if (value) {
       if (

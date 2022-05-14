@@ -12,7 +12,8 @@
             <v-text-field v-model="convCount" type="number" label="Число конверсий"></v-text-field>
           </v-flex>
           <v-flex>
-            <v-text-field v-model="convCoef" suffix="%" type="number" label="Коэфициент конверсии"
+            <v-text-field
+v-model="convCoef" suffix="%" type="number" label="Коэфициент конверсии"
                           disabled></v-text-field>
           </v-flex>
         </v-layout>
@@ -27,7 +28,7 @@
           :size="210"
           :width="36"
           :value=percentInt95
-          :color=this.cmap[colorId95]
+          :color=cmap[colorId95]
         >
 					<span>
 						<strong>{{interval95[0]}}%</strong> - <strong>{{interval95[1]}}%</strong><br/>
@@ -77,15 +78,24 @@
 
 <script>
   import colormap from 'colormap'
+  import {defineComponent, useMeta} from "@nuxtjs/composition-api";
+  import {useI18n} from "~/common/composable/i18n";
+  import {createHeaders} from "~/common/helpers/seo";
 
 
-  export default {
+  export default defineComponent({
     name: "StatisticalSignificance",
+    setup() {
+      const {t} = useI18n()
+
+      useMeta(createHeaders(t('stats_calc_seo_title'), t('stats_calc_seo_description')))
+    },
     data: () => ({
       nCount: 0,
       convCount: 0,
       cmap: 0
     }),
+    head() {},
     computed: {
       convCoef() {
         return (this.convCount / this.nCount * 100).toFixed(2)
@@ -113,9 +123,10 @@
         return parseInt(this.percentInt95 * coef > 99 ? 99 : this.percentInt95 * coef);
       }
     },
+    watch: {},
     created() {
       const storedData = JSON.parse(localStorage.getItem('stats-calc'));
-      for (let key in storedData) {
+      for (const key in storedData) {
         this[key] = storedData[key];
       }
 
@@ -140,19 +151,18 @@
 
 
     },
-    watch: {},
-  }
+  })
 
   function getInterval(n, conv, nSigma) {
     if (parseInt(n) === 0 || !n || !conv) {
       return [0, 0, 0]
     }
 
-    let p = conv / n >= 1 ? 1 : conv / n;
-    let std = (n * p * (1 - p)) ** 0.5;
-    let mean = n * p;
+    const p = conv / n >= 1 ? 1 : conv / n;
+    const std = (n * p * (1 - p)) ** 0.5;
+    const mean = n * p;
     let minConv = (mean - std * nSigma) / n;
-    let maxConv = (mean + std * nSigma) / n;
+    const maxConv = (mean + std * nSigma) / n;
     if (minConv < 0) {
       minConv = 0
     }
