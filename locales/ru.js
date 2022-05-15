@@ -85,6 +85,7 @@ export default {
   matchtypes_direct_h1: 'Конвертер типов соответствия Яндекс.Директ',
   matchtypes_direct_subtitle:
     'Добавьте операторы "!" [прямоугольные скобки] и "кавычки" к вашим ключам для Яндекс.Директ',
+  matchtypes_copy_type: 'Скопируйте сюда ключевые слова, каждое с новой строки',
 
   utils: 'Все утилиты',
   not_found_seo_title: 'Страница не найдена (404)',
@@ -95,6 +96,7 @@ export default {
   common_yandex_direct: 'Яндекс.Директ',
   common_reset: 'Сброс',
   common_delete: 'Удалить',
+  common_copy: 'Скопировать',
 
   footer_blog_yaroshenko: 'Блог Ярошенко',
   footer_blog_expirienced_webmaster: 'Блог опытного вебмастера',

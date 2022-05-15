@@ -1,29 +1,29 @@
 <template>
   <div>
     <h1 class="title mb-3">
-      Конвертер типов соответствия ключевых слов Google Ads
+      {{ $t('matchtypes_direct_h1') }}
     </h1>
     <p class="mb-0">
-      {{ $route.meta.description }}
+      {{ $t('matchtypes_direct_seo_description') }}
     </p>
     <v-layout row>
       <v-flex class="pt-0 pb-0" xs12 sm6 md6>
         <v-checkbox
           v-model="phrase"
           hide-details
-          label="Фразовое соответствие"
-        ></v-checkbox>
+          :label="$t('google_ads_generator_field_phrase_label')"
+        />
         <v-checkbox
           v-model="exact"
           hide-details
-          label="Точное соттвестствие"
+          :label="$t('google_ads_generator_field_exact_label')"
         ></v-checkbox>
       </v-flex>
       <v-flex class="pt-0 pb-0" xs12 sm6 md6>
         <v-checkbox
           v-model="broad"
-          label="Широкое соответствие"
-          messages="В данный момент работает по принципу фразового соотвествия"
+          :label="$t('google_ads_generator_field_wide_label')"
+          :messages="$t('google_ads_generator_field_wide_message')"
         />
       </v-flex>
     </v-layout>
@@ -34,18 +34,17 @@
           class=""
           rows="12"
           filled
-          label="Скопируйте сюда ключевые слова, каждое с новой строки"
+          :label="$t('matchtypes_copy_type')"
         />
       </v-flex>
       <v-flex xs12 sm6 md6>
         <!--<v-textarea filled v-model="result" rows="10" label="Здесь появится результат" id="result"></v-textarea>-->
         <v-card color="grey lighten-3 elevation-0 scroll caption" height="255">
-          <v-card-text id="result" contenteditable="true">
-            {{ result }}
+          <v-card-text id="result" contenteditable="true" v-html="result">
           </v-card-text>
         </v-card>
         <v-btn class="success ml-0" @click="copyResult">
-          <v-icon small>file_copy</v-icon>&nbsp; Скопировать
+          <v-icon small>file_copy</v-icon>&nbsp; {{ $t('common_copy') }}
         </v-btn>
       </v-flex>
     </v-layout>

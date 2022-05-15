@@ -86,6 +86,7 @@ export default {
   matchtypes_direct_h1: 'Yandex.Direct match type converter',
   matchtypes_direct_subtitle:
     'Add "!" [right-angle brackets] and "quotes" to your Yandex.Direct keys',
+  matchtypes_copy_type: 'Copy keywords here, each on a new line',
 
   utils: 'All Utilities',
   not_found_seo_title: 'Page not found (404)',
@@ -96,6 +97,7 @@ export default {
   common_yandex_direct: 'Yandex.Direct',
   common_reset: 'Reset',
   common_delete: 'Delete',
+  common_copy: 'Copy',
 
   footer_blog_yaroshenko: "Yaroshenko's blog",
   footer_blog_expirienced_webmaster: 'Experienced webmaster blog',
