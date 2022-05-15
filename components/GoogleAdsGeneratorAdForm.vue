@@ -1,8 +1,5 @@
 <template>
-  <v-form
-    ref="form"
-    v-model="isFormValid"
-  >
+  <v-form ref="form" v-model="isFormValid">
     <v-text-field
       v-model="form.headlines[0]"
       :counter="limits.titleMaxLength"
@@ -40,7 +37,9 @@
 
     <v-row v-if="isShowAddHeadlineBtn">
       <v-col class="d-flex justify-center">
-        <v-btn small color="primary" @click="addHeadline">Добавить заголовок</v-btn>
+        <v-btn small color="primary" @click="addHeadline"
+          >Добавить заголовок</v-btn
+        >
       </v-col>
     </v-row>
 
@@ -57,9 +56,13 @@
       :counter="limits.descMaxLength"
       rows="2"
       label="Описание 2 *"
-      :rules="[requiredField, maxSymbols(limits.descMaxLength)]"    />
+      :rules="[requiredField, maxSymbols(limits.descMaxLength)]"
+    />
 
-    <div v-for="(_, index) in form.descriptions" :key="`description-${index + 1}`">
+    <div
+      v-for="(_, index) in form.descriptions"
+      :key="`description-${index + 1}`"
+    >
       <v-textarea
         v-if="index > 1"
         v-model="form.descriptions[index]"
@@ -73,7 +76,9 @@
 
     <v-row v-if="isShowAddDescriptionBtn">
       <v-col class="d-flex justify-center">
-        <v-btn small color="primary" @click="addDescription">Добавить описание</v-btn>
+        <v-btn small color="primary" @click="addDescription"
+          >Добавить описание</v-btn
+        >
       </v-col>
     </v-row>
 
@@ -108,23 +113,26 @@
   </v-form>
 </template>
 <script>
-import {ref} from "@nuxtjs/composition-api";
-import { limits, maxSymbols, requiredField } from "~/common/helpers/rules";
+import { ref } from '@nuxtjs/composition-api'
+import { limits, maxSymbols, requiredField } from '~/common/helpers/rules'
 
 export default {
   props: {
     formData: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
   },
   setup({ formData }, { emit, refs }) {
-    const formObject = 'headlines' in formData ? formData : {
-      headlines: ['', '', ''],
-      descriptions: ['', ''],
-      paths: ['', ''],
-      url:''
-    }
+    const formObject =
+      'headlines' in formData
+        ? formData
+        : {
+            headlines: ['', '', ''],
+            descriptions: ['', ''],
+            paths: ['', ''],
+            url: '',
+          }
 
     const form = reactive(formObject)
 
@@ -150,11 +158,11 @@ export default {
 
     watch(form, (val) => {
       emit('update:form-data', val)
-    });
+    })
 
     watch(isFormValid, (val) => {
       emit('update:form-valid', val)
-    });
+    })
 
     return {
       form,
@@ -172,6 +180,6 @@ export default {
       requiredField,
       maxSymbols,
     }
-  }
+  },
 }
 </script>

@@ -4,12 +4,12 @@ export default {
     {
       code: 'en',
       iso: 'en-US',
-      file: 'en.js'
+      file: 'en.js',
     },
     {
       code: 'ru',
       iso: 'ru-RU',
-      file: 'ru.js'
+      file: 'ru.js',
     },
   ],
   defaultLocale: 'ru',

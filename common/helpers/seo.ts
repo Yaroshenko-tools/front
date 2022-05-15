@@ -5,8 +5,8 @@ export const createHeaders = (title: string, description: string) => {
       {
         hid: 'description',
         name: 'description',
-        content: description
-      }
+        content: description,
+      },
     ],
   }
 }

@@ -3,7 +3,11 @@
     <h1 v-if="error.statusCode === 404">
       <v-container>
         <h1>Страница, которую вы запрашиваете - не найдена</h1>
-        <p>Вернитесь на <router-link :to="{ name: 'Index'}">главную</router-link> и повторите ваш запрос снова</p>
+        <p>
+          Вернитесь на
+          <router-link :to="{ name: 'Index' }">главную</router-link> и повторите
+          ваш запрос снова
+        </p>
       </v-container>
     </h1>
     <h1 v-else>
@@ -14,9 +18,9 @@
 </template>
 
 <script>
-import {defineComponent, useMeta} from "@nuxtjs/composition-api";
-import {useI18n} from "~/common/composable/i18n";
-import {createHeaders} from "~/common/helpers/seo";
+import { defineComponent, useMeta } from '@nuxtjs/composition-api'
+import { useI18n } from '~/common/composable/i18n'
+import { createHeaders } from '~/common/helpers/seo'
 
 export default defineComponent({
   name: 'EmptyLayout',
@@ -28,9 +32,11 @@ export default defineComponent({
     },
   },
   setup() {
-    const {t} = useI18n()
+    const { t } = useI18n()
 
-    useMeta(createHeaders(t('not_found_seo_title'), t('not_found_seo_description')))
+    useMeta(
+      createHeaders(t('not_found_seo_title'), t('not_found_seo_description'))
+    )
   },
   data() {
     return {

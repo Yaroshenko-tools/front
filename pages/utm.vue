@@ -2,13 +2,40 @@
   <div>
     <h1 class="title mb-4">Генератор UTM-меток</h1>
     <div>Выберите источник трафика или заполните поля вручную:</div>
-    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('adwords')">Google Ads</v-btn>
-    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('direct')">Яндекс.Директ</v-btn>
-    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('vk')">VK.com</v-btn>
-    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('fb')">Facebook</v-btn>
-    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('instagram')">Instagram</v-btn>
-    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('mytarget')">Target.mail.ru</v-btn>
-    <v-btn class="ml-0 mx-2" color="error" small outlined @click="setTrafficSource('reset')">Сброс</v-btn>
+    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('adwords')"
+      >Google Ads</v-btn
+    >
+    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('direct')"
+      >Яндекс.Директ</v-btn
+    >
+    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('vk')"
+      >VK.com</v-btn
+    >
+    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('fb')"
+      >Facebook</v-btn
+    >
+    <v-btn
+      class="ml-0 mx-2"
+      small
+      outlined
+      @click="setTrafficSource('instagram')"
+      >Instagram</v-btn
+    >
+    <v-btn
+      class="ml-0 mx-2"
+      small
+      outlined
+      @click="setTrafficSource('mytarget')"
+      >Target.mail.ru</v-btn
+    >
+    <v-btn
+      class="ml-0 mx-2"
+      color="error"
+      small
+      outlined
+      @click="setTrafficSource('reset')"
+      >Сброс</v-btn
+    >
     <v-text-field
       v-model="url"
       label="URL целевой страницы"
@@ -71,10 +98,13 @@
               </v-col>
               <v-col>
                 <v-btn
-class="info ml-0 mr-2" :disabled="!url" type="button" :loading="shortenerLoading"
-                       @click="urlShortener">
-                  <v-icon small>link</v-icon>&nbsp;
-                  Получить короткий URL
+                  class="info ml-0 mr-2"
+                  :disabled="!url"
+                  type="button"
+                  :loading="shortenerLoading"
+                  @click="urlShortener"
+                >
+                  <v-icon small>link</v-icon>&nbsp; Получить короткий URL
                 </v-btn>
               </v-col>
             </v-row>
@@ -95,13 +125,7 @@ class="info ml-0 mr-2" :disabled="!url" type="button" :loading="shortenerLoading
       </v-flex>
     </v-layout>
 
-    <v-snackbar
-      v-model="snackbar"
-      :timeout="5000"
-      color="success"
-      right
-      bottom
-    >
+    <v-snackbar v-model="snackbar" :timeout="5000" color="success" right bottom>
       Успешно скопировано
     </v-snackbar>
   </div>
@@ -109,14 +133,14 @@ class="info ml-0 mr-2" :disabled="!url" type="button" :loading="shortenerLoading
 
 <script>
 import axios from 'axios'
-import {defineComponent, useMeta} from "@nuxtjs/composition-api";
-import {useI18n} from "~/common/composable/i18n";
-import {createHeaders} from "~/common/helpers/seo";
+import { defineComponent, useMeta } from '@nuxtjs/composition-api'
+import { useI18n } from '~/common/composable/i18n'
+import { createHeaders } from '~/common/helpers/seo'
 
 export default defineComponent({
-  name: "UtmGenerator",
+  name: 'UtmGenerator',
   setup() {
-    const {t} = useI18n()
+    const { t } = useI18n()
 
     useMeta(createHeaders(t('utm_seo_title'), t('utm_seo_description')))
   },
@@ -131,7 +155,7 @@ export default defineComponent({
         },
         {
           name: 'bit.ly',
-        }
+        },
       ],
       selectedProvider: 'vk.cc',
     },
@@ -143,43 +167,42 @@ export default defineComponent({
       utm_content: '',
       utm_term: '',
     },
-    snackbar: false
-
+    snackbar: false,
   }),
   head() {},
   computed: {
     result() {
-      let url = this.url.trim();
-      const regeXpHashtag = /(#(.+)?)/gmi;
-      const match = url.match(regeXpHashtag);
+      let url = this.url.trim()
+      const regeXpHashtag = /(#(.+)?)/gim
+      const match = url.match(regeXpHashtag)
 
       if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        url = 'https://' + url;
+        url = 'https://' + url
       }
 
-      if (this.url.trim() && (url.match(new RegExp('/', "g")) || []).length < 3) {
-        url = url + '/';
+      if (this.url.trim() && (url.match(/\//g) || []).length < 3) {
+        url = url + '/'
       }
 
-      url = addParamsToUrl(url, this.params);
+      url = addParamsToUrl(url, this.params)
 
       // Если в урле есть хештег, отправляем его в конец
       if (match && match[0]) {
-        url = url.replace(match[0], '');
+        url = url.replace(match[0], '')
         // url = (match[0] === '#') ? url : url + match[0];
-        return url + match[0];
+        return url + match[0]
       }
 
-      return url;
+      return url
     },
   },
   watch: {
     result() {
-      this.shortUrl.val = '';
+      this.shortUrl.val = ''
     },
   },
   mounted() {
-    this.initStorage();
+    this.initStorage()
   },
   updated() {
     localStorage.setItem('utm', JSON.stringify(this._data))
@@ -190,32 +213,36 @@ export default defineComponent({
 
       // Если версия не имеет selectedProvider, значит перезапишем стор
       if (!storedData?.shortUrl?.selectedProvider) {
-       localStorage.setItem('utm', JSON.stringify(this._data));
-        return;
+        localStorage.setItem('utm', JSON.stringify(this._data))
+        return
       }
 
       for (const key in storedData) {
-        this[key] = storedData[key];
+        this[key] = storedData[key]
       }
     },
     urlShortener() {
-      this.shortenerLoading = true;
-      axios.post(`${process.env.VUE_APP_BACKEND_URL}/shortener`, {
-        url: this.result,
-        provider: this.shortUrl.selectedProvider
-      })
-        .then(response => {
-          this.shortUrl.val = response.data.url;
-          this.shortenerLoading = false;
-        }, () => this.shortenerLoading = false)
+      this.shortenerLoading = true
+      axios
+        .post(`${process.env.VUE_APP_BACKEND_URL}/shortener`, {
+          url: this.result,
+          provider: this.shortUrl.selectedProvider,
+        })
+        .then(
+          (response) => {
+            this.shortUrl.val = response.data.url
+            this.shortenerLoading = false
+          },
+          () => (this.shortenerLoading = false)
+        )
     },
     copyShortUrl() {
       this.$copyText(this.shortUrl.val)
-      this.snackbar = true;
+      this.snackbar = true
     },
     copyResult() {
       this.$copyText(this.result)
-      this.snackbar = true;
+      this.snackbar = true
     },
     setTrafficSource(source) {
       if (source === 'adwords') {
@@ -279,33 +306,35 @@ export default defineComponent({
           utm_campaign: '',
           utm_content: '',
           utm_term: '',
-        };
-        this.url = '';
+        }
+        this.url = ''
       }
-    }
+    },
   },
 })
 
 const addParamsToUrl = (url, params) => {
-  const firstSeperator = (!url.includes('?') ? '?' : '&');
-  const queryStringParts = [];
-  let isParamExists = false;
+  const firstSeperator = !url.includes('?') ? '?' : '&'
+  const queryStringParts = []
+  let isParamExists = false
   for (const key in params) {
-    let value = params[key];
+    let value = params[key]
     if (value) {
       if (
-        (value.trim().charAt(0) === '{' || value.trim().charAt(value.length - 1) === '}') ||
-        (value.trim().charAt(0) === '[' || value.trim().charAt(value.length - 1) === ']')
+        value.trim().charAt(0) === '{' ||
+        value.trim().charAt(value.length - 1) === '}' ||
+        value.trim().charAt(0) === '[' ||
+        value.trim().charAt(value.length - 1) === ']'
       ) {
         value = value.trim()
       } else {
         value = encodeURIComponent(value.trim())
       }
-      isParamExists = true;
-      queryStringParts.push(key + '=' + value);
+      isParamExists = true
+      queryStringParts.push(key + '=' + value)
     }
   }
-  const queryString = queryStringParts.join('&');
-  return url + (isParamExists ? firstSeperator : '') + queryString;
+  const queryString = queryStringParts.join('&')
+  return url + (isParamExists ? firstSeperator : '') + queryString
 }
 </script>

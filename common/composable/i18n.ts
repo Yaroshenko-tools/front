@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import { computed, getCurrentInstance ,useContext} from '@nuxtjs/composition-api'
+import {
+  computed,
+  getCurrentInstance,
+  useContext,
+} from '@nuxtjs/composition-api'
 import type { WritableComputedRef } from '@nuxtjs/composition-api'
 
 export interface Composer {
@@ -9,21 +13,21 @@ export interface Composer {
   tc: typeof VueI18n.prototype.tc
   te: typeof VueI18n.prototype.te
   d: typeof VueI18n.prototype.d
-  n: typeof VueI18n.prototype.n,
-  localePath: string,
+  n: typeof VueI18n.prototype.n
+  localePath: string
 }
 
 export function useI18n(): Composer {
-  const { app } = useContext();
+  const { app } = useContext()
 
-  const i18nInstance = app.i18n;
+  const i18nInstance = app.i18n
 
   if (!i18nInstance) throw new Error('nuxt-i18n not initialized')
 
   const i18n = i18nInstance
 
-  const instance = getCurrentInstance();
-  const vm = instance?.proxy || new Vue({});
+  const instance = getCurrentInstance()
+  const vm = instance?.proxy || new Vue({})
 
   const locale = computed({
     get() {
@@ -31,7 +35,7 @@ export function useI18n(): Composer {
     },
     set(v: string) {
       i18n.locale = v
-    }
+    },
   })
 
   return {

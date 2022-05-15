@@ -2,12 +2,16 @@
   <table id="table-result">
     <thead>
       <tr class="text-xs-left">
-        <th v-for="(item, index) in headers" :key="`header-${index}`">{{item}}</th>
+        <th v-for="(item, index) in headers" :key="`header-${index}`">
+          {{ item }}
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(row, index) in body" :key="`row-${index}`" >
-        <td v-for="(column, index) in row" :key="`column-${index}`">{{ column }}</td>
+      <tr v-for="(row, indexRow) in body" :key="`row-${indexRow}`">
+        <td v-for="(column, index) in row" :key="`column-${index}`">
+          {{ column }}
+        </td>
       </tr>
     </tbody>
   </table>
@@ -17,8 +21,8 @@ export default {
   props: {
     items: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   setup(props) {
     const headers = props.items[0]
@@ -28,6 +32,6 @@ export default {
       headers,
       body,
     }
-  }
+  },
 }
 </script>

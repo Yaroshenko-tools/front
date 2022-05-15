@@ -1,5 +1,6 @@
-export const requiredField = v => !!v || 'Поле обязательно'
-export const maxSymbols = maxSymbols => v => (v || '').length <= maxSymbols ||
+export const requiredField = (v) => !!v || 'Поле обязательно'
+export const maxSymbols = (maxSymbols) => (v) =>
+  (v || '').length <= maxSymbols ||
   `Вы превысили максимальное ${maxSymbols} количество символов`
 
 export const limits = {

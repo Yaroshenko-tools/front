@@ -7,7 +7,7 @@ export default {
         primary: '#1976d2',
       },
       dark: {
-        primary: '#1976d2'
+        primary: '#1976d2',
       },
     },
     options: {
