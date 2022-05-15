@@ -120,7 +120,7 @@ export default defineComponent({
         if (keyword) {
           // eslint-disable-next-line no-useless-escape
           const exactKeyword =
-            '\!' + keyword.replaceAll('\\+', '').replaceAll(' ', ' \!')
+            '!' + keyword.replaceAll('\\+', '').replaceAll(' ', ' !')
           const keywordNoPluses = keyword.replaceAll('\\+', '')
           if (this.noOperators) {
             result =
@@ -130,7 +130,7 @@ export default defineComponent({
             // eslint-disable-next-line no-useless-escape
             result =
               result +
-              `<div class="red--text text--darken-4">\"${keywordNoPluses}\"</div>`
+              `<div class="red--text text--darken-4">"${keywordNoPluses}"</div>`
           }
           if (this.exact) {
             result =
@@ -141,25 +141,25 @@ export default defineComponent({
             // eslint-disable-next-line no-useless-escape
             result =
               result +
-              `<div class="blue--text text--darken-3">\[${keyword}\]</div>`
+              `<div class="blue--text text--darken-3">[${keyword}]</div>`
           }
           if (this.quotesAndBrackets) {
             // eslint-disable-next-line no-useless-escape
             result =
               result +
-              `<div class="blue--text text--darken-4">\"\[${keywordNoPluses}\]\"</div>`
+              `<div class="blue--text text--darken-4">"[${keywordNoPluses}]"</div>`
           }
           if (this.quotesAndExact) {
             // eslint-disable-next-line no-useless-escape
             result =
               result +
-              `<div class="green--text text--darken-3">\"${exactKeyword}\"</div>`
+              `<div class="green--text text--darken-3">"${exactKeyword}"</div>`
           }
           if (this.quotesBracketsAndExact) {
             // eslint-disable-next-line no-useless-escape
             result =
               result +
-              `<div class="green--text text--darken-4">\"\[${exactKeyword}\]\"</div>`
+              `<div class="green--text text--darken-4">"[${exactKeyword}]"</div>`
           }
         }
       }
