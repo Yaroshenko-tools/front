@@ -9,7 +9,9 @@
     <h1 v-else>
       {{ otherError }}
     </h1>
-    <NuxtLink :to="{ name: 'index' }"> {{ $t('not_found_home') }} </NuxtLink>
+    <NuxtLink :to="localePath({ name: 'index' })">
+      {{ $t('not_found_home') }}
+    </NuxtLink>
   </v-app>
 </template>
 
