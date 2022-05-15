@@ -68,6 +68,15 @@ export default {
   stats_calc_h1: 'Калькулятор статистической значимости',
   stats_calc_subtitle:
     'Введите число кликов и конверсий (или коэффициент конверсии) и получите интервалы, в которых могут лежать конверсия с вероятностью 70%, 80%, 90%, 95% и 99%',
+  stats_calc_field_clicks_label: 'Число кликов',
+  stats_calc_field_conversion_label: 'Число конверсий',
+  stats_calc_field_conversion_coefficient_label: 'Коэфициент конверсии',
+  stats_calc_result_title: 'Вот насколько значимые получились результаты:',
+  stats_calc_probability:
+    'С вероятностью <strong>{0}</strong> конверсия находится между\n' +
+    '<strong>{1}%</strong> и\n' +
+    '<strong>{2}%</strong>. Отклонение\n' +
+    '<strong>±{3}%</strong>',
 
   matchtypes_direct_seo_title:
     'Утилита для добавления операторов Яндекс.Директ к ключам',

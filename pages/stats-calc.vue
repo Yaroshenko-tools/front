@@ -1,9 +1,8 @@
 <template>
   <div>
-    <h1 class="title mb-3">Калькулятор статистической значимости</h1>
+    <h1 class="title mb-3">{{ $t('stats_calc_h1') }}</h1>
     <p class="mb-0">
-      Введите число кликов и конверсий и получите интервалы, в которых может
-      лежать конверсия с вероятностью 70%, 80%, 90%, 95% и 99%
+      {{ $t('stats_calc_subtitle') }}
     </p>
 
     <v-layout row wrap>
@@ -11,31 +10,28 @@
         <v-text-field
           v-model="nCount"
           type="number"
-          label="Число кликов"
-        ></v-text-field>
+          :label="$t('stats_calc_field_clicks_label')"
+        />
         <v-layout row>
           <v-flex>
             <v-text-field
               v-model="convCount"
               type="number"
-              label="Число конверсий"
-            ></v-text-field>
+              :label="$t('stats_calc_field_conversion_label')"
+            />
           </v-flex>
           <v-flex>
             <v-text-field
               v-model="convCoef"
               suffix="%"
               type="number"
-              label="Коэфициент конверсии"
+              :label="$t('stats_calc_field_conversion_coefficient_label')"
               disabled
-            ></v-text-field>
+            />
           </v-flex>
         </v-layout>
         <p class="caption">
-          На диаграмме видно, какая может быть конверсия с вероятностью 95%
-          (доверительный интервал). <br />
-          Вероятность в 95% (<var>{{ 'p < 0.05' }}</var
-          >) взята как общепринятый уровень статистической значимости.
+          <nuxt-content :document="diagramTip" />
         </p>
       </v-flex>
       <v-flex xs12 sm12 md6 class="text-xs-center">
@@ -56,38 +52,58 @@
       <v-flex xs12 sm12 md12>
         <v-card>
           <v-card-text>
-            <h3 class="mb-2">Вот насколько значимые получились результаты:</h3>
+            <h3 class="mb-2">{{ $t('stats_calc_result_title') }}</h3>
             <ul>
-              <li>
-                С вероятностью <strong>99%</strong> конверсия находится между
-                <strong>{{ interval99[0] }}%</strong> и
-                <strong>{{ interval99[1] }}%</strong>. Отклонение
-                <strong>±{{ interval99[2] }}%</strong>
-              </li>
-              <li>
-                С вероятностью <strong>95%</strong> конверсия находится между
-                <strong>{{ interval95[0] }}%</strong> и
-                <strong>{{ interval95[1] }}%</strong>. Отклонение
-                <strong>±{{ interval95[2] }}%</strong>
-              </li>
-              <li>
-                С вероятностью <strong>90%</strong> конверсия находится между
-                <strong>{{ interval90[0] }}%</strong> и
-                <strong>{{ interval90[1] }}%</strong>. Отклонение
-                <strong>±{{ interval90[2] }}%</strong>
-              </li>
-              <li>
-                С вероятностью <strong>80%</strong> конверсия находится между
-                <strong>{{ interval80[0] }}%</strong> и
-                <strong>{{ interval80[1] }}%</strong>. Отклонение
-                <strong>±{{ interval80[2] }}%</strong>
-              </li>
-              <li>
-                С вероятностью <strong>70%</strong> конверсия находится между
-                <strong>{{ interval70[0] }}%</strong> и
-                <strong>{{ interval70[1] }}%</strong>. Отклонение
-                <strong>±{{ interval70[2] }}%</strong>
-              </li>
+              <li
+                v-html="
+                  $t('stats_calc_probability', [
+                    '99%',
+                    interval99[0],
+                    interval99[1],
+                    interval99[2],
+                  ])
+                "
+              />
+              <li
+                v-html="
+                  $t('stats_calc_probability', [
+                    '95%',
+                    interval95[0],
+                    interval95[1],
+                    interval95[2],
+                  ])
+                "
+              />
+              <li
+                v-html="
+                  $t('stats_calc_probability', [
+                    '90%',
+                    interval90[0],
+                    interval90[1],
+                    interval90[2],
+                  ])
+                "
+              />
+              <li
+                v-html="
+                  $t('stats_calc_probability', [
+                    '80%',
+                    interval80[0],
+                    interval80[1],
+                    interval80[2],
+                  ])
+                "
+              />
+              <li
+                v-html="
+                  $t('stats_calc_probability', [
+                    '70%',
+                    interval70[0],
+                    interval70[1],
+                    interval70[2],
+                  ])
+                "
+              />
             </ul>
           </v-card-text>
         </v-card>
@@ -96,16 +112,10 @@
     <v-layout>
       <v-flex class="mt-5">
         <p>
-          Вместо кликов и конверсий можно использовать показы и клики
-          соответственно, чтобы считать значения CTR вместо конверсии.
+          {{ adviceTip.title }}
         </p>
         <p class="text--secondary caption">
-          На самом деле, это не совсем калькулятор статистической занчимости,
-          <code>70%.. 99% = 1 - p</code>, где p &mdash; уровень значимости, т.е.
-          он уже нами задан.
-          <br />
-          В математической модели используются некоторые допущения, поэтому
-          значения - не истина в последней инстанции. Имейте ввиду :)
+          <nuxt-content :document="adviceTip" />
         </p>
       </v-flex>
     </v-layout>
@@ -126,6 +136,22 @@ export default defineComponent({
     useMeta(
       createHeaders(t('stats_calc_seo_title'), t('stats_calc_seo_description'))
     )
+  },
+  async asyncData({ $content, i18n }) {
+    const diagramTip = await $content(
+      i18n.locale,
+      'stats-calc/diagram-tip'
+    ).fetch()
+
+    const adviceTip = await $content(
+      i18n.locale,
+      'stats-calc/advice-tip'
+    ).fetch()
+
+    return {
+      diagramTip,
+      adviceTip,
+    }
   },
   data: () => ({
     nCount: 0,

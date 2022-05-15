@@ -69,6 +69,15 @@ export default {
   stats_calc_h1: 'Statistical Significance Calculator',
   stats_calc_subtitle:
     'Enter the number of clicks and conversions (or conversion rate) and get the intervals in which a conversion can lie with a probability of 70%, 80%, 90%, 95% and 99%',
+  stats_calc_field_clicks_label: 'Number of clicks',
+  stats_calc_field_conversion_label: 'Number of conversions',
+  stats_calc_field_conversion_coefficient_label: 'Conversion Rate',
+  stats_calc_result_title: 'Here are the results:',
+  stats_calc_probability:
+    'Probably <strong>{0}</strong> conversion is between\n' +
+    '<strong>{1}%</strong> and\n' +
+    '<strong>{2}%</strong>. Deviation\n' +
+    '<strong>±{3}%</strong>',
 
   matchtypes_direct_seo_title:
     'Utility for adding Yandex.Direct operators to keywords',
