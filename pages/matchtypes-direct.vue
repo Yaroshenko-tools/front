@@ -1,52 +1,53 @@
 <template>
   <div>
     <h1 class="title mb-3">
-      Утилита, добавляющая к ключам операторы Яндекс.Директ
+      {{ $t('matchtypes_direct_seo_title') }}
     </h1>
     <p class="mb-0">
-      Добавьте операторы "кавычки", !восклицательный !знак и [квадратные
-      скобки], чтобы зафиксировать число слов, словоформу или порядок слов для
-      Яндекс.Директ
+      {{ $t('matchtypes_direct_description') }}
     </p>
     <v-layout row>
       <v-flex class="pt-0 pb-0" xs12 sm6 md6>
         <v-checkbox
           v-model="noOperators"
           hide-details
-          label="Ничего не фиксировать"
-        ></v-checkbox>
+          :label="$t('matchtypes_field_not_fix_label')"
+        />
+
         <v-checkbox
           v-model="quotes"
           hide-details
-          label='"Зафиксировать число слов"'
-        ></v-checkbox>
+          :label="`'${$t('matchtypes_field_fix_count_words_label')}'`"
+        />
         <v-checkbox
           v-model="exact"
           hide-details
-          label="!Зафиксировать !словоформу"
-        ></v-checkbox>
+          :label="$t('matchtypes_field_fix_word_form_label')"
+        />
         <v-checkbox
           v-model="quotesAndExact"
           hide-details
-          label='"!Зафиксировать !число !слов !и !словоформу"'
-        ></v-checkbox>
+          :label="`'${$t('matchtypes_field_fix_count_word_form_label')}'`"
+        />
       </v-flex>
       <v-flex class="pt-0 pb-0" xs12 sm6 md6>
         <v-checkbox
           v-model="brackets"
           hide-details
-          label="[Зафиксировать порядок слов]"
-        ></v-checkbox>
+          :label="$t('matchtypes_field_fix_order_word_label')"
+        />
         <v-checkbox
           v-model="quotesAndBrackets"
           hide-details
-          label='"[Зафиксировать порядок и число слов]"'
-        ></v-checkbox>
+          :label="`'${$t('matchtypes_field_fix_order_word_and_count_label')}'`"
+        />
         <v-checkbox
           v-model="quotesBracketsAndExact"
           hide-details
-          label='"[!Зафиксировать !порядок !число !слов !и !словоформу]"'
-        ></v-checkbox>
+          :label="`'${$t(
+            'matchtypes_field_fix_order_word_and_count_and_form_label'
+          )}'`"
+        />
       </v-flex>
     </v-layout>
 
@@ -57,18 +58,16 @@
           class=""
           rows="12"
           filled
-          label="Скопируйте сюда ключевые слова, каждое с новой строки"
-        ></v-textarea>
+          :label="$t('matchtypes_field_keyword_label')"
+        />
       </v-flex>
       <v-flex xs12 sm6 md6>
         <!--<v-textarea filled v-model="result" rows="10" label="Здесь появится результат" id="result"></v-textarea>-->
         <v-card color="grey lighten-3 elevation-0 scroll caption" height="255">
-          <v-card-text id="result" contenteditable="true">{{
-            result
-          }}</v-card-text>
+          <v-card-text id="result" contenteditable="true" v-html="result" />
         </v-card>
         <v-btn class="success ml-0" @click="copyResult">
-          <v-icon small>file_copy</v-icon>&nbsp; Скопировать
+          <v-icon small>file_copy</v-icon>&nbsp; {{ $t('common_copy') }}
         </v-btn>
       </v-flex>
     </v-layout>

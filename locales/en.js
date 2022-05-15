@@ -84,9 +84,20 @@ export default {
   matchtypes_direct_seo_description:
     'The utility adds operators !exclamation !mark, "quotation marks" and [right-angle brackets], fixing the word form, number of words and their order to keywords for Yandex.Direct.',
   matchtypes_direct_h1: 'Yandex.Direct match type converter',
-  matchtypes_direct_subtitle:
-    'Add "!" [right-angle brackets] and "quotes" to your Yandex.Direct keys',
-  matchtypes_copy_type: 'Copy keywords here, each on a new line',
+  matchtypes_direct_description:
+    'Add the quotes, !exclamation !mark, and [square brackets] operators to fix the number of words, word form, or word order for Yandex.Direct',
+  matchtypes_copy_type: 'Copy keywords here, each with a new line',
+  matchtypes_field_not_fix_label: 'Fix nothing',
+  matchtypes_field_fix_count_words_label: 'Fix number of words',
+  matchtypes_field_fix_word_form_label: '!Fix !wordform',
+  matchtypes_field_fix_count_word_form_label:
+    '!Fix !number of !words !and !word form',
+  matchtypes_field_fix_order_word_label: '[Fix word order]',
+  matchtypes_field_fix_order_word_and_count_label:
+    '[Fix order and number of words]',
+  matchtypes_field_fix_order_word_and_count_and_form_label:
+    '[!Fix !order !number of !words !and !word form]',
+  matchtypes_field_keyword_label: 'Copy keywords here, each with each line',
 
   utils: 'All Utilities',
   not_found_seo_title: 'Page not found (404)',

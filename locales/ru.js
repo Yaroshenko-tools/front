@@ -85,7 +85,21 @@ export default {
   matchtypes_direct_h1: 'Конвертер типов соответствия Яндекс.Директ',
   matchtypes_direct_subtitle:
     'Добавьте операторы "!" [прямоугольные скобки] и "кавычки" к вашим ключам для Яндекс.Директ',
+  matchtypes_direct_description:
+    'Добавьте операторы "кавычки", !восклицательный !знак и [квадратные скобки], чтобы зафиксировать число слов, словоформу или порядок слов для Яндекс.Директ',
   matchtypes_copy_type: 'Скопируйте сюда ключевые слова, каждое с новой строки',
+  matchtypes_field_not_fix_label: 'Ничего не фиксировать',
+  matchtypes_field_fix_count_words_label: 'Зафиксировать число слов',
+  matchtypes_field_fix_word_form_label: '!Зафиксировать !словоформу',
+  matchtypes_field_fix_count_word_form_label:
+    '!Зафиксировать !число !слов !и !словоформу',
+  matchtypes_field_fix_order_word_label: '[Зафиксировать порядок слов]',
+  matchtypes_field_fix_order_word_and_count_label:
+    '[Зафиксировать порядок и число слов]',
+  matchtypes_field_fix_order_word_and_count_and_form_label:
+    '[!Зафиксировать !порядок !число !слов !и !словоформу]',
+  matchtypes_field_keyword_label:
+    'Скопируйте сюда ключевые слова, каждое с новой строки',
 
   utils: 'Все утилиты',
   not_found_seo_title: 'Страница не найдена (404)',
