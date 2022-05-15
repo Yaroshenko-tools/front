@@ -13,6 +13,21 @@ export default {
   utm_h1: 'Генератор UTM-меток',
   utm_subtitle:
     'Создайте ссылку с UTM-метками для Google Ads, Яндекс.Директ, VK, Facebook, Instagram и target.mail.ru',
+  utm_choose_source_traffic:
+    'Выберите источник трафика или заполните поля вручную',
+  utm_field_url_label: 'URL целевой страницы',
+  utm_field_url_placeholder:
+    'Вставьте сюда ссылку на сайт или целевую страницу. Например: https://yaroshenko.tools',
+  utm_field_utm_source_placeholder: 'Источника трафика. Например, google',
+  utm_field_utm_medium_placeholder: 'Тип трафика. Например: cpc, email, banner',
+  utm_field_utm_campaign_placeholder:
+    'Рекламная кампания: например, google-poisk',
+  utm_field_utm_content_placeholder: 'Например, cpc, email, banner',
+  utm_field_utm_term_placeholder: 'Ключевое слово. Например, макрос {keyword}',
+  utm_field_link_utm_tags_label: 'Ссылка с UTM-меткой появится здесь',
+  utm_field_provider_label: 'Выбрать провайдера коротких ссылок',
+  utm_get_short_url: 'Получить короткий URL',
+  utm_success_copy: 'Успешно скопировано',
 
   matchtypes_seo_title: 'Утилита для работы с типами соответствия Google Ads',
   matchtypes_seo_description:
@@ -49,6 +64,8 @@ export default {
 
   common_bug:
     'Хотите что-то добавить, предложить новую утилиту или нашли баг? Напишите в чат в телеграмме',
+  common_yandex_direct: 'Яндекс.Директ',
+  common_reset: 'Сброс',
 
   footer_blog_yaroshenko: 'Блог Ярошенко',
   footer_blog_expirienced_webmaster: 'Блог опытного вебмастера',

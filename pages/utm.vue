@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h1 class="title mb-4">Генератор UTM-меток</h1>
-    <div>Выберите источник трафика или заполните поля вручную:</div>
+    <h1 class="title mb-4">{{ $t('utm_h1') }}</h1>
+    <div>{{ $t('utm_choose_source_traffic') }}:</div>
     <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('adwords')"
       >Google Ads</v-btn
     >
-    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('direct')"
-      >Яндекс.Директ</v-btn
-    >
+    <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('direct')">
+      {{ $t('common_yandex_direct') }}
+    </v-btn>
     <v-btn class="ml-0 mx-2" small outlined @click="setTrafficSource('vk')"
       >VK.com</v-btn
     >
@@ -34,40 +34,41 @@
       small
       outlined
       @click="setTrafficSource('reset')"
-      >Сброс</v-btn
     >
+      {{ $t('common_reset') }}
+    </v-btn>
     <v-text-field
       v-model="url"
-      label="URL целевой страницы"
-      placeholder="Вставьте сюда ссылку на сайт или целевую страницу. Например: https://yaroshenko.tools"
+      :label="$t('utm_field_url_label')"
+      :placeholder="$t('utm_field_url_placeholder')"
     ></v-text-field>
     <v-layout row>
       <v-flex xs12 sm6 md6>
         <v-text-field
           v-model="params.utm_source"
           label="utm_source *"
-          placeholder="Источника трафика. Например, google"
+          :placeholder="$t('utm_field_utm_source_placehoder')"
         ></v-text-field>
         <v-text-field
           v-model="params.utm_medium"
           label="utm_medium *"
-          placeholder="Тип трафика. Например: cpc, email, banner"
+          :placeholder="$t('utm_field_utm_medium_placeholder')"
         ></v-text-field>
         <v-text-field
           v-model="params.utm_campaign"
           label="utm_campaign *"
-          placeholder="Рекламная кампания: например, google-poisk"
+          :placeholder="$t('utm_field_utm_campaign_placeholder')"
         ></v-text-field>
         <v-text-field
           v-model="params.utm_content"
           label="utm_content"
-          placeholder="Например, cpc, email, banner"
+          :placeholder="$t('utm_field_utm_content_placeholder')"
         ></v-text-field>
         <v-text-field
           v-model="params.utm_term"
           label="utm_term"
-          placeholder="Ключевое слово. Например, макрос {keyword}"
-        ></v-text-field>
+          :placeholder="$t('utm_field_utm_term_placeholder')"
+        />
       </v-flex>
       <v-flex xs12 sm6 md6>
         <v-row>
@@ -75,11 +76,11 @@
             <v-textarea
               v-model="result"
               filled
-              label="Ссылка с UTM-меткой появится здесь"
+              :label="$t('utm_field_link_utm_tags_label')"
               append-icon="content_copy"
               readonly
               @click:append="copyResult"
-            ></v-textarea>
+            />
           </v-col>
         </v-row>
         <v-row>
@@ -90,11 +91,11 @@
                   v-model="shortUrl.selectedProvider"
                   :disabled="!url"
                   :items="shortUrl.prodivers"
-                  label="Выбрать провайдера коротких ссылок"
+                  :label="$t('utm_field_provider_label')"
                   item-text="name"
                   single-line
                   class="ml-0 mr-2 mt-0 pt-0"
-                ></v-select>
+                />
               </v-col>
               <v-col>
                 <v-btn
@@ -104,7 +105,8 @@
                   :loading="shortenerLoading"
                   @click="urlShortener"
                 >
-                  <v-icon small>link</v-icon>&nbsp; Получить короткий URL
+                  <v-icon small>link</v-icon>&nbsp;
+                  {{ $t('utm_get_short_url') }}
                 </v-btn>
               </v-col>
             </v-row>
@@ -126,7 +128,7 @@
     </v-layout>
 
     <v-snackbar v-model="snackbar" :timeout="5000" color="success" right bottom>
-      Успешно скопировано
+      {{ $t('utm_success_copy') }}
     </v-snackbar>
   </div>
 </template>

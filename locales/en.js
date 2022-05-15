@@ -13,6 +13,22 @@ export default {
   utm_h1: 'UTM tag generator',
   utm_subtitle:
     'Create a link with UTM tags for Google Ads, Yandex.Direct, VK, Facebook, Instagram and target.mail.ru',
+  utm_choose_source_traffic:
+    'Select a traffic source or fill in the fields manually',
+  utm_field_url_label: 'Landing Page URL',
+  utm_field_url_placeholder:
+    'Insert a link to your website or landing page here. For example: https://yaroshenko.tools',
+  utm_field_utm_source_placeholder: 'Traffic source. For example, google',
+  utm_field_utm_medium_placeholder:
+    'Traffic type. For example: cpc, email, banner',
+  utm_field_utm_campaign_placeholder:
+    'Advertising campaign: for example, google-poisk',
+  utm_field_utm_content_placeholder: 'For example, cpc, email, banner',
+  utm_field_utm_term_placeholder: 'Keyword. For example, macro {keyword}',
+  utm_field_link_utm_tags_label: 'Utm tag link will appear here',
+  utm_field_provider_label: 'Select short link provider',
+  utm_get_short_url: 'Get short URL',
+  utm_success_copy: 'Successfully copied',
 
   matchtypes_seo_title: 'Google Ads match types tool',
   matchtypes_seo_description:
@@ -49,6 +65,8 @@ export default {
 
   common_bug:
     'Do you want to add something, suggest a new utility or found a bug? Chat on telegram',
+  common_yandex_direct: 'Yandex.Direct',
+  common_reset: 'Reset',
 
   footer_blog_yaroshenko: "Yaroshenko's blog",
   footer_blog_expirienced_webmaster: 'Experienced webmaster blog',
