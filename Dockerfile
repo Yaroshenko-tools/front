@@ -7,7 +7,7 @@ WORKDIR /app
 COPY . /app
 
 RUN yarn upgrade
-RUN npm run build
+RUN npm run generate
 
 #production
 FROM nginx:1.19.1-alpine as production-stage
