@@ -134,7 +134,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { defineComponent, useMeta } from '@nuxtjs/composition-api'
 import { useI18n } from '~/common/composable/i18n'
 import { createHeaders } from '~/common/helpers/seo'
@@ -225,8 +224,8 @@ export default defineComponent({
     },
     urlShortener() {
       this.shortenerLoading = true
-      axios
-        .post(`${process.env.VUE_APP_BACKEND_URL}/shortener`, {
+      this.$axios
+        .post(`/shortener`, {
           url: this.result,
           provider: this.shortUrl.selectedProvider,
         })

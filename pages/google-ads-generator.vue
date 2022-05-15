@@ -195,7 +195,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
 import dayjs from 'dayjs'
 
 import { defineComponent, useMeta } from '@nuxtjs/composition-api'
@@ -312,8 +311,8 @@ export default defineComponent({
     downloadCsv() {
       this.loading = false
       this.loadingCsv = true
-      axios
-        .post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
+      this.$axios
+        .post(`/campaign-generator`, {
           keywords: this.keywords.split(/\r?\n/),
           ads: this.ads,
           matchtypes: this.selectedMatchTypes,
@@ -342,8 +341,8 @@ export default defineComponent({
       this.loading = true
       this.loadingCsv = false
 
-      axios
-        .post(`${process.env.VUE_APP_BACKEND_URL}/campaign-generator`, {
+      this.$axios
+        .post(`/campaign-generator`, {
           keywords: this.keywords.split(/\r?\n/),
           ads: this.ads,
           matchtypes: this.selectedMatchTypes,
