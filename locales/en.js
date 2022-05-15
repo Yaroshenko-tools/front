@@ -37,12 +37,31 @@ export default {
   matchtypes_subtitle:
     'Turn a list of keywords into broad, phrase, and exact match keys',
 
-  google_ads_generator_seo_title: 'Google Ads Generator',
+  google_ads_generator_seo_title: 'Google Adaptive Ads Generator',
   google_ads_generator_seo_description:
     'Generate Google Ads Campaigns, Ad Sets, Keys in Different Match Types and Ads in 60 Seconds!',
   google_ads_generator_h1: 'Google Ads Generator',
   google_ads_generator_subtitle:
     'Create a Google AdWords campaign with keywords in 60 seconds! Generate groups and ads with keywords based on given keywords and ad templates.',
+  google_ads_generator_field_keyword_label: 'Insert keywords here',
+  google_ads_generator_field_phrase_label: 'Phrase match',
+  google_ads_generator_field_exact_label: 'Exact match',
+  google_ads_generator_field_wide_label: 'Wide match',
+  google_ads_generator_field_wide_message:
+    'Currently works on the principle of phrase matching',
+  google_ads_generator_ad: 'Responsive ad',
+  google_ads_generator_fields_werent_filled:
+    'All required fields are not filled. There will be no announcement\n' +
+    ' included in the generated campaign',
+  google_ads_generator_copy: 'Copy ad',
+  google_ads_generator_field_campaign_name_label: 'Campaign name',
+  google_ads_generator_field_campaign_name_hint:
+    'If you are importing into an already created campaign, just copy its exact name here.',
+  google_ads_generator_generate: 'Generate Campaign',
+  google_ads_generator_download_csv: 'Download campaign in .CSV format',
+  google_ads_generator_copy_campaign: 'Copy campaign to clipboard',
+  google_ads_generator_video:
+    'How to use the Google Ads Generator. Tutorial video',
 
   stats_calc_seo_title: 'Statistical Significance Calculator',
   stats_calc_seo_description:
@@ -67,6 +86,7 @@ export default {
     'Do you want to add something, suggest a new utility or found a bug? Chat on telegram',
   common_yandex_direct: 'Yandex.Direct',
   common_reset: 'Reset',
+  common_delete: 'Delete',
 
   footer_blog_yaroshenko: "Yaroshenko's blog",
   footer_blog_expirienced_webmaster: 'Experienced webmaster blog',

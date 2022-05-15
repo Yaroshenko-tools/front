@@ -1,13 +1,8 @@
 <template>
   <div>
-    <h1 class="title mb-3">Генератор адаптивных объявлений Google Ads</h1>
+    <h1 class="title mb-3">{{ $t('google_ads_generator_h1') }}</h1>
     <p>
-      Создайте кампанию в Google AdWords из ключевых слов и масок за 60 секнуд!
-      Утилита генерирует группы объявлений (1 ключ = 1 группа), ключевые слова в
-      выбранных вами типах соответствия и объявления в группе. В объявления
-      можно подставлять ключ или N-ное по счету слово из ключа. Скопируйте
-      результат, вставьте в AdWords Editor. Отлично подойдет, чтобы быстро
-      собрать структуру кампании по маскам или для SKA (Single Keyword Adgroup).
+      <nuxt-content :document="subDescription" />
     </p>
     <v-layout row>
       <v-flex md4>
@@ -16,7 +11,7 @@
             <v-textarea
               v-model="keywords"
               filled
-              label="Вставьте сюда ключевые слова"
+              :label="$t('google_ads_generator_field_keyword_label')"
               :rows="8"
               class="mb-0"
             />
@@ -28,7 +23,7 @@
               v-model="matchtypes.phrase"
               hide-details
               dense
-              label="Фразовое соответствие"
+              :label="$t('google_ads_generator_field_phrase_label')"
             />
           </v-col>
         </v-row>
@@ -38,7 +33,7 @@
               v-model="matchtypes.exact"
               hide-details
               dense
-              label="Точное соответствие"
+              :label="$t('google_ads_generator_field_exact_label')"
             />
           </v-col>
         </v-row>
@@ -47,31 +42,15 @@
             <v-checkbox
               v-model="matchtypes.broad"
               class="mt-0"
-              messages="В данный момент работает по принципу фразового соотвествия"
-              label="Широкое соответствие"
+              :messages="$t('google_ads_generator_field_wide_message')"
+              :label="$t('google_ads_generator_field_wide_label')"
               dense
             />
           </v-col>
         </v-row>
         <v-row>
           <v-col>
-            <p class="mt-4 mb-0">
-              Можно задать уникальный URL и/или Заголовок 1 для любого ключа в
-              формате:
-              <strong><code>keyword|url|заголовок1</code></strong>
-            </p>
-            <p class="mb-0">
-              Только URL: <strong><code>keyword|url</code></strong
-              ><br />
-            </p>
-            <p class="mb-0">
-              Только заголовок:
-              <strong><code>keyword||заголовок1</code></strong>
-            </p>
-            <p>
-              Пример:
-              <strong><code>панель-пвх||Купить панель-пвх</code></strong>
-            </p>
+            <p><nuxt-content :document="keywordTips" /></p>
           </v-col>
         </v-row>
       </v-flex>
@@ -81,7 +60,7 @@
             <v-expansion-panel-header>
               <div>
                 <span class="pa-0">
-                  Адаптивное объявление {{ index + 1 }}
+                  {{ $t('google_ads_generator_ad') }} {{ index + 1 }}
                 </span>
                 <span class="pa-0">
                   <v-icon v-if="ads[index].formValid" small color="success"
@@ -91,10 +70,9 @@
                     <template #activator="{ on }">
                       <v-icon small color="warning" v-on="on">error</v-icon>
                     </template>
-                    <span
-                      >Не заполнены все обязательные поля. Объявление не будет
-                      включено в сгенерированную кампанию</span
-                    >
+                    <span>
+                      {{ $t('google_ads_generator_fields_werent_filled') }}
+                    </span>
                   </v-tooltip>
                 </span>
               </div>
@@ -110,11 +88,12 @@
                   small
                   class="red--text"
                   @click.prevent="deleteAd(index)"
-                  >Удалить</v-btn
                 >
-                <v-btn text small class="right" @click.prevent="copyAd(index)"
-                  >Скопировать объявление</v-btn
-                >
+                  {{ $t('common_delete') }}
+                </v-btn>
+                <v-btn text small class="right" @click.prevent="copyAd(index)">
+                  {{ $t('google_ads_generator_copy') }}
+                </v-btn>
               </v-row>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -131,18 +110,8 @@
           </v-btn>
         </v-col>
         <div>
-          <p class="subheading">Макросы утилиты для объявлений:</p>
-          <p>
-            <strong>[KeyWord]</strong>, <strong>[Keyword]</strong>,
-            <strong>[keyword]</strong> - подставляют ключевое слово из списка
-            вместо макроса в соответствующем регистре.
-          </p>
-          <p>
-            <strong>[word1]</strong>, <strong>[Word1]</strong>, ...,
-            <strong>[word5]</strong>, <strong>[Word5]</strong>
-            - подставляют выбранное вами по счету слово из ключевого слова из
-            списка вместо макроса в соответствующем регистре.
-          </p>
+          <p>{{ macrosTips.title }}</p>
+          <p><nuxt-content :document="macrosTips" /></p>
         </div>
       </v-flex>
       <v-flex md4>
@@ -150,9 +119,9 @@
           v-model="campaignName"
           filled
           class="mb-3"
-          label="Название кампании"
-          hint="Если импортируете в уже созданную кампанию, просто скопируйте ее точное название сюда."
-          persistent-hint=""
+          :label="$t('google_ads_generator_field_campaign_name_label')"
+          :hint="$t('google_ads_generator_field_campaign_name_hint')"
+          persistent-hint
         />
         <v-btn
           color="success"
@@ -161,7 +130,7 @@
           :disabled="!isFormsValid"
           @click="getCampaign()"
         >
-          Сгенерировать кампанию
+          {{ $t('google_ads_generator_generate') }}
         </v-btn>
         <v-tooltip top>
           <template #activator="{ on }">
@@ -175,7 +144,7 @@
               <v-icon>cloud_download</v-icon>
             </v-btn>
           </template>
-          <span>Скачать кампанию в формате .CSV</span>
+          <span>{{ $t('google_ads_generator_download_csv') }}</span>
         </v-tooltip>
         <v-tooltip v-if="campaignResult" top>
           <template #activator="{ on }">
@@ -183,19 +152,10 @@
               <v-icon>file_copy</v-icon>
             </v-btn>
           </template>
-          <span>Скопировать кампанию в буфер обмена</span>
+          <span>{{ $t('google_ads_generator_copy_campaign') }}</span>
         </v-tooltip>
-        <h4 class="subheading">Как пользоваться:</h4>
-        <ul>
-          <li>Заполните нужные поля</li>
-          <li>Нажмите «Сгенерировать»</li>
-          <li>Скопируйте в буфер</li>
-          <li>
-            В меню AdWords Editor: «Аккаунт» -> «Импорт» -> «Вставить текст»
-            (или «Из файла» для скачанной кампании).
-          </li>
-          <li>Вставьте скопированный фрагмент туда.</li>
-        </ul>
+        <h4 class="subheading mt-4">{{ howToUseTip.title }}</h4>
+        <nuxt-content :document="howToUseTip" />
       </v-flex>
     </v-layout>
     <v-layout v-if="campaignResult">
@@ -204,11 +164,11 @@
           <v-flex>
             <v-btn class="ml-0" @click="copyResult()">
               <v-icon small class="mr-1">file_copy</v-icon>
-              Скопировать кампанию в буфер обмена
+              {{ $t('google_ads_generator_copy_campaign') }}
             </v-btn>
             <v-btn class="" :loading="loadingCsv" @click="downloadCsv()">
               <v-icon small class="mr-1">cloud_download</v-icon>
-              Скачать кампанию в формате .csv
+              {{ $t('google_ads_generator_download_csv') }}
             </v-btn>
           </v-flex>
           <v-flex>
@@ -221,7 +181,7 @@
     </v-layout>
     <v-layout>
       <v-flex class="text-xs-center">
-        <h3>Как пользоваться генератором Google Ads. Обучающее видео</h3>
+        <h3>{{ $t('google_ads_generator_video') }}</h3>
         <iframe
           width="560"
           height="315"
@@ -234,7 +194,6 @@
     </v-layout>
   </div>
 </template>
-
 <script>
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -260,6 +219,34 @@ export default defineComponent({
         t('google_ads_generator_seo_description')
       )
     )
+  },
+  async asyncData({ $content, i18n }) {
+    const subDescription = await $content(
+      i18n.locale,
+      'google-ads-generator/subdescription'
+    ).fetch()
+
+    const keywordTips = await $content(
+      i18n.locale,
+      'google-ads-generator/keyword-tips'
+    ).fetch()
+
+    const macrosTips = await $content(
+      i18n.locale,
+      'google-ads-generator/macros-tips'
+    ).fetch()
+
+    const howToUseTip = await $content(
+      i18n.locale,
+      'google-ads-generator/how-to-use-tip'
+    ).fetch()
+
+    return {
+      subDescription,
+      keywordTips,
+      macrosTips,
+      howToUseTip,
+    }
   },
   data: () => ({
     validation: limits,

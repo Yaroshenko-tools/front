@@ -36,12 +36,31 @@ export default {
   matchtypes_subtitle:
     'Превратите список ключевых слов в ключи в широком, фразовом и точном соответствии',
 
-  google_ads_generator_seo_title: 'Генератор объявлений Google Ads',
+  google_ads_generator_seo_title: 'Генератор адаптивных объявлений Google Ads',
   google_ads_generator_seo_description:
     'Сгенерируйте кампани, группы объявлений, ключи в разных типах соответствия и объявления в Google Ads за 60 секунд!',
-  google_ads_generator_h1: 'Генератор объявлений Google Ads',
+  google_ads_generator_h1: 'Генератор адаптивных объявлений Google Ads',
   google_ads_generator_subtitle:
     'Создайте кампанию в Google AdWords из ключевых слов за 60 секнуд! Генерируйте группы и объявления с ключами, на основе заданных ключей и шаболнов объявлений.',
+  google_ads_generator_field_keyword_label: 'Вставьте сюда ключевые слова',
+  google_ads_generator_field_phrase_label: 'Фразовое соответствие',
+  google_ads_generator_field_exact_label: 'Точное соответствие',
+  google_ads_generator_field_wide_label: 'Широкое соответствие',
+  google_ads_generator_field_wide_message:
+    'В данный момент работает по принципу фразового соотвествия',
+  google_ads_generator_ad: 'Адаптивное объявление',
+  google_ads_generator_fields_werent_filled:
+    'Не заполнены все обязательные поля. Объявление не будет\n' +
+    '                      включено в сгенерированную кампанию',
+  google_ads_generator_copy: 'Скопировать объявление',
+  google_ads_generator_field_campaign_name_label: 'Название кампании',
+  google_ads_generator_field_campaign_name_hint:
+    'Если импортируете в уже созданную кампанию, просто скопируйте ее точное название сюда.',
+  google_ads_generator_generate: 'Сгенерировать кампанию',
+  google_ads_generator_download_csv: 'Скачать кампанию в формате .CSV',
+  google_ads_generator_copy_campaign: 'Скопировать кампанию в буфер обмена',
+  google_ads_generator_video:
+    'Как пользоваться генератором Google Ads. Обучающее видео',
 
   stats_calc_seo_title: 'Калькулятор статистической значимости',
   stats_calc_seo_description:
@@ -66,6 +85,7 @@ export default {
     'Хотите что-то добавить, предложить новую утилиту или нашли баг? Напишите в чат в телеграмме',
   common_yandex_direct: 'Яндекс.Директ',
   common_reset: 'Сброс',
+  common_delete: 'Удалить',
 
   footer_blog_yaroshenko: 'Блог Ярошенко',
   footer_blog_expirienced_webmaster: 'Блог опытного вебмастера',
