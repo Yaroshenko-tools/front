@@ -47,7 +47,7 @@
         <v-text-field
           v-model="params.utm_source"
           label="utm_source *"
-          :placeholder="$t('utm_field_utm_source_placehoder')"
+          :placeholder="$t('utm_field_utm_source_placeholder')"
         ></v-text-field>
         <v-text-field
           v-model="params.utm_medium"

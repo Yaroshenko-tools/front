@@ -10,7 +10,7 @@ export default {
     titleTemplate: '%s',
     title: 'YaroshenkoTools',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'en',
     },
     meta: [
       { charset: 'utf-8' },
@@ -25,7 +25,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~/plugins/vue-clipboard2.ts'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
