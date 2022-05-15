@@ -11,7 +11,7 @@ export default {
     titleTemplate: '%s',
     title: 'YaroshenkoTools',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'ru',
     },
     meta: [
       { charset: 'utf-8' },
