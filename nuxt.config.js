@@ -1,5 +1,6 @@
 import i18n from './common/config/i18n'
 import sitemap from './common/config/sitemap'
+import head from './common/config/head'
 
 export default {
   target: 'static',
@@ -7,20 +8,7 @@ export default {
     port: 8000, // default: 3000
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
-  head: {
-    titleTemplate: '%s',
-    title: 'YaroshenkoTools',
-    htmlAttrs: {
-      lang: 'ru',
-    },
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' },
-    ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-  },
+  head,
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
