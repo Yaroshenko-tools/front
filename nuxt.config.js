@@ -1,4 +1,5 @@
 import i18n from './common/config/i18n'
+import sitemap from './common/config/sitemap'
 
 export default {
   target: 'static',
@@ -50,6 +51,8 @@ export default {
     '@nuxt/content',
     // https://i18n.nuxtjs.org/setup
     '@nuxtjs/i18n',
+    // https://sitemap.nuxtjs.org/guide/setup
+    '@nuxtjs/sitemap',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -77,4 +80,5 @@ export default {
   build: {},
 
   i18n,
+  sitemap,
 }
