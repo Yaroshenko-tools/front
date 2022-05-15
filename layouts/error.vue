@@ -23,8 +23,8 @@ import { useI18n } from '~/common/composable/i18n'
 import { createHeaders } from '~/common/helpers/seo'
 
 export default defineComponent({
-  name: 'EmptyLayout',
-  layout: 'empty',
+  name: 'TheError',
+  layout: 'error',
   props: {
     error: {
       type: Object,
