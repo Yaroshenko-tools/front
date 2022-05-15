@@ -104,6 +104,9 @@ export default {
   utils: 'All Utilities',
   not_found_seo_title: 'Page not found (404)',
   not_found_seo_description: 'Go back to home page and try again',
+  not_found_title: 'The page you are requesting was not found',
+  not_found_home: 'Home',
+  not_found_go_home: 'Go back to home and try your request again',
 
   common_bug:
     'Do you want to add something, suggest a new utility or found a bug? Chat on telegram',

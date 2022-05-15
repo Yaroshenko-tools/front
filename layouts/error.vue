@@ -2,18 +2,14 @@
   <v-app dark>
     <h1 v-if="error.statusCode === 404">
       <v-container>
-        <h1>Страница, которую вы запрашиваете - не найдена</h1>
-        <p>
-          Вернитесь на
-          <router-link :to="{ name: 'Index' }">главную</router-link> и повторите
-          ваш запрос снова
-        </p>
+        <h1>{{ $t('not_found_title') }}</h1>
+        <p>{{ $t('not_found_go_home') }}</p>
       </v-container>
     </h1>
     <h1 v-else>
       {{ otherError }}
     </h1>
-    <NuxtLink to="/"> Home page </NuxtLink>
+    <NuxtLink :to="{ name: 'index' }"> {{ $t('not_found_home') }} </NuxtLink>
   </v-app>
 </template>
 
@@ -37,12 +33,6 @@ export default defineComponent({
     useMeta(
       createHeaders(t('not_found_seo_title'), t('not_found_seo_description'))
     )
-  },
-  data() {
-    return {
-      pageNotFound: '404 Not Found',
-      otherError: 'An error occurred',
-    }
   },
   head() {},
 })
