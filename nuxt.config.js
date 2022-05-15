@@ -4,6 +4,7 @@ import head from './common/config/head'
 
 export default {
   target: 'static',
+  generate: { fallback: true },
   server: {
     port: 8000, // default: 3000
   },
