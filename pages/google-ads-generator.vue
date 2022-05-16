@@ -1,9 +1,7 @@
 <template>
   <div>
     <h1 class="title mb-3">{{ $t('google_ads_generator_h1') }}</h1>
-    <p>
-      <nuxt-content :document="subDescription" />
-    </p>
+    <nuxt-content :document="subDescription" />
     <v-layout row>
       <v-flex md4>
         <v-row>
@@ -49,9 +47,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
-            <p><nuxt-content :document="keywordTips" /></p>
-          </v-col>
+          <v-col> <nuxt-content :document="keywordTips" /> </v-col>
         </v-row>
       </v-flex>
       <v-flex md4>
