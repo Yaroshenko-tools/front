@@ -5,6 +5,7 @@ RUN apk add --no-cache libc6-compat libstdc++
 RUN mkdir /app
 WORKDIR /app
 COPY . /app
+COPY .env.production .env
 
 RUN yarn upgrade
 RUN npm run generate
