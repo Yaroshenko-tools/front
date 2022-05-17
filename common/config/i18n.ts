@@ -18,4 +18,5 @@ export default {
   },
   lazy: true,
   langDir: '~/locales/',
+  detectBrowserLanguage: false,
 }
