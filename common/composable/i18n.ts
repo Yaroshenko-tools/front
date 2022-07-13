@@ -14,11 +14,11 @@ export interface Composer {
   te: typeof VueI18n.prototype.te
   d: typeof VueI18n.prototype.d
   n: typeof VueI18n.prototype.n
-  localePath: string
+  localePath: any
 }
 
 export function useI18n(): Composer {
-  const { app } = useContext()
+  const { app, localePath } = useContext()
 
   const i18nInstance = app.i18n
 
@@ -40,11 +40,11 @@ export function useI18n(): Composer {
 
   return {
     locale,
+    localePath,
     t: vm.$t.bind(vm),
     tc: vm.$tc.bind(vm),
     d: vm.$d.bind(vm),
     te: vm.$te.bind(vm),
     n: vm.$n.bind(vm),
-    localePath: vm.localePath.bind(vm),
   }
 }
