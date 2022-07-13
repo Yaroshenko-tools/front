@@ -8,7 +8,7 @@ COPY . /app
 COPY .env.production .env
 
 RUN yarn upgrade
-RUN npm run generate
+RUN yarn generate
 
 #production
 FROM nginx:1.19.1-alpine as production-stage
