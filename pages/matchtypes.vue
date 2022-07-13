@@ -1,10 +1,10 @@
 <template>
   <div>
     <h1 class="title mb-3">
-      {{ $t('matchtypes_direct_h1') }}
+      {{ $t('matchtypes_seo_title') }}
     </h1>
     <p class="mb-0">
-      {{ $t('matchtypes_direct_seo_description') }}
+      {{ $t('matchtypes_seo_description') }}
     </p>
     <v-layout row>
       <v-flex class="pt-0 pb-0" xs12 sm6 md6>
@@ -43,7 +43,7 @@
           <v-card-text id="result" contenteditable="true" v-html="result">
           </v-card-text>
         </v-card>
-        <v-btn class="success ml-0" @click="copyResult">
+        <v-btn class="success ml-0 mt-4" @click="copyResult">
           <v-icon small>file_copy</v-icon>&nbsp; {{ $t('common_copy') }}
         </v-btn>
       </v-flex>
