@@ -55,7 +55,6 @@ export default {
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     optionsPath: './vuetify.options.js',
-
     defaultAssets: {
       font: {
         family: 'Roboto',
