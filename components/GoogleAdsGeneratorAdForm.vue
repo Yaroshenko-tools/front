@@ -1,7 +1,7 @@
 <template>
   <v-form ref="form" v-model="isFormValid">
     <v-text-field
-      v-model="form.headlines[0]"
+      v-model="formValues.headlines[0]"
       :counter="limits.titleMaxLength"
       label="Заголовок 1 *"
       placeholder="Например: {KeyWord:[KeyWord]}"
@@ -9,7 +9,7 @@
     />
 
     <v-text-field
-      v-model="form.headlines[1]"
+      v-model="formValues.headlines[1]"
       :counter="limits.titleMaxLength"
       label="Заголовок 2 *"
       placeholder="2-й заголовок"
@@ -17,17 +17,20 @@
     />
 
     <v-text-field
-      v-model="form.headlines[2]"
+      v-model="formValues.headlines[2]"
       :counter="limits.titleMaxLength"
       label="Заголовок 3 *"
       placeholder="3-й заголовок"
       :rules="[requiredField, maxSymbols(limits.titleMaxLength)]"
     />
 
-    <div v-for="(_, index) in form.headlines" :key="`headline-${index + 1}`">
+    <div
+      v-for="(_, index) in formValues.headlines"
+      :key="`headline-${index + 1}`"
+    >
       <v-text-field
         v-if="index > 2"
-        v-model="form.headlines[index]"
+        v-model="formValues.headlines[index]"
         :counter="limits.titleMaxLength"
         :label="`Заголовок ${index + 1}`"
         :placeholder="`${index + 1}-й заголовок`"
@@ -44,7 +47,7 @@
     </v-row>
 
     <v-textarea
-      v-model="form.descriptions[0]"
+      v-model="formValues.descriptions[0]"
       :counter="limits.descMaxLength"
       rows="2"
       label="Описание 1 *"
@@ -52,7 +55,7 @@
     />
 
     <v-textarea
-      v-model="form.descriptions[1]"
+      v-model="formValues.descriptions[1]"
       :counter="limits.descMaxLength"
       rows="2"
       label="Описание 2 *"
@@ -60,12 +63,12 @@
     />
 
     <div
-      v-for="(_, index) in form.descriptions"
+      v-for="(_, index) in formValues.descriptions"
       :key="`description-${index + 1}`"
     >
       <v-textarea
         v-if="index > 1"
-        v-model="form.descriptions[index]"
+        v-model="formValues.descriptions[index]"
         rows="2"
         :counter="limits.descMaxLength"
         :label="`Описание ${index + 1}`"
@@ -85,7 +88,7 @@
     <v-layout row>
       <v-flex>
         <v-text-field
-          v-model="form.paths[0]"
+          v-model="formValues.paths[0]"
           :counter="limits.pathMaxLength"
           label="Путь 1"
           :rules="[maxSymbols(limits.pathMaxLength)]"
@@ -96,7 +99,7 @@
       </v-flex>
       <v-flex>
         <v-text-field
-          v-model="form.paths[1]"
+          v-model="formValues.paths[1]"
           :counter="limits.pathMaxLength"
           label="Путь 2"
           :rules="[maxSymbols(limits.pathMaxLength)]"
@@ -104,7 +107,7 @@
       </v-flex>
     </v-layout>
     <v-text-field
-      v-model="form.url"
+      v-model="formValues.url"
       label="Адрес целевой страницы *"
       placeholder="https://yaroshenko.tools"
       type="url"
@@ -113,7 +116,13 @@
   </v-form>
 </template>
 <script>
-import { computed, reactive, ref, watch } from '@nuxtjs/composition-api'
+import {
+  computed,
+  onMounted,
+  reactive,
+  ref,
+  watch,
+} from '@nuxtjs/composition-api'
 import { limits, maxSymbols, requiredField } from '~/common/helpers/rules'
 
 export default {
@@ -123,40 +132,41 @@ export default {
       default: () => {},
     },
   },
-  setup({ formData }, { emit, refs }) {
-    const formObject =
-      'headlines' in formData
-        ? formData
-        : {
-            headlines: ['', '', ''],
-            descriptions: ['', ''],
-            paths: ['', ''],
-            url: '',
-          }
+  setup(props, { emit, refs }) {
+    let formValues = reactive({
+      headlines: ['', '', ''],
+      descriptions: ['', ''],
+      paths: ['', ''],
+      url: '',
+    })
 
-    const form = reactive(formObject)
+    onMounted(() => {
+      if ('headlines' in props.formData) {
+        formValues = props.formData
+      }
+    })
 
     const isFormValid = ref(false)
 
     const addHeadline = () => {
-      form.headlines.push('')
+      formValues.headlines.push('')
     }
 
     const addDescription = () => {
-      form.descriptions.push('')
+      formValues.descriptions.push('')
     }
 
     const isShowAddHeadlineBtn = computed(() => {
-      return form.headlines.length < 15
+      return formValues.headlines.length < 15
     })
 
     const isShowAddDescriptionBtn = computed(() => {
-      return form.descriptions.length < 4
+      return formValues.descriptions.length < 4
     })
 
     const validateForm = () => refs.form.validate()
 
-    watch(form, (val) => {
+    watch(formValues, (val) => {
       emit('update:form-data', val)
     })
 
@@ -165,7 +175,7 @@ export default {
     })
 
     return {
-      form,
+      formValues,
       isFormValid,
       validateForm,
 
