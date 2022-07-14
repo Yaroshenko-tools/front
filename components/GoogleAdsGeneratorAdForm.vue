@@ -133,7 +133,7 @@ export default {
     },
   },
   setup(props, { emit, refs }) {
-    let formValues = reactive({
+    const formValues = ref({
       headlines: ['', '', ''],
       descriptions: ['', ''],
       paths: ['', ''],
@@ -142,26 +142,26 @@ export default {
 
     onMounted(() => {
       if ('headlines' in props.formData) {
-        formValues = props.formData
+        formValues.value = props.formData
       }
     })
 
     const isFormValid = ref(false)
 
     const addHeadline = () => {
-      formValues.headlines.push('')
+      formValues.value.headlines.push('')
     }
 
     const addDescription = () => {
-      formValues.descriptions.push('')
+      formValues.value.descriptions.push('')
     }
 
     const isShowAddHeadlineBtn = computed(() => {
-      return formValues.headlines.length < 15
+      return formValues.value.headlines.length < 15
     })
 
     const isShowAddDescriptionBtn = computed(() => {
-      return formValues.descriptions.length < 4
+      return formValues.value.descriptions.length < 4
     })
 
     const validateForm = () => refs.form.validate()
