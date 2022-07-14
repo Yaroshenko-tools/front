@@ -40,8 +40,7 @@
       <v-flex xs12 sm6 md6>
         <!--<v-textarea filled v-model="result" rows="10" label="Здесь появится результат" id="result"></v-textarea>-->
         <v-card color="grey lighten-3 elevation-0 scroll caption" height="255">
-          <v-card-text id="result" contenteditable="true" v-html="result">
-          </v-card-text>
+          <v-card-text id="result" contenteditable="true" v-html="result" />
         </v-card>
         <v-btn class="success ml-0 mt-4" @click="copyResult">
           <v-icon small>file_copy</v-icon>&nbsp; {{ $t('common_copy') }}

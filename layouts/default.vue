@@ -19,7 +19,7 @@
             <v-list-item-title
               class="caption font-weight-black"
               v-text="item.title"
-            ></v-list-item-title>
+            />
           </v-list-item-content>
         </v-list-item>
       </v-list>

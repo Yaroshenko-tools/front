@@ -116,13 +116,7 @@
   </v-form>
 </template>
 <script>
-import {
-  computed,
-  onMounted,
-  reactive,
-  ref,
-  watch,
-} from '@nuxtjs/composition-api'
+import { computed, onMounted, ref, watch } from '@nuxtjs/composition-api'
 import { limits, maxSymbols, requiredField } from '~/common/helpers/rules'
 
 export default {

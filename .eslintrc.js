@@ -13,5 +13,6 @@ module.exports = {
   // add your custom rules here
   rules: {
     'vue/no-v-html': 'off',
+    'vue/no-v-text-v-html-on-component': 'off',
   },
 }

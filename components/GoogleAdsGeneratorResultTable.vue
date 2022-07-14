@@ -25,6 +25,7 @@ export default {
     },
   },
   setup(props) {
+    // eslint-disable-next-line vue/no-setup-props-destructure
     const headers = props.items[0]
     const body = props.items.slice(1, props.items.length)
 
