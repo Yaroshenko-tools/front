@@ -136,7 +136,7 @@ export default {
 
     onMounted(() => {
       if ('headlines' in props.formData) {
-        formValues.value = props.formData
+        formValues.value = { ...formValues.value, ...props.formData }
       }
     })
 
@@ -160,9 +160,13 @@ export default {
 
     const validateForm = () => refs.form.validate()
 
-    watch(formValues, (val) => {
-      emit('update:form-data', val)
-    })
+    watch(
+      formValues,
+      (val) => {
+        emit('update:form-data', val)
+      },
+      { deep: true }
+    )
 
     watch(isFormValid, (val) => {
       emit('update:form-valid', val)
