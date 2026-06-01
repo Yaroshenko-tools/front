@@ -1,0 +1,9 @@
+# Local static preview only. On Coolify, use the Dockerfile build pack (see DEPLOY.md).
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "8080:80"

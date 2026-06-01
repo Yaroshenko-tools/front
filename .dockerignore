@@ -1,0 +1,12 @@
+.git
+.github
+.env
+.env.*
+!.env.example
+node_modules
+.nuxt
+dist
+npm-debug.log
+yarn-error.log
+README.md
+DEPLOY.md
