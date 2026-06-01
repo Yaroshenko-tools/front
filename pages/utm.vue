@@ -85,18 +85,7 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-row justify="space-between">
-              <v-col>
-                <v-select
-                  v-model="shortUrl.selectedProvider"
-                  :disabled="!url"
-                  :items="shortUrl.prodivers"
-                  :label="$t('utm_field_provider_label')"
-                  item-text="name"
-                  single-line
-                  class="ml-0 mr-2 mt-0 pt-0"
-                />
-              </v-col>
+            <v-row>
               <v-col>
                 <v-btn
                   class="info ml-0 mr-2"
@@ -106,7 +95,7 @@
                   @click="urlShortener"
                 >
                   <v-icon small>link</v-icon>&nbsp;
-                  {{ $t('utm_get_short_url') }}
+                  {{ $t('utm_get_short_url') }} (vk.cc)
                 </v-btn>
               </v-col>
             </v-row>
@@ -150,15 +139,6 @@ export default defineComponent({
     url: '',
     shortUrl: {
       val: '',
-      prodivers: [
-        {
-          name: 'vk.cc',
-        },
-        {
-          name: 'bit.ly',
-        },
-      ],
-      selectedProvider: 'vk.cc',
     },
     shortenerLoading: false,
     params: {
@@ -212,8 +192,7 @@ export default defineComponent({
     initStorage() {
       const storedData = JSON.parse(localStorage.getItem('utm'))
 
-      // Если версия не имеет selectedProvider, значит перезапишем стор
-      if (!storedData?.shortUrl?.selectedProvider) {
+      if (!storedData?.shortUrl) {
         localStorage.setItem('utm', JSON.stringify(this._data))
         return
       }
@@ -227,7 +206,6 @@ export default defineComponent({
       this.$axios
         .post(`/shortener`, {
           url: this.result,
-          provider: this.shortUrl.selectedProvider,
         })
         .then(
           (response) => {
