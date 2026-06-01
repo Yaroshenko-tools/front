@@ -6,7 +6,7 @@ The site is a static Nuxt export served by nginx. Coolify builds from the **Dock
 
 1. **New resource** → Git repository → `Yaroshenko-tools/front`
 2. **Branch:** `production`
-3. **Build pack:** Dockerfile
+3. **Build pack:** Dockerfile (repo root — must not use an old custom Dockerfile in Coolify settings)
 4. **Port:** `80`
 5. **Domain:** e.g. `https://yaroshenko.tools`
 6. **Build argument** (Coolify → Build → Docker build arguments):

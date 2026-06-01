@@ -1,4 +1,4 @@
-FROM node:16-alpine AS build-stage
+FROM node:18-alpine AS build-stage
 
 RUN apk add --no-cache libc6-compat libstdc++
 
@@ -6,6 +6,8 @@ WORKDIR /app
 
 ARG VUE_APP_BACKEND_URL=https://api.yaroshenko.tools
 ENV VUE_APP_BACKEND_URL=$VUE_APP_BACKEND_URL
+# Nuxt 2 / Webpack 4 on Node 18+ (OpenSSL 3)
+ENV NODE_OPTIONS=--openssl-legacy-provider
 
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
