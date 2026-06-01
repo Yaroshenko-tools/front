@@ -1,11 +1,9 @@
-version: '3.8'
+# Local static preview only. On Coolify, use the Dockerfile build pack (see DEPLOY.md).
+version: "3.8"
+
 services:
   web:
-    image: nginx:alpine
-    volumes:
-      - ./dist:/usr/share/nginx/html
-      - ./nginx.conf:/etc/nginx/nginx.conf
+    build:
+      context: .
     ports:
-      - '80:80'
-    environment:
-      - NGINX_PORT=80
+      - "8080:80"

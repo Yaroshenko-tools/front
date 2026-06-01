@@ -1,7 +1,5 @@
 # Frontend part of Yaroshenko.tools
 
-<img alt="Publish Status" src="https://github.com/Yaroshenko-tools/front/workflows/Deploy%20to%20Docker%20registry/badge.svg?color=green" />
-
 > A Vue.js project
 
 ## Build Setup
@@ -23,3 +21,7 @@ For detailed explanation on how things work, consult the [docs for vue-loader](h
 
 - Rename `.env.example` to `.env`. (`cp .env.example .env`)
 - Edit `.env` with your parameters
+
+## Deployment
+
+Production runs on [Coolify](https://coolify.io) from the `production` branch. See [DEPLOY.md](./DEPLOY.md) for build args (`VUE_APP_BACKEND_URL`), domain, and auto-deploy.
